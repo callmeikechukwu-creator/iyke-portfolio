@@ -14,12 +14,39 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
 
   if (!testimonials || testimonials.length === 0) return null;
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrev();
+    }
   };
 
   const active = testimonials[activeIndex];
@@ -46,7 +73,12 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
           </div>
 
           {/* Testimonial Card Frame */}
-          <div className="relative rounded-3xl border border-border bg-base/5 p-6 md:p-10 md:p-12 overflow-hidden flex flex-col gap-6 md:gap-8 min-h-[320px] justify-between transition-all duration-500">
+          <div
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            className="relative rounded-3xl border border-border bg-base/5 p-6 md:p-10 md:p-12 overflow-hidden flex flex-col gap-6 md:gap-8 min-h-[320px] justify-between transition-all duration-500 cursor-grab active:cursor-grabbing select-none"
+          >
             
             {/* Testimonial Quote text */}
             <div className="flex flex-col gap-4 relative z-10">

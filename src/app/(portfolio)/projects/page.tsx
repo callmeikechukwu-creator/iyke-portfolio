@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import Projects from "@/components/sections/Projects";
 import { ProjectsPageSkeleton } from "@/components/ui/Skeletons";
 import { db } from "@/lib/db";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -24,8 +25,10 @@ async function ProjectsContentSection() {
 
 export default function ProjectsPage() {
   return (
-    <Suspense fallback={<ProjectsPageSkeleton />}>
-      <ProjectsContentSection />
-    </Suspense>
+    <ScrollReveal direction="fade" delay={0.1}>
+      <Suspense fallback={<ProjectsPageSkeleton />}>
+        <ProjectsContentSection />
+      </Suspense>
+    </ScrollReveal>
   );
 }

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { splitChars } from "@/lib/animations";
+import Typewriter from "@/components/ui/Typewriter";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -199,7 +200,14 @@ export default function Hero() {
               opacity: 0,
             }}
           >
-            I build things that feel alive.
+            <Typewriter
+              phrases={[
+                "I build things that feel alive.",
+                "I craft high-performance backends.",
+                "I optimize database scaling.",
+                "I design premium user experiences."
+              ]}
+            />
           </p>
           <p
             ref={heroLine2Ref}

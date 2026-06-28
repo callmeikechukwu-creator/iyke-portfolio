@@ -7,6 +7,7 @@ import { getTechIconComponent } from "@/components/ui/Icons";
 import Stats from "@/components/sections/Stats";
 import Testimonials from "@/components/sections/Testimonials";
 import { ProjectCardSkeleton, TestimonialSkeleton } from "@/components/ui/Skeletons";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 /* ─────────────────────────────────────────────────────────────
    Database Query Child Server Components (for Suspense streaming)
@@ -78,55 +79,63 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════
-          3. PHILOSOPHY & INTRO BLOCK
+          3. PHILOSOPHY & INTRO BLOCK (Animated reveal)
       ════════════════════════════════════════ */}
-      <section
-        aria-label="Philosophy"
-        className="relative w-full bg-surface border-b border-border py-20 md:py-28"
-      >
-        <div className="section-wrapper flex flex-col gap-6 max-w-[800px]">
-          <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
-            Core Philosophy
-          </span>
-          <h2
-            className="text-display text-ink"
-            style={{ fontSize: "clamp(1.8rem, 4vw, 3.2rem)", letterSpacing: "-0.03em", lineHeight: "1.2" }}
-          >
-            Bridging clean engineering with rich aesthetics. I build high-performance backend pipelines and design premium web interfaces that feel alive.
-          </h2>
-          <p className="text-body text-muted text-base md:text-lg leading-relaxed max-w-2xl mt-2">
-            Engineering is about more than making things work—it is about crafting digital artifacts that are fast, intuitive, and built to scale. I specialize in turning complex database architectures, caching mechanisms, and real-time Socket.io dashboards into smooth, premium products.
-          </p>
-          <Link
-            href="/about"
-            className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-vermillion hover:text-vermillion-hover transition-colors duration-200 font-body w-fit"
-          >
-            Read the full story <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-      </section>
+      <ScrollReveal direction="up" delay={0.1}>
+        <section
+          aria-label="Philosophy"
+          className="relative w-full bg-surface border-b border-border py-20 md:py-28"
+        >
+          <div className="section-wrapper flex flex-col gap-6 max-w-[800px]">
+            <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
+              Core Philosophy
+            </span>
+            <h2
+              className="text-display text-ink"
+              style={{ fontSize: "clamp(1.8rem, 4vw, 3.2rem)", letterSpacing: "-0.03em", lineHeight: "1.2" }}
+            >
+              Bridging clean engineering with rich aesthetics. I build high-performance backend pipelines and design premium web interfaces that feel alive.
+            </h2>
+            <p className="text-body text-muted text-base md:text-lg leading-relaxed max-w-2xl mt-2 font-body">
+              Engineering is about more than making things work—it is about crafting digital artifacts that are fast, intuitive, and built to scale. I specialize in turning complex database architectures, caching mechanisms, and real-time Socket.io dashboards into smooth, premium products.
+            </p>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-vermillion hover:text-vermillion-hover transition-colors duration-200 font-body w-fit"
+            >
+              Read the full story <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* ════════════════════════════════════════
-          4. CORE EXPERTISE & SERVICES
+          4. CORE EXPERTISE & SERVICES (Animated reveal)
       ════════════════════════════════════════ */}
       <section
         aria-label="Services and Expertise"
         className="relative w-full bg-base border-b border-border py-20 md:py-28"
       >
         <div className="section-wrapper flex flex-col gap-12">
-          <div className="flex flex-col gap-3">
-            <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
-              Expertise
-            </span>
-            <h2
-              className="text-display text-ink"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
-            >
-              Superpowers &amp; Services
-            </h2>
-          </div>
+          <ScrollReveal direction="up">
+            <div className="flex flex-col gap-3">
+              <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
+                Expertise
+              </span>
+              <h2
+                className="text-display text-ink"
+                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
+              >
+                Superpowers &amp; Services
+              </h2>
+            </div>
+          </ScrollReveal>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-4">
+          <ScrollReveal
+            direction="up"
+            stagger={0.12}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-4"
+          >
             {[
               {
                 title: "Full-Stack Development",
@@ -147,7 +156,7 @@ export default function HomePage() {
             ].map((service, idx) => (
               <div
                 key={idx}
-                className="flex flex-col gap-4 p-6 rounded-3xl border border-border-strong/40 bg-surface hover:border-vermillion/40 transition-colors duration-300"
+                className="flex flex-col gap-4 p-6 rounded-3xl border border-border-strong/40 bg-surface hover:border-vermillion/40 transition-colors duration-300 active:scale-[0.98]"
               >
                 <span className="text-body text-xs font-bold text-vermillion uppercase tracking-wider">
                   0{idx + 1}
@@ -160,28 +169,30 @@ export default function HomePage() {
                 </p>
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* ════════════════════════════════════════
-          5. FEATURED WORK PREVIEW (Suspense Streamed)
+          5. FEATURED WORK PREVIEW (Suspense Streamed & Scroll Reveal)
       ════════════════════════════════════════ */}
-      <Suspense
-        fallback={
-          <div className="section-wrapper py-20">
-            <div className="flex flex-col gap-8">
-              <div className="h-20 w-1/3 bg-[var(--color-border)] rounded-xl animate-pulse" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <ProjectCardSkeleton />
-                <ProjectCardSkeleton />
+      <ScrollReveal direction="up" delay={0.15}>
+        <Suspense
+          fallback={
+            <div className="section-wrapper py-20">
+              <div className="flex flex-col gap-8">
+                <div className="h-20 w-1/3 bg-border rounded-xl animate-pulse" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <ProjectCardSkeleton />
+                  <ProjectCardSkeleton />
+                </div>
               </div>
             </div>
-          </div>
-        }
-      >
-        <FeaturedProjectsSection />
-      </Suspense>
+          }
+        >
+          <FeaturedProjectsSection />
+        </Suspense>
+      </ScrollReveal>
 
       {/* ════════════════════════════════════════
           6. QUICK FACTS & KEY STATS (GSAP Animated)
@@ -189,17 +200,19 @@ export default function HomePage() {
       <Stats />
 
       {/* ════════════════════════════════════════
-          7. CLIENT TESTIMONIALS (Suspense Streamed)
+          7. CLIENT TESTIMONIALS (Suspense Streamed & Fade Reveal)
       ════════════════════════════════════════ */}
-      <Suspense
-        fallback={
-          <div className="section-wrapper py-20 flex items-center justify-center">
-            <TestimonialSkeleton />
-          </div>
-        }
-      >
-        <TestimonialsSection />
-      </Suspense>
+      <ScrollReveal direction="fade" delay={0.1}>
+        <Suspense
+          fallback={
+            <div className="section-wrapper py-20 flex items-center justify-center">
+              <TestimonialSkeleton />
+            </div>
+          }
+        >
+          <TestimonialsSection />
+        </Suspense>
+      </ScrollReveal>
 
       {/* ════════════════════════════════════════
           8. CTA STRIP
