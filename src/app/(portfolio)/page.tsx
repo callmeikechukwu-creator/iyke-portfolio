@@ -1,28 +1,36 @@
+import { Suspense } from "react";
 import Hero from "@/components/sections/Hero";
 import { db } from "@/lib/db";
 import Link from "next/link";
 import FeaturedProjectsGrid from "@/components/sections/FeaturedProjectsGrid";
 import { getTechIconComponent } from "@/components/ui/Icons";
+import Stats from "@/components/sections/Stats";
+import Testimonials from "@/components/sections/Testimonials";
+import { ProjectCardSkeleton, TestimonialSkeleton } from "@/components/ui/Skeletons";
 
 /* ─────────────────────────────────────────────────────────────
-   Fetch featured projects for the homepage preview strip
+   Database Query Child Server Components (for Suspense streaming)
    ───────────────────────────────────────────────────────────── */
-async function getFeaturedProjects() {
-  try {
-    const projects = await db.project.findMany({
-      where: { featured: true },
-      orderBy: { order: "asc" },
-      take: 4, // Fetch up to 4 featured projects for the slider
-    });
-    return projects;
-  } catch {
-    return [];
-  }
+
+async function FeaturedProjectsSection() {
+  const projects = await db.project.findMany({
+    where: { featured: true },
+    orderBy: { order: "asc" },
+    take: 4,
+  });
+
+  return <FeaturedProjectsGrid projects={projects} />;
 }
 
-export default async function HomePage() {
-  const featuredProjects = await getFeaturedProjects();
+async function TestimonialsSection() {
+  const testimonials = await db.testimonial.findMany({
+    orderBy: { order: "asc" },
+  });
 
+  return <Testimonials testimonials={testimonials} />;
+}
+
+export default function HomePage() {
   return (
     <>
       {/* ════════════════════════════════════════
@@ -70,12 +78,131 @@ export default async function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════
-          3. FEATURED WORK PREVIEW (Premium Grid)
+          3. PHILOSOPHY & INTRO BLOCK
       ════════════════════════════════════════ */}
-      <FeaturedProjectsGrid projects={featuredProjects} />
+      <section
+        aria-label="Philosophy"
+        className="relative w-full bg-[var(--color-surface)] border-b border-[var(--color-border)] py-20 md:py-28"
+      >
+        <div className="section-wrapper flex flex-col gap-6 max-w-[800px]">
+          <span className="text-label text-[var(--color-vermillion)] uppercase tracking-[var(--tracking-wide)]">
+            Core Philosophy
+          </span>
+          <h2
+            className="text-display text-[var(--color-ink)]"
+            style={{ fontSize: "clamp(1.8rem, 4vw, 3.2rem)", letterSpacing: "-0.03em", lineHeight: "1.2" }}
+          >
+            Bridging clean engineering with rich aesthetics. I build high-performance backend pipelines and design premium web interfaces that feel alive.
+          </h2>
+          <p className="text-body text-muted text-base md:text-lg leading-relaxed max-w-2xl mt-2">
+            Engineering is about more than making things work—it is about crafting digital artifacts that are fast, intuitive, and built to scale. I specialize in turning complex database architectures, caching mechanisms, and real-time Socket.io dashboards into smooth, premium products.
+          </p>
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-[var(--color-vermillion)] hover:text-[var(--color-vermillion-hover)] transition-colors duration-200 font-body w-fit"
+          >
+            Read the full story <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
 
       {/* ════════════════════════════════════════
-          4. CTA STRIP
+          4. CORE EXPERTISE & SERVICES
+      ════════════════════════════════════════ */}
+      <section
+        aria-label="Services and Expertise"
+        className="relative w-full bg-[var(--color-base)] border-b border-[var(--color-border)] py-20 md:py-28"
+      >
+        <div className="section-wrapper flex flex-col gap-12">
+          <div className="flex flex-col gap-3">
+            <span className="text-label text-[var(--color-vermillion)] uppercase tracking-[var(--tracking-wide)]">
+              Expertise
+            </span>
+            <h2
+              className="text-display text-[var(--color-ink)]"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
+            >
+              Superpowers &amp; Services
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-4">
+            {[
+              {
+                title: "Full-Stack Development",
+                desc: "Building rich, animated client applications in Next.js/React integrated with robust backend servers.",
+              },
+              {
+                title: "API & Backend Systems",
+                desc: "Designing secure, structured RESTful and WebSocket integrations with custom middleware and OAuth2 specs.",
+              },
+              {
+                title: "Database & Caching",
+                desc: "Optimizing database schemas with PostgreSQL/Prisma and delivering low-latency queries using Upstash Redis.",
+              },
+              {
+                title: "Scraping & Automation",
+                desc: "Engineering headless browser agents with Puppeteer for automated pipelines, PDF generation, and data extraction.",
+              },
+            ].map((service, idx) => (
+              <div
+                key={idx}
+                className="flex flex-col gap-4 p-6 rounded-3xl border border-[var(--color-border-strong)]/40 bg-[var(--color-surface)] hover:border-[var(--color-vermillion)]/40 transition-colors duration-300"
+              >
+                <span className="text-body text-xs font-bold text-[var(--color-vermillion)] uppercase tracking-wider">
+                  0{idx + 1}
+                </span>
+                <h3 className="text-display text-lg font-bold text-[var(--color-ink)] leading-tight">
+                  {service.title}
+                </h3>
+                <p className="text-body text-xs md:text-sm text-muted leading-relaxed">
+                  {service.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          5. FEATURED WORK PREVIEW (Suspense Streamed)
+      ════════════════════════════════════════ */}
+      <Suspense
+        fallback={
+          <div className="section-wrapper py-20">
+            <div className="flex flex-col gap-8">
+              <div className="h-20 w-1/3 bg-[var(--color-border)] rounded-xl animate-pulse" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <ProjectCardSkeleton />
+                <ProjectCardSkeleton />
+              </div>
+            </div>
+          </div>
+        }
+      >
+        <FeaturedProjectsSection />
+      </Suspense>
+
+      {/* ════════════════════════════════════════
+          6. QUICK FACTS & KEY STATS (GSAP Animated)
+      ════════════════════════════════════════ */}
+      <Stats />
+
+      {/* ════════════════════════════════════════
+          7. CLIENT TESTIMONIALS (Suspense Streamed)
+      ════════════════════════════════════════ */}
+      <Suspense
+        fallback={
+          <div className="section-wrapper py-20 flex items-center justify-center">
+            <TestimonialSkeleton />
+          </div>
+        }
+      >
+        <TestimonialsSection />
+      </Suspense>
+
+      {/* ════════════════════════════════════════
+          8. CTA STRIP
       ════════════════════════════════════════ */}
       <section
         aria-labelledby="cta-heading"

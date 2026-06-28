@@ -50,3 +50,15 @@ model BlogPost {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Testimonial {
+  id         String   @id @default(uuid())
+  clientName String
+  role       String
+  company    String
+  quote      String
+  avatarUrl  String?  // Optional path to local avatar or Cloudinary asset
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

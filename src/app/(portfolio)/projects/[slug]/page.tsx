@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getTechIconComponent } from "@/components/ui/Icons";
+import { Suspense } from "react";
+import { ProjectDetailSkeleton } from "@/components/ui/Skeletons";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -140,7 +142,14 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
+  return (
+    <Suspense fallback={<ProjectDetailSkeleton />}>
+      <ProjectDetailInner slug={slug} />
+    </Suspense>
+  );
+}
 
+async function ProjectDetailInner({ slug }: { slug: string }) {
   const project = await db.project.findUnique({
     where: { slug },
   });
