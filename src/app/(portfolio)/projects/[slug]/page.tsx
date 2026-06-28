@@ -170,20 +170,20 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
         {/* Back Link */}
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-[var(--color-ink)] transition-colors duration-300 font-body w-fit"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink transition-colors duration-300 font-body w-fit"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Works
         </Link>
 
         {/* Title and Short Description */}
-        <div className="flex flex-col gap-4 max-w-4xl">
-          <span className="text-xs font-bold tracking-widest text-[var(--color-vermillion)] uppercase font-body">
-            {config.deliverable} — est. {project.slug === "naturalist" ? "2026" : "2025"}
+        <div className="flex flex-col gap-3">
+          <span className="text-xs font-bold tracking-widest text-vermillion uppercase font-body">
+            {config.deliverable}
           </span>
           <h1 
-            className="text-display font-extrabold tracking-tight text-[var(--color-ink)] leading-none"
-            style={{ fontSize: "clamp(2.5rem, 6.5vw, 5.5rem)", letterSpacing: "-0.03em" }}
+            className="text-display font-extrabold tracking-tight text-ink leading-none"
+            style={{ fontSize: "clamp(2.2rem, 6vw, 4.5rem)" }}
           >
             {project.title}
           </h1>
@@ -196,16 +196,16 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
         </div>
 
         {/* Meta Stats row */}
-        <div className="flex flex-wrap gap-8 pt-4 border-t border-[var(--color-border)]">
+        <div className="flex flex-wrap gap-8 pt-4 border-t border-border">
           <div className="flex flex-col gap-1.5">
             <span className="text-[10px] font-bold text-muted uppercase tracking-wider">Role</span>
-            <span className="text-sm font-semibold text-[var(--color-ink)]">Full Stack Engineering</span>
+            <span className="text-sm font-semibold text-ink">Full Stack Engineering</span>
           </div>
           <div className="flex flex-col gap-1.5">
             <span className="text-[10px] font-bold text-muted uppercase tracking-wider">Stack</span>
             <div className="flex flex-wrap gap-1.5">
               {project.techStack.map((tech) => (
-                <span key={tech} className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-ink)] bg-[var(--color-surface)] px-2.5 py-1 rounded-md border border-[var(--color-border)]">
+                <span key={tech} className="inline-flex items-center gap-1.5 text-xs font-medium text-ink bg-surface px-2.5 py-1 rounded-md border border-border">
                   {getTechIconComponent(tech)}
                   {tech}
                 </span>
@@ -247,13 +247,13 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
           
           {/* Challenge Block */}
           <div className="flex flex-col items-center gap-4 text-center">
-            <span className="text-[10px] font-bold text-[var(--color-vermillion)] tracking-widest uppercase font-body">
+            <span className="text-[10px] font-bold text-vermillion tracking-widest uppercase font-body">
               01 / Challenge
             </span>
-            <h2 className="font-body text-3xl md:text-4xl font-black tracking-tight text-[var(--color-ink)]">
+            <h2 className="font-body text-3xl md:text-4xl font-black tracking-tight text-ink">
               The Problem &amp; Goals
             </h2>
-            <p className="text-body text-base md:text-lg leading-relaxed text-[var(--color-ink)]/75 max-w-[600px]">
+            <p className="text-body text-base md:text-lg leading-relaxed text-ink/75 max-w-[600px] font-body">
               {workflow.challenge}
             </p>
           </div>
@@ -261,25 +261,25 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
           {/* Tackle Steps List Block */}
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center gap-3 text-center">
-              <span className="text-[10px] font-bold text-[var(--color-vermillion)] tracking-widest uppercase font-body">
+              <span className="text-[10px] font-bold text-vermillion tracking-widest uppercase font-body">
                 02 / Workflow
               </span>
-              <h2 className="font-body text-3xl md:text-4xl font-black tracking-tight text-[var(--color-ink)]">
+              <h2 className="font-body text-3xl md:text-4xl font-black tracking-tight text-ink">
                 How I Tackled It
               </h2>
             </div>
 
             <div className="flex flex-col gap-8 mt-4">
               {workflow.steps.map((step, idx) => (
-                <div key={step.title} className="flex gap-4 md:gap-6 items-start pb-6 border-b border-[var(--color-border)] last:border-b-0">
+                <div key={step.title} className="flex gap-4 md:gap-6 items-start pb-6 border-b border-border last:border-b-0">
                   <span className="font-body text-xl md:text-2xl font-black text-muted/25 shrink-0 leading-none pt-0.5 tabular-nums">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="font-body text-base md:text-lg font-bold text-[var(--color-ink)]">
+                  <div className="flex flex-col gap-1.5 font-body">
+                    <h3 className="font-body text-base md:text-lg font-bold text-ink">
                       {step.title}
                     </h3>
-                    <p className="text-body text-sm md:text-base leading-relaxed text-[var(--color-ink)]/70">
+                    <p className="text-body text-sm md:text-base leading-relaxed text-ink/70">
                       {step.desc}
                     </p>
                   </div>
@@ -290,13 +290,13 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
 
           {/* Outcome & Metrics Block */}
           <div className="flex flex-col items-center gap-6 text-center">
-            <span className="text-[10px] font-bold text-[var(--color-vermillion)] tracking-widest uppercase font-body">
+            <span className="text-[10px] font-bold text-vermillion tracking-widest uppercase font-body">
               03 / Impact
             </span>
-            <h2 className="font-body text-3xl md:text-4xl font-black tracking-tight text-[var(--color-ink)]">
+            <h2 className="font-body text-3xl md:text-4xl font-black tracking-tight text-ink">
               The Outcome
             </h2>
-            <p className="text-body text-base md:text-lg leading-relaxed text-[var(--color-ink)]/75 max-w-[600px]">
+            <p className="text-body text-base md:text-lg leading-relaxed text-ink/75 max-w-[600px] font-body">
               {workflow.impact}
             </p>
 
@@ -307,8 +307,8 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
                   key={metric.label}
                   className="
                     group relative flex flex-col items-center justify-center gap-2
-                    bg-[var(--color-surface)] border border-[var(--color-border)]
-                    hover:border-[var(--color-vermillion)]/40
+                    bg-surface border border-border
+                    hover:border-vermillion/40
                     rounded-2xl md:rounded-3xl
                     p-4 md:p-5
                     transition-all duration-300
@@ -316,8 +316,8 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
                   "
                 >
                   {/* Subtle hover glow */}
-                  <div className="absolute inset-0 bg-[var(--color-vermillion)]/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-inherit" />
-                  <span className="font-body text-lg sm:text-xl md:text-2xl font-black text-[var(--color-vermillion)] leading-none tracking-tight relative z-10 whitespace-nowrap">
+                  <div className="absolute inset-0 bg-vermillion/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-inherit" />
+                  <span className="font-body text-lg sm:text-xl md:text-2xl font-black text-vermillion leading-none tracking-tight relative z-10 whitespace-nowrap">
                     {metric.value}
                   </span>
                   <span className="font-body text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted leading-tight text-center relative z-10">
@@ -330,16 +330,16 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
 
           {/* Case Study HTML fallback if db content exists */}
           {project.body && (
-            <div className="pt-12 border-t border-[var(--color-border)]">
+            <div className="pt-12 border-t border-border">
               <article
-                className="prose prose-neutral max-w-none text-body text-[var(--color-ink)]/80 leading-relaxed"
+                className="prose prose-neutral max-w-none text-body text-ink/80 leading-relaxed font-body"
                 dangerouslySetInnerHTML={{ __html: project.body }}
               />
             </div>
           )}
 
           {/* Bottom Action Links */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-12 border-t border-[var(--color-border)] w-full">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-12 border-t border-border w-full">
             {project.liveUrl && (
               <a
                 href={project.liveUrl}

@@ -45,8 +45,8 @@ export default function HomePage() {
       <section
         aria-label="Skills teaser"
         className="
-          py-5 border-y border-[var(--color-border)]
-          bg-[var(--color-ink)] overflow-hidden
+          py-5 border-y border-border
+          bg-ink overflow-hidden
         "
       >
         <div className="marquee-container">
@@ -63,7 +63,7 @@ export default function HomePage() {
                     className="
                       text-body text-sm font-semibold uppercase
                       tracking-[var(--tracking-wider)]
-                      text-[var(--color-base)]/75
+                      text-base/75
                       flex items-center gap-2.5 whitespace-nowrap
                     "
                   >
@@ -82,14 +82,14 @@ export default function HomePage() {
       ════════════════════════════════════════ */}
       <section
         aria-label="Philosophy"
-        className="relative w-full bg-[var(--color-surface)] border-b border-[var(--color-border)] py-20 md:py-28"
+        className="relative w-full bg-surface border-b border-border py-20 md:py-28"
       >
         <div className="section-wrapper flex flex-col gap-6 max-w-[800px]">
-          <span className="text-label text-[var(--color-vermillion)] uppercase tracking-[var(--tracking-wide)]">
+          <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
             Core Philosophy
           </span>
           <h2
-            className="text-display text-[var(--color-ink)]"
+            className="text-display text-ink"
             style={{ fontSize: "clamp(1.8rem, 4vw, 3.2rem)", letterSpacing: "-0.03em", lineHeight: "1.2" }}
           >
             Bridging clean engineering with rich aesthetics. I build high-performance backend pipelines and design premium web interfaces that feel alive.
@@ -99,7 +99,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/about"
-            className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-[var(--color-vermillion)] hover:text-[var(--color-vermillion-hover)] transition-colors duration-200 font-body w-fit"
+            className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-vermillion hover:text-vermillion-hover transition-colors duration-200 font-body w-fit"
           >
             Read the full story <span aria-hidden="true">→</span>
           </Link>
@@ -111,15 +111,15 @@ export default function HomePage() {
       ════════════════════════════════════════ */}
       <section
         aria-label="Services and Expertise"
-        className="relative w-full bg-[var(--color-base)] border-b border-[var(--color-border)] py-20 md:py-28"
+        className="relative w-full bg-base border-b border-border py-20 md:py-28"
       >
         <div className="section-wrapper flex flex-col gap-12">
           <div className="flex flex-col gap-3">
-            <span className="text-label text-[var(--color-vermillion)] uppercase tracking-[var(--tracking-wide)]">
+            <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
               Expertise
             </span>
             <h2
-              className="text-display text-[var(--color-ink)]"
+              className="text-display text-ink"
               style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
             >
               Superpowers &amp; Services
@@ -147,15 +147,15 @@ export default function HomePage() {
             ].map((service, idx) => (
               <div
                 key={idx}
-                className="flex flex-col gap-4 p-6 rounded-3xl border border-[var(--color-border-strong)]/40 bg-[var(--color-surface)] hover:border-[var(--color-vermillion)]/40 transition-colors duration-300"
+                className="flex flex-col gap-4 p-6 rounded-3xl border border-border-strong/40 bg-surface hover:border-vermillion/40 transition-colors duration-300"
               >
-                <span className="text-body text-xs font-bold text-[var(--color-vermillion)] uppercase tracking-wider">
+                <span className="text-body text-xs font-bold text-vermillion uppercase tracking-wider">
                   0{idx + 1}
                 </span>
-                <h3 className="text-display text-lg font-bold text-[var(--color-ink)] leading-tight">
+                <h3 className="text-display text-lg font-bold text-ink leading-tight">
                   {service.title}
                 </h3>
-                <p className="text-body text-xs md:text-sm text-muted leading-relaxed">
+                <p className="text-body text-xs md:text-sm text-muted leading-relaxed font-body">
                   {service.desc}
                 </p>
               </div>
@@ -207,20 +207,20 @@ export default function HomePage() {
       <section
         aria-labelledby="cta-heading"
         className="
-          section-padding bg-[var(--color-surface)]
-          border-b border-[var(--color-border)]
+          section-padding bg-surface
+          border-b border-border
         "
       >
         <div className="section-wrapper flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex flex-col gap-3">
             <h2
               id="cta-heading"
-              className="text-display text-[var(--color-ink)]"
+              className="text-display text-ink"
               style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", letterSpacing: "-0.03em" }}
             >
               LET&apos;S BUILD SOMETHING.
             </h2>
-            <p className="text-body text-muted max-w-[480px]">
+            <p className="text-body text-muted max-w-[480px] font-body">
               Available for full-stack projects, consulting, and technical partnerships.
             </p>
           </div>
@@ -231,10 +231,10 @@ export default function HomePage() {
               group
               shrink-0 inline-flex items-center gap-3
               px-8 py-4 rounded-full
-              bg-[var(--color-vermillion)] text-[var(--color-base)]
+              bg-vermillion text-base
               text-body text-sm font-semibold
               tracking-[var(--tracking-wide)]
-              hover:bg-[var(--color-vermillion-hover)]
+              hover:bg-vermillion-hover
               hover:scale-[1.03] active:scale-[0.97]
               hover:shadow-[0_12px_24px_rgba(214,58,47,0.25)]
               transition-all duration-300
