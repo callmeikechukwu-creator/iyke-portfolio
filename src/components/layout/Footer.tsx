@@ -119,11 +119,11 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom Row: Copyright ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-[var(--color-base)]/10 text-body text-xs text-[var(--color-base)]/40 font-semibold uppercase tracking-wider">
-          <span>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-[var(--color-base)]/10 text-body text-[10px] sm:text-xs text-[var(--color-base)]/40 font-semibold uppercase tracking-wider w-full text-center">
+          <span className="whitespace-nowrap">
             &copy; {currentYear} Ikechukwu Alaeto. All rights reserved.
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 justify-center sm:justify-end whitespace-nowrap">
             <span>Designed &amp; Engineered in Nigeria</span>
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-vermillion)]" />
           </div>
