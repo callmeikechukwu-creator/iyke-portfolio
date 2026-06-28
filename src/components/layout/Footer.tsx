@@ -124,7 +124,7 @@ export default function Footer() {
             &copy; {currentYear} Ikechukwu Alaeto. All rights reserved.
           </span>
           <div className="flex items-center gap-2 justify-center sm:justify-end whitespace-nowrap">
-            <span>Designed &amp; Engineered in Nigeria</span>
+            <span>Crafted with passion using Next.js &amp; React</span>
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-vermillion)]" />
           </div>
         </div>
