@@ -58,7 +58,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
             </div>
 
             {/* Client Metadata and Profile Picture */}
-            <div className="flex items-center justify-between gap-6 border-t border-border/40 pt-6 mt-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-border/40 pt-6 mt-2">
               <div className="flex items-center gap-4">
                 {active.avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -83,7 +83,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
               </div>
 
               {/* Slider Navigation Badges */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 self-end sm:self-auto">
                 <button
                   onClick={handlePrev}
                   className="w-9 h-9 rounded-full border border-border hover:border-border-strong flex items-center justify-center text-ink hover:bg-base/50 active:scale-95 transition-all duration-200 cursor-pointer"

@@ -185,7 +185,7 @@ export default function Navbar() {
             className={cn(
               "hidden lg:inline-flex items-center justify-center gap-2",
               "h-10 lg:h-11 px-4 lg:px-6 rounded-full",
-              "text-sm font-semibold whitespace-nowrap",
+              "text-sm font-semibold whitespace-nowrap leading-none",
               "transition-all duration-200",
               menuOpen
                 ? "border border-[rgba(240,237,230,0.3)] text-[var(--color-base)] hover:bg-[rgba(240,237,230,0.1)]"
@@ -206,7 +206,7 @@ export default function Navbar() {
               menuOpen
                 ? "bg-[var(--color-base)] text-[var(--color-vermillion)] hover:bg-[rgba(240,237,230,0.9)]"
                 : "bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85",
-              "text-sm font-semibold whitespace-nowrap",
+              "text-sm font-semibold whitespace-nowrap leading-none",
               "transition-all duration-200"
             )}
           >
