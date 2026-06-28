@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next";
+import { getBaseUrl } from "@/lib/utils";
 
 export default function robots(): MetadataRoute.Robots {
-  const domain = process.env.NEXT_PUBLIC_DOMAIN || "ikechukwualaeto.dev";
-  const baseUrl = `https://${domain}`;
+  const baseUrl = getBaseUrl();
 
   return {
     rules: [

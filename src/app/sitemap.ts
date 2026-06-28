@@ -1,9 +1,9 @@
 import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
+import { getBaseUrl } from "@/lib/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const domain = process.env.NEXT_PUBLIC_DOMAIN || "ikechukwualaeto.dev";
-  const baseUrl = `https://${domain}`;
+  const baseUrl = getBaseUrl();
 
   // 1. Static routes (all pages in the multi-page architecture)
   const staticRoutes: MetadataRoute.Sitemap = [

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Stack_Sans_Notch } from "next/font/google";
+import { getBaseUrl } from "@/lib/utils";
 import "./globals.css";
 
 const stackSansNotch = Stack_Sans_Notch({
@@ -43,6 +44,7 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getBaseUrl()),
   title: {
     default: "Ikechukwu Alaeto | Full Stack Developer",
     template: "%s | Ikechukwu Alaeto",
@@ -60,7 +62,7 @@ export const metadata: Metadata = {
     "Ikechukwu Alaeto",
     "IykeVisuals",
   ],
-  authors: [{ name: "Ikechukwu Alaeto", url: "https://ikechukwualaeto.dev" }],
+  authors: [{ name: "Ikechukwu Alaeto", url: getBaseUrl() }],
   creator: "Ikechukwu Alaeto",
 
   /* --- Icons --- */
@@ -94,7 +96,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ikechukwualaeto.dev",
+    url: getBaseUrl(),
     siteName: "Ikechukwu Alaeto",
     title: "Ikechukwu Alaeto | Full Stack Developer",
     description:
