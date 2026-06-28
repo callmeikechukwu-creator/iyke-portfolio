@@ -301,7 +301,7 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
             </p>
 
             {/* Metrics grid cards */}
-            <div className="grid grid-cols-3 gap-3 md:gap-5 mt-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5 mt-4 w-full">
               {workflow.metrics.map((metric) => (
                 <div
                   key={metric.label}
@@ -310,17 +310,17 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
                     bg-surface border border-border
                     hover:border-vermillion/40
                     rounded-2xl md:rounded-3xl
-                    p-4 md:p-5
+                    p-6 md:p-5
                     transition-all duration-300
                     overflow-hidden
                   "
                 >
                   {/* Subtle hover glow */}
                   <div className="absolute inset-0 bg-vermillion/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-inherit" />
-                  <span className="font-body text-lg sm:text-xl md:text-2xl font-black text-vermillion leading-none tracking-tight relative z-10 whitespace-nowrap">
+                  <span className="font-body text-2xl md:text-2xl font-black text-vermillion leading-none tracking-tight relative z-10 whitespace-nowrap">
                     {metric.value}
                   </span>
-                  <span className="font-body text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted leading-tight text-center relative z-10">
+                  <span className="font-body text-[10px] font-bold uppercase tracking-[0.15em] text-muted leading-tight text-center relative z-10">
                     {metric.label}
                   </span>
                 </div>
