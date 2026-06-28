@@ -1,0 +1,18 @@
+<!-- 
+  IKECHUKWU ALAETO — Monogram (Light variant)
+  Use on: light/bone backgrounds
+  Ink letterforms on transparent background
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100">
+  <g stroke="#1A1814" fill="none" stroke-linecap="butt">
+    <!-- I: tilted 15° clockwise -->
+    <line x1="22" y1="6" x2="22" y2="94" stroke-width="13"
+          transform="rotate(15, 22, 50)"/>
+    <!-- A: left leg -->
+    <line x1="72" y1="6" x2="47" y2="94" stroke-width="12"/>
+    <!-- A: right leg -->
+    <line x1="72" y1="6" x2="97" y2="94" stroke-width="12"/>
+    <!-- A: crossbar -->
+    <line x1="57" y1="62" x2="87" y2="62" stroke-width="10"/>
+  </g>
+</svg>

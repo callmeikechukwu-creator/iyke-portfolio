@@ -1,0 +1,262 @@
+"use client";
+
+import { useState } from "react";
+import { Download } from "lucide-react";
+import Navbar from "@/components/layout/Navbar";
+
+export default function ResumeClient() {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    try {
+      setDownloading(true);
+      const response = await fetch("/api/resume/download");
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "iyke_alaeto_resume.pdf");
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode?.removeChild(link);
+      } else {
+        console.error("PDF download API returned an error");
+      }
+    } catch (error) {
+      console.error("Failed to download PDF resume:", error);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  return (
+    <>
+      {/* ── Our shared Navbar ── */}
+      <Navbar />
+
+      {/* ── Page body: push content below the fixed navbar ── */}
+      <div
+        className="min-h-screen bg-[var(--color-surface)] selection:bg-[var(--color-orange)]/20 selection:text-[var(--color-ink)]"
+        style={{ paddingTop: "var(--navbar-height)" }}
+      >
+        {/* Toolbar: Download button (hidden during print) */}
+        <div className="max-w-[210mm] mx-auto px-4 py-6 flex items-center justify-end print:hidden">
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-ink)] text-[var(--color-base)] hover:bg-[var(--color-vermillion)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 rounded-full font-semibold text-xs tracking-wider uppercase shadow-md cursor-pointer"
+          >
+            {downloading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-[var(--color-base)] border-t-transparent rounded-full animate-spin" />
+                Generating PDF…
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                Download PDF
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* ── A4 Resume Sheet ── */}
+        <div className="w-[210mm] mx-auto bg-white shadow-xl border border-[var(--color-ink)]/5 p-[16mm] md:p-[20mm] flex flex-col justify-between overflow-hidden mb-16 print:shadow-none print:border-none print:p-0 print:w-[210mm] print:h-[297mm] print:mb-0">
+
+          <div className="flex flex-col h-full justify-between">
+
+            {/* A. HEADER AREA */}
+            <div className="flex flex-col items-center text-center gap-5">
+
+              <div className="flex flex-col items-center gap-1.5">
+                <h1 className="text-4xl md:text-5xl font-black font-display tracking-tight text-ink uppercase select-none">
+                  Ikechukwu Alaeto
+                </h1>
+                <span className="text-xs font-bold tracking-[0.25em] text-orange uppercase font-body">
+                  Full Stack Web Developer
+                </span>
+              </div>
+
+              {/* Contact row */}
+              <div className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-2 py-3 px-6 bg-cream border border-ink/5 rounded-2xl text-xs font-semibold text-ink font-body shadow-sm">
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-blue shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  contact@iykevisuals.com
+                </span>
+                <span className="text-ink/15">|</span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-blue shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                  iykevisualsdev.me
+                </span>
+                <span className="text-ink/15">|</span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-blue shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Ibadan, Nigeria
+                </span>
+                <span className="text-ink/15">|</span>
+                <a
+                  href="https://github.com/iykevisuals"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-orange transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5 text-blue shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  github.com/iykevisuals
+                </a>
+              </div>
+
+            </div>
+
+            {/* B. DUAL-COLUMN SYSTEM */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mt-10 border-t border-ink/10 pt-10 flex-1 items-stretch">
+
+              {/* Left Sidebar */}
+              <div className="md:col-span-4 flex flex-col justify-between pr-4 md:border-r border-ink/5">
+
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-xs font-bold tracking-[0.15em] text-ink uppercase border-b border-ink/10 pb-2 font-display">
+                    Profile Ethos
+                  </h3>
+                  <p className="text-[13px] leading-relaxed text-ink/75 font-body">
+                    Engineered with a focus on performance, dynamic API caching, and high-fidelity aesthetics. 3+ years experience building server-driven products, integrating databases, and deploying optimized client infrastructures.
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-xs font-bold tracking-[0.15em] text-ink uppercase border-b border-ink/10 pb-2 font-display">
+                    Core Toolset
+                  </h3>
+                  <div className="flex flex-col gap-4 text-[12px] font-body text-ink/80">
+                    <div>
+                      <strong className="block text-ink text-[13px] mb-1">Languages</strong>
+                      <span>TypeScript, JavaScript, SQL, HTML5, CSS3</span>
+                    </div>
+                    <div>
+                      <strong className="block text-ink text-[13px] mb-1">Frameworks</strong>
+                      <span>Next.js 16 (App Router), React 19, Express, Node.js</span>
+                    </div>
+                    <div>
+                      <strong className="block text-ink text-[13px] mb-1">Data &amp; Caching</strong>
+                      <span>PostgreSQL, MongoDB, Prisma ORM, Upstash Redis</span>
+                    </div>
+                    <div>
+                      <strong className="block text-ink text-[13px] mb-1">Cloud &amp; Deploy</strong>
+                      <span>Cloudinary CDN, Puppeteer, Git, Render Hosting</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-xs font-bold tracking-[0.15em] text-ink uppercase border-b border-ink/10 pb-2 font-display">
+                    Education
+                  </h3>
+                  <div className="flex flex-col gap-1.5 text-[12px] font-body">
+                    <strong className="text-ink text-[13px] leading-tight">Self-Directed Engineering</strong>
+                    <span className="text-muted">3+ Years Intensive Development</span>
+                    <p className="text-ink/70 leading-relaxed mt-1">
+                      Specialized in server architectures, security validations, and micro-frontend structures.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Right Main Column */}
+              <div className="md:col-span-8 flex flex-col justify-between pl-2">
+
+                <div className="flex flex-col gap-4">
+                  <h3 className="text-xs font-bold tracking-[0.15em] text-ink uppercase border-b border-ink/10 pb-2 font-display">
+                    Work History
+                  </h3>
+
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex justify-between items-start text-xs md:text-sm">
+                        <div className="flex flex-col gap-0.5">
+                          <strong className="text-ink text-[15px] leading-tight">Founder &amp; Lead Developer</strong>
+                          <span className="text-xs font-bold text-blue font-body">Iyke Visuals Studio</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-muted font-body uppercase tracking-wider bg-cream px-3 py-1 rounded-full border border-ink/5">
+                          2023 — Pres
+                        </span>
+                      </div>
+                      <ul className="text-[13px] text-ink/80 font-body leading-relaxed flex flex-col gap-2 mt-1">
+                        <li className="relative pl-4">
+                          <span className="absolute left-0 top-2 w-1.5 h-1.5 bg-orange" />
+                          Engineered high-performance full-stack web applications utilizing Next.js, optimizing layout loads, and reducing LCP paint offsets.
+                        </li>
+                        <li className="relative pl-4">
+                          <span className="absolute left-0 top-2 w-1.5 h-1.5 bg-orange" />
+                          Built Cloudinary media upload pipelines and CNAME subdomain reverse proxy layers inside middleware routers.
+                        </li>
+                        <li className="relative pl-4">
+                          <span className="absolute left-0 top-2 w-1.5 h-1.5 bg-orange" />
+                          Secured API routes by deploying Upstash Redis rate-limiters, honeypots, and secure session cookie mappings.
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <div className="flex justify-between items-start text-xs md:text-sm">
+                        <div className="flex flex-col gap-0.5">
+                          <strong className="text-ink text-[15px] leading-tight">Full Stack Developer</strong>
+                          <span className="text-xs font-bold text-blue font-body">God Over All Tutorial Centre (GOATC)</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-muted font-body uppercase tracking-wider bg-cream px-3 py-1 rounded-full border border-ink/5">
+                          2024 — 2025
+                        </span>
+                      </div>
+                      <ul className="text-[13px] text-ink/80 font-body leading-relaxed flex flex-col gap-2 mt-1">
+                        <li className="relative pl-4">
+                          <span className="absolute left-0 top-2 w-1.5 h-1.5 bg-orange" />
+                          Designed and maintained a real-time CBT engine using Node.js, Express, and Socket.io.
+                        </li>
+                        <li className="relative pl-4">
+                          <span className="absolute left-0 top-2 w-1.5 h-1.5 bg-orange" />
+                          Mapped MongoDB schemas and structured backend pipelines to decrease fetch latencies by 30%.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-4 mt-2">
+                  <h3 className="text-xs font-bold tracking-[0.15em] text-ink uppercase border-b border-ink/10 pb-2 font-display">
+                    Selected Architectures
+                  </h3>
+
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1 text-[12px] font-body bg-cream border border-ink/5 p-4 rounded-2xl shadow-sm">
+                      <div className="flex justify-between items-center flex-wrap gap-2">
+                        <strong className="text-ink text-[13px]">Naturalist — Premium E-commerce Engine</strong>
+                        <span className="text-[10px] text-orange font-bold uppercase tracking-wider">Next.js, Prisma, PostgreSQL</span>
+                      </div>
+                      <p className="text-ink/75 leading-relaxed mt-1">
+                        A high-fidelity platform incorporating serverless database queries, OAuth workflows, automated order receipts, and dynamic social media metadata generations.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-1 text-[12px] font-body bg-cream border border-ink/5 p-4 rounded-2xl shadow-sm">
+                      <div className="flex justify-between items-center flex-wrap gap-2">
+                        <strong className="text-ink text-[13px]">SAMC 2026 — Conference Registry Panel</strong>
+                        <span className="text-[10px] text-orange font-bold uppercase tracking-wider">Node, Express, Puppeteer</span>
+                      </div>
+                      <p className="text-ink/75 leading-relaxed mt-1">
+                        Conference ticket booking platform integrated with headless Puppeteer PDF ticket generators, secure admin dashboard CRUD, and background ticket email queues.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </>
+  );
+}

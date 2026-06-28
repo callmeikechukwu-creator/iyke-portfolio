@@ -1,0 +1,192 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { gsap as gsapCore } from "gsap";
+
+const navLinks = [
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" }
+];
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
+  // Track scrolling for sticky navbar & active section highlights
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+
+      // Check which section is currently active in the viewport
+      const sections = ["about", "projects", "experience", "contact"];
+      const scrollPosition = window.scrollY + 200;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Handle smooth scroll on click
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const targetId = href.slice(1);
+    const targetEl = document.getElementById(targetId);
+
+    if (targetEl) {
+      e.preventDefault();
+      setIsOpen(false);
+
+      // Premium GSAP Scroll easing
+      const offset = 80;
+      const targetY = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
+      const scrollObj = { y: window.scrollY };
+
+      gsapCore.to(scrollObj, {
+        y: targetY,
+        duration: 1.5,
+        ease: "power4.out", // High-end deceleration curve
+        onUpdate: () => {
+          window.scrollTo(0, scrollObj.y);
+        }
+      });
+    }
+  };
+
+  return (
+    <>
+      {/* Top Floating Borderless Navbar Container (Morphs to Glass Header on Scroll) */}
+      <nav
+        className={cn(
+          "fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-custom shadow-sm flex items-center justify-between",
+          scrolled 
+            ? "top-0 w-full max-w-full rounded-none border-b border-ink/10 bg-cream/80 backdrop-blur-md px-6 md:px-12 py-4" 
+            : "top-6 w-[90%] max-w-5xl rounded-full border border-transparent bg-transparent px-6 py-3"
+        )}
+      >
+        <div className="flex justify-between items-center w-full">
+          {/* Logo / Brand Name (Lowercase, Upright) */}
+          <Link 
+            href="/" 
+            className="font-display text-xl font-extrabold tracking-tight text-ink hover:text-orange transition-colors duration-300"
+          >
+            ikechukwu
+          </Link>
+
+          {/* Desktop Navigation Links (Borderless container, individual links get capsule outline on hover) */}
+          <div className="hidden md:flex items-center gap-2 font-body text-sm font-medium py-1">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.slice(1);
+              return (
+                <Link
+                  key={link.label}
+                  id={`nav-link-${link.href.slice(1)}`}
+                  href={link.href}
+                  onClick={(e) => handleNavLinkClick(e, link.href)}
+                  className={cn(
+                    "relative block px-4 py-1.5 rounded-full border transition-all duration-300 ease-custom select-none",
+                    isActive
+                      ? "border-ink text-ink"
+                      : "border-transparent text-ink/70 hover:border-ink/20 hover:text-ink"
+                  )}
+                >
+                  <span className="relative inline-block">
+                    {/* Invisible spacer using the bold italic font to reserve exact space & prevent layout shifting */}
+                    <span 
+                      className="invisible block font-display italic font-semibold px-1 select-none" 
+                      aria-hidden="true"
+                    >
+                      {link.label}
+                    </span>
+                    {/* Visible text overlay */}
+                    <span 
+                      className={cn(
+                        "absolute inset-0 flex items-center justify-center transition-colors duration-300",
+                        isActive 
+                          ? "font-display italic font-semibold text-ink" 
+                          : "font-body text-ink/70 hover:font-display hover:italic hover:font-semibold hover:text-ink"
+                      )}
+                    >
+                      {link.label}
+                    </span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Premium Two-Line Hamburger Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-full border border-ink/10 bg-white/20 hover:bg-white/40 transition-colors duration-300 text-ink relative group"
+            aria-label="Toggle Menu"
+          >
+            <div className="flex flex-col gap-[5px] justify-center items-center w-5 h-5">
+              {/* Line 1 */}
+              <span 
+                className={cn(
+                  "h-[2px] bg-ink rounded transition-all duration-300 ease-custom origin-center",
+                  isOpen ? "w-5 rotate-45 translate-y-[3.5px]" : "w-5"
+                )}
+              />
+              {/* Line 2 */}
+              <span 
+                className={cn(
+                  "h-[2px] bg-ink rounded transition-all duration-300 ease-custom origin-center",
+                  isOpen ? "w-5 -rotate-45 -translate-y-[3.5px]" : "w-3.5 ml-auto group-hover:w-5"
+                )}
+              />
+            </div>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Glassmorphic Studio Feixen Styled Drawer */}
+      <div
+        className={cn(
+          "fixed inset-0 z-40 md:hidden bg-cream backdrop-blur-lg flex flex-col transition-all duration-500 ease-custom px-6 pt-24 pb-12 overflow-y-auto",
+          isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+        )}
+      >
+        {/* Full-width Stack Container */}
+        <div className="flex flex-col w-full font-display text-4xl md:text-5xl font-black tracking-tighter uppercase select-none mt-8 border-t border-ink/10">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.slice(1);
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={(e) => handleNavLinkClick(e, link.href)}
+                className={cn(
+                  "block w-full text-center py-8 border-b border-ink/10 transition-all duration-300",
+                  isActive 
+                    ? "bg-ink text-cream font-bold" 
+                    : "text-ink hover:bg-orange hover:text-cream font-medium"
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+}

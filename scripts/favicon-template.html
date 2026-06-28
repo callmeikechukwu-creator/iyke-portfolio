@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!--
+    IKECHUKWU ALAETO — "IA" Monogram Favicon Template
+    Rendered by Puppeteer into a high-fidelity PNG.
+    Uses the actual Stack Sans Notch font from Google Fonts.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@600;700&display=block"
+    rel="stylesheet"
+  />
+
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 512px;
+      height: 512px;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    @media (min-width: 513px) {
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #111;
+      }
+    }
+
+    .icon {
+      width: 512px;
+      height: 512px;
+      background: #D63A2F;
+      border-radius: 88px;           /* ~17% of 512 — matches Apple icon radius */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle inner vignette for depth */
+    .icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        ellipse at 35% 30%,
+        rgba(255,255,255,0.08) 0%,
+        transparent 65%
+      );
+      pointer-events: none;
+    }
+
+    .monogram {
+      font-family: 'Stack Sans Notch', 'Arial Black', sans-serif;
+      font-weight: 700;
+      font-size: 380px;
+      color: #F0EDE6;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: baseline;
+      position: relative;
+      user-select: none;
+
+      /* Optical centering for 380px font size */
+      margin-top: 14px;
+      transform: translateX(-30px);
+    }
+
+    .i-char {
+      display: inline-block;
+      /*
+        Tilt matches the angle of A's left arm in the font:
+        clockwise 12–15° so the right edge of "I" echoes
+        the left leg of "A", creating a ligature-like feel.
+      */
+      transform: rotate(13deg);
+      transform-origin: 50% 82%;
+      margin-right: -0.05em;
+    }
+
+    .a-char {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="icon" id="icon">
+    <div class="monogram" id="monogram">
+      <span class="i-char" aria-hidden="true">I</span>
+      <span class="a-char" aria-hidden="true">A</span>
+    </div>
+  </div>
+</body>
+</html>

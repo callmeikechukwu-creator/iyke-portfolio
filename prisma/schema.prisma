@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  description String
+  body        String?  // Detailed case study (Markdown/HTML)
+  techStack   String[]
+  liveUrl     String?
+  githubUrl   String?
+  imageUrl    String   // Clean CDN path (e.g. "/projects/naturalist.jpg")
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model BlogPost {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   String?  // Markdown/HTML content
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

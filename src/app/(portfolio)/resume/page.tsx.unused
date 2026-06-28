@@ -1,0 +1,11 @@
+import ResumeClient from "./ResumeClient";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Resume | Ikechukwu Alaeto",
+  description: "Curriculum Vitae of Ikechukwu Alaeto, Full Stack Web Developer.",
+};
+
+export default function ResumePage() {
+  return <ResumeClient />;
+}

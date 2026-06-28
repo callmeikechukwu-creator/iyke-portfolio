@@ -1,0 +1,20 @@
+<!-- 
+  IKECHUKWU ALAETO — Full Wordmark (Light variant)
+  Use on: light/bone backgrounds
+  BBH Bogle-style: condensed, all-caps, bold
+  Font rendered via CSS in web contexts; this SVG uses a geometric approximation for brand files.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 60"
+     role="img" aria-label="IKECHUKWU ALAETO wordmark">
+  <title>IKECHUKWU ALAETO</title>
+  <text
+    x="0" y="52"
+    font-family="'BBH Bogle', 'Arial Narrow', sans-serif"
+    font-size="58"
+    font-weight="400"
+    letter-spacing="1"
+    fill="#1A1814"
+    text-anchor="start"
+    dominant-baseline="auto"
+  >IKECHUKWU ALAETO</text>
+</svg>
