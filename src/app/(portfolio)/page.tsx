@@ -101,18 +101,26 @@ export default async function HomePage() {
           <Link
             href="/contact"
             className="
+              group
               shrink-0 inline-flex items-center gap-3
               px-8 py-4 rounded-full
               bg-[var(--color-vermillion)] text-[var(--color-base)]
               text-body text-sm font-semibold
               tracking-[var(--tracking-wide)]
               hover:bg-[var(--color-vermillion-hover)]
-              transition-colors duration-300
+              hover:scale-[1.03] active:scale-[0.97]
+              hover:shadow-[0_12px_24px_rgba(214,58,47,0.25)]
+              transition-all duration-300
               shadow-[var(--shadow-md)]
             "
           >
             Get in touch
-            <span aria-hidden="true">→</span>
+            <span 
+              className="transition-transform duration-300 ease-out group-hover:translate-x-1.5" 
+              aria-hidden="true"
+            >
+              →
+            </span>
           </Link>
         </div>
       </section>
