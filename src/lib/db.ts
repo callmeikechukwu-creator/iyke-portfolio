@@ -7,7 +7,6 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 const createPrismaClient = () => {
-  // Read at call time so Next.js has already loaded .env.local
   const connectionString = process.env.DATABASE_URL;
 
   if (connectionString) {
@@ -34,7 +33,6 @@ const createPrismaClient = () => {
     }
   }
 
-  // Fallback — will fail loudly if DATABASE_URL is truly missing
   return new PrismaClient({
     log: ["error"],
   });

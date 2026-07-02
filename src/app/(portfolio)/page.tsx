@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Suspense } from "react";
 import Hero from "@/components/sections/Hero";
 import { db } from "@/lib/db";
