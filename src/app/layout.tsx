@@ -34,6 +34,28 @@ const hostGrotesk = localFont({
   preload: false,
 });
 
+const ballegaLogo = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Ballega/ballega.otf",
+      style: "normal",
+    },
+  ],
+  variable: "--font-logo",
+  preload: false,
+});
+
+const ballegaLogoOutline = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Ballega/ballega.otf",
+      style: "normal",
+    },
+  ],
+  variable: "--font-logo-outline",
+  preload: false,
+});
+
 /* ------------------------------------------------------------
    Site Viewport & Metadata
    ------------------------------------------------------------ */
@@ -141,7 +163,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${hostGrotesk.variable} ${stackSansNotch.variable}`}
+      className={`${hostGrotesk.variable} ${stackSansNotch.variable} ${ballegaLogo.variable} ${ballegaLogoOutline.variable}`}
       suppressHydrationWarning
     >
       <head>

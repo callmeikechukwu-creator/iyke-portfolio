@@ -134,8 +134,7 @@
   /* --- Font Families --- */
   --font-display: var(--font-host-grotesk), sans-serif;
   --font-body:    'PP Mori', 'Helvetica Neue', Arial, sans-serif;
-  --font-logo:    'Ballega', sans-serif;
-  --font-logo-outline: 'Ballega', sans-serif;
+
 
   /* --- Fluid Typography Scale --- */
   --text-xs:    clamp(0.6875rem, 1vw, 0.75rem);
@@ -278,6 +277,39 @@
   --ease-out-expo:          var(--ease-out-expo);
   --ease-in-out-quad:       var(--ease-in-out-quad);
   --ease-spring:            var(--ease-spring);
+}
+
+
+/* --- Logo Aura Effect --- */
+.logo-aura-text {
+  font-family: var(--font-logo);
+  background: linear-gradient(
+    135deg,
+    var(--color-ink) 0%,
+    var(--color-ink) 55%,
+    var(--color-vermillion) 75%,
+    var(--color-ink) 95%,
+    var(--color-ink) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logo-shine 7s linear infinite;
+  transition: filter 0.3s ease;
+}
+
+@keyframes logo-shine {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.logo-aura-text:hover,
+.logo-aura-text:active {
+  filter: drop-shadow(0 0 10px rgba(214, 58, 47, 0.25));
 }
 
 

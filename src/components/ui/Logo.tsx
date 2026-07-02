@@ -57,8 +57,8 @@ export default function Logo({
 function Wordmark({ size, className }: { size: string; className?: string }) {
   return (
     <span
-      className={cn("font-bold leading-none tracking-normal whitespace-nowrap inline-block uppercase", className)}
-      style={{ fontSize: size, fontFamily: "var(--font-logo)" }}
+      className={cn("font-bold leading-none tracking-normal whitespace-nowrap inline-block uppercase logo-aura-text", className)}
+      style={{ fontSize: size }}
     >
       IKECHUKWU ALAETO
     </span>
