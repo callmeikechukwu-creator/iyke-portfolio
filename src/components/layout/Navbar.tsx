@@ -398,10 +398,6 @@ export default function Navbar() {
                   <span>Back to Menu</span>
                 </button>
 
-                <h2 className="mb-3 text-xs font-bold text-muted uppercase tracking-wider pl-1">
-                  About
-                </h2>
-
                 <nav aria-label="About submenu links" className="flex-1 overflow-y-auto pr-4">
                   <div className="flex flex-col gap-1">
                     {aboutGroupLinks.map((link) => {

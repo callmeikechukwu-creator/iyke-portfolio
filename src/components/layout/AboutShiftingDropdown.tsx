@@ -348,7 +348,7 @@ function AboutTeaser() {
   return (
     <div className="w-[28rem] md:w-[32rem]">
       <h3 className="mb-2 text-xl font-bold text-[var(--color-ink)]">
-        Overview
+        Who I Am
       </h3>
       <p className="mb-4 text-base leading-relaxed text-muted">
         I am Ikechukwu, a full-stack developer in Ibadan, Nigeria that builds web experiences
