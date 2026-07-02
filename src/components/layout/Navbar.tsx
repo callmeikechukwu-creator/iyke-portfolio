@@ -1,15 +1,25 @@
 "use client";
  
-import { useState, useEffect, useRef } from "react";
-import type { MutableRefObject } from "react";
+import { useState, useEffect, useRef, type MutableRefObject } from "react";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "motion/react";
 import { gsap } from "gsap";
-import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/Logo";
 import AnimatedHamburgerIcon from "@/components/ui/AnimatedHamburgerIcon";
 import AboutShiftingDropdown from "@/components/layout/AboutShiftingDropdown";
-import { ChevronDown } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  ChevronLeft,
+  Moon,
+  Sun,
+  Github,
+  Linkedin,
+  Twitter,
+  Instagram,
+  ArrowUpRight
+} from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────
    Navigation links — full page routes (multi-page architecture)
@@ -52,8 +62,12 @@ export default function Navbar() {
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
   const [mounted,  setMounted]    = useState(false);   // hydration guard
-  const [aboutExpanded, setAboutExpanded] = useState(false); // mobile accordion
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [activePane, setActivePane] = useState<"main" | "about">("main");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [aboutExpanded, setAboutExpanded] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const pathname                  = usePathname();
 
   let activeItem = "/";
@@ -63,11 +77,6 @@ export default function Navbar() {
   } else if (pathname.startsWith("/projects")) activeItem = "/projects";
   else if (pathname.startsWith("/blog")) activeItem = "/blog";
   else if (pathname.startsWith("/contact")) activeItem = "/contact";
-
-  const menuRef      = useRef<HTMLDivElement>(null);
-  const menuLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
-  const menuTlRef    = useRef<gsap.core.Timeline | null>(null);
-
 
   /* ── Hydration guard — active-link state only after mount ── */
   useEffect(() => { setMounted(true); }, []);
@@ -103,63 +112,71 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
+  /* ── Reset active mobile pane when menu closes ── */
+  useEffect(() => {
+    if (!menuOpen) {
+      setActivePane("main");
+    }
+  }, [menuOpen]);
+
   /* ── Close menu on route change ── */
   useEffect(() => {
-    if (menuOpen) closeMenu();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setMenuOpen(false);
   }, [pathname]);
 
-  /* ── Build GSAP timeline dynamically on open ── */
+  /* ── GSAP: animate mobile menu open/close ── */
   useEffect(() => {
-    return () => {
-      menuTlRef.current?.kill();
-    };
-  }, []);
+    const menu = menuRef.current;
+    if (!menu) return;
 
-  function openMenu() {
-    setMenuOpen(true);
-
-    if (!menuRef.current) return;
-
-    // Kill any existing animation
-    menuTlRef.current?.kill();
-
-    // Create a new timeline
+    const links = menuLinksRef.current.filter(Boolean) as HTMLAnchorElement[];
     const tl = gsap.timeline();
-    menuTlRef.current = tl;
 
-    tl.fromTo(
-      menuRef.current,
-      { yPercent: -100, visibility: "hidden" },
-      { yPercent: 0, visibility: "visible", duration: 0.55, ease: "power4.out" }
-    );
-
-    const targets = menuLinksRef.current.filter(Boolean);
-    if (targets.length > 0) {
+    if (menuOpen) {
+      gsap.set(menu, { visibility: "visible" });
       tl.fromTo(
-        targets,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power3.out" },
+        menu,
+        { yPercent: -100 },
+        { yPercent: 0, duration: 0.6, ease: "power4.inOut" }
+      ).fromTo(
+        links,
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: "power3.out" },
         "-=0.25"
       );
-    }
-  }
-
-  function closeMenu() {
-    if (menuTlRef.current) {
-      menuTlRef.current.reverse().then(() => {
-        setMenuOpen(false);
-        setAboutExpanded(false);
-      });
     } else {
-      setMenuOpen(false);
-      setAboutExpanded(false);
+      tl.to(links, { opacity: 0, duration: 0.2 })
+        .to(
+          menu,
+          { yPercent: -100, duration: 0.5, ease: "power4.inOut" },
+          "-=0.1"
+        )
+        .set(menu, { visibility: "hidden" });
     }
-  }
 
-  function toggleMenu() {
-    menuOpen ? closeMenu() : openMenu();
-  }
+    return () => {
+      tl.kill();
+    };
+  }, [menuOpen]);
+
+  /* ── Load initial theme on mount ── */
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const current = document.documentElement.getAttribute("data-theme") as "light" | "dark" || "light";
+      setTheme(current);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
 
   return (
     <>
@@ -174,13 +191,9 @@ export default function Navbar() {
           "h-[var(--navbar-height)]",
           "flex items-center",
           "transition-all duration-300 ease-in-out",
-          menuOpen
-            ? "bg-[var(--color-vermillion)] border-b border-[rgba(240,237,230,0.25)] shadow-none"
-            : cn(
-                "bg-[var(--color-surface)]",
-                "border-b border-[var(--color-border)]",
-                scrolled && "shadow-[var(--shadow-sm)]"
-              )
+          "bg-[var(--color-surface)]/80 backdrop-blur-md",
+          "border-b border-[var(--color-border)]",
+          scrolled && "shadow-[var(--shadow-sm)]"
         )}
       >
         <div className="w-full max-w-[var(--content-max-width)] mx-auto flex items-center justify-between px-6 md:px-10 lg:px-16">
@@ -188,7 +201,7 @@ export default function Navbar() {
           <Logo
             variant="wordmark"
             wordmarkSize="clamp(1.4rem, 3.2vw, 2.1rem)"
-            className={menuOpen ? "text-[var(--color-base)]" : "text-[var(--color-ink)]"}
+            className="text-[var(--color-ink)]"
           />
 
           {/* ── Center/Right: Desktop nav links, evenly spaced ── */}
@@ -237,11 +250,9 @@ export default function Navbar() {
                 "h-10 lg:h-11 px-4 lg:px-6 rounded-full",
                 "text-sm font-semibold whitespace-nowrap leading-none",
                 "transition-all duration-200",
-                menuOpen
-                  ? "border border-[rgba(240,237,230,0.3)] text-[var(--color-base)] hover:bg-[rgba(240,237,230,0.1)]"
-                  : mounted && pathname === "/resume"
-                    ? "bg-[var(--color-ink)] text-[var(--color-base)] border border-[var(--color-ink)] hover:opacity-85"
-                    : "border border-[var(--color-border)] bg-transparent text-[var(--color-ink)] hover:bg-[var(--color-base)]"
+                mounted && pathname === "/resume"
+                  ? "bg-[var(--color-ink)] text-[var(--color-base)] border border-[var(--color-ink)] hover:opacity-85"
+                  : "border border-[var(--color-border)] bg-transparent text-[var(--color-ink)] hover:bg-[var(--color-base)]"
               )}
             >
               Resume
@@ -250,15 +261,7 @@ export default function Navbar() {
             {/* CTA pill (visible on desktop and mobile) */}
             <a
               href="/contact"
-              className={cn(
-                "inline-flex items-center justify-center gap-2",
-                "h-10 lg:h-11 px-4 lg:px-6 rounded-full",
-                menuOpen
-                  ? "bg-[var(--color-base)] text-[var(--color-vermillion)] hover:bg-[rgba(240,237,230,0.9)]"
-                  : "bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85",
-                "text-sm font-semibold whitespace-nowrap leading-none",
-                "transition-all duration-200"
-              )}
+              className="inline-flex items-center justify-center gap-2 h-10 lg:h-11 px-4 lg:px-6 rounded-full bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85 text-sm font-semibold whitespace-nowrap leading-none transition-all duration-200"
             >
               Let&apos;s talk
             </a>
@@ -275,9 +278,7 @@ export default function Navbar() {
                 "w-10 h-10 md:w-11 md:h-11 rounded-full",
                 "transition-all duration-300",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-vermillion)]",
-                menuOpen
-                  ? "bg-[rgba(240,237,230,0.15)] hover:bg-[rgba(240,237,230,0.25)] active:bg-[rgba(240,237,230,0.3)]"
-                  : "bg-[var(--color-ink)]/[0.06] hover:bg-[var(--color-ink)]/[0.1] active:bg-[var(--color-ink)]/[0.15]"
+                "bg-[var(--color-ink)]/[0.06] hover:bg-[var(--color-ink)]/[0.1] active:bg-[var(--color-ink)]/[0.15]"
               )}
             >
               {/* 3-line hamburger → X morphing icon (motion/react) */}
@@ -291,114 +292,172 @@ export default function Navbar() {
       </nav>
 
       {/* ═══════════════════════════════════════════════════
-          MOBILE FULL-SCREEN MENU (CRAV-style)
-          Vermillion overlay, BBH Bogle links, slides from top
+          MOBILE FLOATING GLASS MENU (Vercel-style Option 1)
       ═══════════════════════════════════════════════════ */}
-      <div
-        id="mobile-menu"
-        ref={menuRef}
-        role="dialog"
-        aria-label="Mobile navigation"
-        aria-modal="true"
-        className={cn(
-          "fixed inset-0 z-[calc(var(--z-navbar)-1)]",
-          "bg-[var(--color-vermillion)]",
-          "flex flex-col",
-          "px-6 pt-[var(--navbar-height)] pb-8",
-          "overflow-hidden lg:hidden"
-        )}
-        style={{ visibility: "hidden" }}
-      >
-
-        {/* ── Nav links: flex-1 so they fill all available space,
-            justify-evenly distributes them proportionally
-            regardless of screen height (phone vs tablet) ── */}
-        <nav
-          aria-label="Mobile navigation links"
-          className="flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-contain [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-        >
-          <ul className="flex flex-col min-h-full justify-evenly">
-            {/* ── Home ── */}
-            <MobileNavItem
-              link={mobileNavLinks[0]}
-              index={0}
-              isActive={pathname === "/"}
-              menuLinksRef={menuLinksRef}
-            />
-
-            {/* ── About accordion (About / Skills / Experience) ── */}
-            <li className="border-b border-[rgba(240,237,230,0.15)]">
-              <button
-                type="button"
-                onClick={() => setAboutExpanded((v) => !v)}
-                ref={(el) => { menuLinksRef.current[1] = el as unknown as HTMLAnchorElement; }}
-                aria-expanded={aboutExpanded}
-                className={cn(
-                  "group flex w-full items-center justify-between gap-3 py-2 text-logo leading-none tracking-normal",
-                  "transition-all duration-200",
-                  aboutGroupLinks.some((l) => pathname.startsWith(l.href))
-                    ? "text-[var(--color-ink)] opacity-100"
-                    : "text-[var(--color-base)] opacity-70 hover:opacity-100"
-                )}
-                style={{ fontSize: "clamp(1.05rem, 4vw, 2.6rem)", opacity: 0 }}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-label="Mobile navigation"
+            aria-modal="true"
+            initial={{ opacity: 0, scale: 0.96, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 15 }}
+            transition={{ type: "spring", stiffness: 350, damping: 28 }}
+            className={cn(
+              "fixed left-6 right-6 top-[80px] bottom-6 z-[49] lg:hidden",
+              "rounded-[2.2rem] border border-[var(--color-border)]/50 bg-[var(--color-surface)]/75 backdrop-blur-xl shadow-2xl",
+              "flex flex-col overflow-hidden p-6"
+            )}
+          >
+            {/* Sliding Panes Container */}
+            <div className="relative flex-1 overflow-hidden">
+              
+              {/* ── Pane 1: Main Menu Links ── */}
+              <motion.div
+                animate={{
+                  x: activePane === "main" ? 0 : "-105%",
+                  opacity: activePane === "main" ? 1 : 0
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                className="absolute inset-0 flex flex-col justify-between"
               >
-                <span className="flex items-center gap-3">
-                  <span>ABOUT</span>
-                </span>
-                <ChevronDown
-                  className={cn(
-                    "transition-transform duration-300 ease-[var(--ease-out-expo)]",
-                    aboutExpanded && "rotate-180"
-                  )}
-                  size={22}
-                />
-              </button>
+                <nav aria-label="Mobile navigation links" className="flex-1 overflow-y-auto pr-1">
+                  <div className="flex flex-col gap-1">
+                    {/* Home */}
+                    <a
+                      href="/"
+                      className={cn(
+                        "flex items-center justify-between py-4 border-b border-[var(--color-border)]/20 text-xl font-bold transition-colors duration-200",
+                        pathname === "/" ? "text-[var(--color-vermillion)]" : "text-[var(--color-ink)]/80 hover:text-[var(--color-ink)]"
+                      )}
+                    >
+                      <span>Home</span>
+                      <ArrowUpRight size={18} className="opacity-40" />
+                    </a>
 
-              {/* Expand-in-place sub-links */}
-              <div
-                className={cn(
-                  "grid overflow-hidden transition-[grid-template-rows] duration-300 ease-[var(--ease-out-expo)]",
-                  aboutExpanded ? "grid-rows-[1fr] pb-3" : "grid-rows-[0fr]"
-                )}
-              >
-                <div className="min-h-0 flex flex-col gap-1 pl-4">
-                  {aboutGroupLinks.map((link) => {
-                    const active = pathname.startsWith(link.href);
-                    return (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        className={cn(
-                          "py-1.5 text-body text-base",
-                          "transition-colors duration-200",
-                          active
-                            ? "text-[var(--color-ink)] font-semibold"
-                            : "text-[var(--color-base)] opacity-70 hover:opacity-100"
-                        )}
-                      >
-                        {link.label}
-                      </a>
-                    );
-                  })}
+                    {/* About Accordion Trigger */}
+                    <button
+                      onClick={() => setActivePane("about")}
+                      className="flex items-center justify-between w-full py-4 border-b border-[var(--color-border)]/20 text-xl font-bold text-[var(--color-ink)]/80 hover:text-[var(--color-ink)] cursor-pointer focus:outline-none"
+                    >
+                      <span>About</span>
+                      <ChevronRight size={18} className="text-muted" />
+                    </button>
+
+                    {/* Remaining Flat Links */}
+                    {mobileNavLinks.slice(1).map((link) => {
+                      const isActiveLink = pathname.startsWith(link.href);
+                      return (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          className={cn(
+                            "flex items-center justify-between py-4 border-b border-[var(--color-border)]/20 text-xl font-bold transition-colors duration-200",
+                            isActiveLink ? "text-[var(--color-vermillion)]" : "text-[var(--color-ink)]/80 hover:text-[var(--color-ink)]"
+                          )}
+                        >
+                          <span>{link.label}</span>
+                          <ArrowUpRight size={18} className="opacity-40" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </nav>
+
+                {/* Footer section inside main menu */}
+                <div className="mt-auto pt-6 border-t border-[var(--color-border)]/20">
+                  {/* Theme Switcher */}
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-xs font-bold text-muted uppercase tracking-wider">Appearance</span>
+                    <button
+                      onClick={toggleTheme}
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--color-ink)]/[0.05] text-[var(--color-ink)] text-xs font-semibold focus:outline-none cursor-pointer hover:bg-[var(--color-ink)]/[0.1] transition-all duration-200"
+                    >
+                      {theme === "light" ? <Moon size={12} /> : <Sun size={12} />}
+                      <span>{theme === "light" ? "Dark Mode" : "Light Mode"}</span>
+                    </button>
+                  </div>
+
+                  {/* Social links row */}
+                  <div className="flex justify-center gap-4 mb-4">
+                    {socialLinks.map((social) => {
+                      let Icon = Github;
+                      if (social.label.includes("LinkedIn")) Icon = Linkedin;
+                      if (social.label.includes("Twitter")) Icon = Twitter;
+                      if (social.label.includes("Instagram")) Icon = Instagram;
+
+                      return (
+                        <a
+                          key={social.label}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 rounded-full bg-[var(--color-ink)]/[0.05] hover:bg-[var(--color-ink)]/[0.1] text-[var(--color-ink)] transition-colors duration-200"
+                          title={social.label}
+                        >
+                          <Icon size={16} />
+                        </a>
+                      );
+                    })}
+                  </div>
+
+                  {/* Contact Call-to-action button */}
+                  <a
+                    href="/contact"
+                    className="flex items-center justify-center w-full py-4 rounded-2xl bg-[var(--color-vermillion)] text-[var(--color-base)] font-bold text-center hover:opacity-90 active:scale-98 transition-all duration-200 shadow-md"
+                  >
+                    Let's Talk
+                  </a>
                 </div>
-              </div>
-            </li>
+              </motion.div>
 
-            {/* ── Remaining flat links (Projects, Blog, Contact, Resume) ── */}
-            {mobileNavLinks.slice(1).map((link, i) => (
-              <MobileNavItem
-                key={link.href}
-                link={link}
-                index={i + 2}
-                isActive={pathname.startsWith(link.href)}
-                menuLinksRef={menuLinksRef}
-              />
-            ))}
-          </ul>
-        </nav>
+              {/* ── Pane 2: About Sub-links Menu ── */}
+              <motion.div
+                initial={{ x: "105%", opacity: 0 }}
+                animate={{
+                  x: activePane === "about" ? 0 : "105%",
+                  opacity: activePane === "about" ? 1 : 0
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                className="absolute inset-0 flex flex-col"
+              >
+                {/* Back button */}
+                <button
+                  onClick={() => setActivePane("main")}
+                  className="flex items-center gap-2 py-3 mb-4 text-sm font-bold text-muted hover:text-[var(--color-ink)] cursor-pointer focus:outline-none w-fit"
+                >
+                  <ChevronLeft size={16} />
+                  <span>Back to Menu</span>
+                </button>
 
+                <nav aria-label="About submenu links" className="flex-1 overflow-y-auto">
+                  <div className="flex flex-col gap-1">
+                    {aboutGroupLinks.map((link) => {
+                      const isSubActive = pathname.startsWith(link.href);
+                      return (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          className={cn(
+                            "flex items-center justify-between py-4 border-b border-[var(--color-border)]/20 text-xl font-bold transition-colors duration-200",
+                            isSubActive ? "text-[var(--color-vermillion)]" : "text-[var(--color-ink)]/80 hover:text-[var(--color-ink)]"
+                          )}
+                        >
+                          <span>{link.label}</span>
+                          <ArrowUpRight size={18} className="opacity-40" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </nav>
+              </motion.div>
 
-      </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
