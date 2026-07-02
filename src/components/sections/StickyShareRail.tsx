@@ -109,16 +109,23 @@ function useShareActions(title: string) {
 }
 
 /* ─────────────────────────────────────────────
-   Shared vertical pill — used by both rails
+   Desktop Left Rail — vertical pill
 ───────────────────────────────────────────── */
-function SharePill({
-  title,
-  withTooltips = false,
-}: {
-  title: string;
-  withTooltips?: boolean;
-}) {
+function DesktopRail({ title }: { title: string }) {
   const { copied, handleCopyLink, handleShareX, handleShareLinkedIn } = useShareActions(title);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    observerRef.current = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observerRef.current.observe(footer);
+    return () => observerRef.current?.disconnect();
+  }, []);
 
   const xBtn = (
     <button
@@ -164,69 +171,37 @@ function SharePill({
   );
 
   return (
-    <div className={cn(
-      "flex flex-col items-center gap-4 px-3 py-5 rounded-2xl",
-      "bg-white/[0.05] backdrop-blur-2xl",
-      "border border-white/[0.1]",
-      "shadow-[0_8px_32px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.07)]",
-    )}>
-      {withTooltips ? (
-        <>
-          <Tooltip label="Share on X">{xBtn}</Tooltip>
-          <Tooltip label="LinkedIn">{liBtn}</Tooltip>
-          <Tooltip label={copied ? "Copied!" : "Copy link"}>{copyBtn}</Tooltip>
-        </>
-      ) : (
-        <>
-          {xBtn}
-          {liBtn}
-          {copyBtn}
-        </>
-      )}
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────
-   Desktop Left Rail
-───────────────────────────────────────────── */
-function DesktopRail({ title }: { title: string }) {
-  const [footerVisible, setFooterVisible] = useState(false);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  useEffect(() => {
-    const footer = document.querySelector("footer");
-    if (!footer) return;
-    observerRef.current = new IntersectionObserver(
-      ([entry]) => setFooterVisible(entry.isIntersecting),
-      { threshold: 0 }
-    );
-    observerRef.current.observe(footer);
-    return () => observerRef.current?.disconnect();
-  }, []);
-
-  return (
     <div
       className={cn(
         "fixed left-6 top-1/2 -translate-y-1/2 z-[350]",
-        "hidden lg:flex flex-col items-center",
+        "hidden lg:flex flex-col items-center gap-4 px-3 py-5 rounded-2xl",
+        "bg-white/[0.05] backdrop-blur-2xl",
+        "border border-white/[0.1]",
+        "shadow-[0_8px_32px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.07)]",
         "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
         footerVisible ? "opacity-0 scale-90 pointer-events-none" : "opacity-100 scale-100"
       )}
       aria-label="Share this article"
     >
-      <SharePill title={title} withTooltips />
+      <Tooltip label="Share on X">{xBtn}</Tooltip>
+      <Tooltip label="LinkedIn">{liBtn}</Tooltip>
+      <Tooltip label={copied ? "Copied!" : "Copy link"}>{copyBtn}</Tooltip>
     </div>
   );
 }
 
 /* ─────────────────────────────────────────────
-   Mobile Rail — same pill, bottom-right corner
+   Mobile — compact horizontal pill, bottom-centre
+   Sits above any bottom chrome, never overlaps
+   scrollable content on either edge.
 ───────────────────────────────────────────── */
 function MobileRail({ title }: { title: string }) {
+  const { copied, handleCopyLink, handleShareX, handleShareLinkedIn } = useShareActions(title);
   const [footerVisible, setFooterVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
+  /* Hide once footer is in view */
   useEffect(() => {
     const footer = document.querySelector("footer");
     if (!footer) return;
@@ -238,17 +213,77 @@ function MobileRail({ title }: { title: string }) {
     return () => observerRef.current?.disconnect();
   }, []);
 
+  /* Only appear after the user has scrolled past the header */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 240);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const visible = scrolled && !footerVisible;
+
   return (
     <div
       className={cn(
-        "fixed bottom-6 right-5 z-[350]",
-        "flex lg:hidden flex-col items-center",
+        /* Position: bottom-centre, above browser chrome */
+        "fixed bottom-6 left-1/2 -translate-x-1/2 z-[350]",
+        /* Only on mobile */
+        "flex lg:hidden items-center gap-3 px-4 py-3 rounded-2xl",
+        /* Glassmorphism */
+        "bg-white/[0.06] backdrop-blur-2xl",
+        "border border-white/[0.12]",
+        "shadow-[0_8px_32px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]",
+        /* Show/hide animation */
         "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        footerVisible ? "opacity-0 scale-90 pointer-events-none" : "opacity-100 scale-100"
+        visible
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 translate-y-4 pointer-events-none"
       )}
       aria-label="Share this article"
     >
-      <SharePill title={title} />
+      {/* X */}
+      <button
+        onClick={handleShareX}
+        className={cn(
+          "flex items-center justify-center w-10 h-10 rounded-xl",
+          "border border-white/10 bg-white/[0.03] text-muted",
+          "active:scale-90 transition-all duration-200",
+        )}
+      >
+        <XIcon className="w-5 h-5" />
+      </button>
+
+      {/* Divider */}
+      <span className="w-px h-5 bg-white/10 shrink-0" />
+
+      {/* LinkedIn */}
+      <button
+        onClick={handleShareLinkedIn}
+        className={cn(
+          "flex items-center justify-center w-10 h-10 rounded-xl",
+          "border border-white/10 bg-white/[0.03] text-muted",
+          "active:scale-90 transition-all duration-200",
+        )}
+      >
+        <LinkedInIcon className="w-5 h-5" />
+      </button>
+
+      {/* Divider */}
+      <span className="w-px h-5 bg-white/10 shrink-0" />
+
+      {/* Copy link */}
+      <button
+        onClick={handleCopyLink}
+        className={cn(
+          "flex items-center justify-center w-10 h-10 rounded-xl",
+          "border transition-all duration-300 active:scale-90",
+          copied
+            ? "border-green-500/40 bg-green-500/10 text-green-400"
+            : "border-white/10 bg-white/[0.03] text-muted",
+        )}
+      >
+        {copied ? <DrunkCheck size="sm" /> : <LinkIcon className="w-5 h-5" />}
+      </button>
     </div>
   );
 }
