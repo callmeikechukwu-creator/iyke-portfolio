@@ -11,6 +11,7 @@ const stackSansNotch = localFont({
     },
   ],
   variable: "--font-stack-sans-notch",
+  preload: false,
 });
 
 
@@ -30,6 +31,7 @@ const hostGrotesk = localFont({
     },
   ],
   variable: "--font-host-grotesk",
+  preload: false,
 });
 
 /* ------------------------------------------------------------

@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
+import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const footerLinks = [
@@ -100,20 +102,42 @@ export default function Footer() {
               <span className="text-body text-xs font-bold text-[var(--color-base)]/40 uppercase tracking-widest">
                 Social Hub
               </span>
-              <ul className="flex flex-col gap-3 font-body text-sm font-semibold">
-                {socialLinks.map((s) => (
-                  <li key={s.label}>
-                    <a
+              <div className="flex items-center gap-3.5 pt-2">
+                {socialLinks.map((s) => {
+                  let IconComponent = Github;
+                  if (s.label.includes("LinkedIn")) IconComponent = Linkedin;
+                  if (s.label.includes("Twitter")) IconComponent = Twitter;
+                  if (s.label.includes("Instagram")) IconComponent = Instagram;
+
+                  return (
+                    <motion.a
+                      key={s.label}
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[var(--color-base)]/75 hover:text-[var(--color-vermillion)] transition-colors duration-200"
+                      className="relative w-12 h-12 flex items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-md text-[var(--color-base)]/80 hover:text-[var(--color-vermillion)] overflow-hidden shadow-lg"
+                      whileHover={{
+                        scale: 1.1,
+                        borderColor: "rgba(214, 58, 47, 0.4)",
+                        boxShadow: "0 0 20px rgba(214, 58, 47, 0.2)",
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      title={s.label}
                     >
-                      {s.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+                      {/* Shine sweep overlay */}
+                      <motion.span
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[150%] skew-x-12"
+                        initial={{ x: "-150%" }}
+                        whileHover={{ x: "150%" }}
+                        transition={{ duration: 0.75, ease: "easeInOut" }}
+                      />
+                      
+                      <IconComponent size={18} className="relative z-10" />
+                    </motion.a>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
