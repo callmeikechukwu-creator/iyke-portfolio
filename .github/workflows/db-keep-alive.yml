@@ -1,0 +1,16 @@
+name: Database Keep-Alive
+
+on:
+  schedule:
+    # Runs every 3 days at midnight UTC to prevent inactivity suspensions
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Enables manual run trigger in the GitHub Actions dashboard
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Keep-Alive API
+        run: |
+          # Note: Replace this URL with your production Vercel deployment URL once live
+          curl -s -o /dev/null -w "%{http_code}" https://iyke-portfolio.vercel.app/api/cron/keep-alive

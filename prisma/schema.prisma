@@ -6,11 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model Project {
-  id          String   @id @default(uuid())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   slug        String   @unique
   description String
@@ -26,7 +27,7 @@ model Project {
 }
 
 model ContactMessage {
-  id        String   @id @default(uuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String
   message   String
@@ -35,14 +36,14 @@ model ContactMessage {
 }
 
 model Admin {
-  id           String   @id @default(uuid())
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   email        String   @unique
   passwordHash String
   createdAt    DateTime @default(now())
 }
 
 model BlogPost {
-  id        String   @id @default(uuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   slug      String   @unique
   content   String?  // Markdown/HTML content
@@ -52,7 +53,7 @@ model BlogPost {
 }
 
 model Testimonial {
-  id         String   @id @default(uuid())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   clientName String
   role       String
   company    String
