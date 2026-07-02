@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "motion/react";
+import { motion } from "motion/react";
 
 /* ─────────────────────────────────────────────────────────────
    ANIMATED HAMBURGER ICON
@@ -9,21 +9,6 @@ import { motion, type Variants } from "motion/react";
    open-state X crosses cleanly through the middle.
 ───────────────────────────────────────────────────────────── */
 
-const VARIANTS: Record<"top" | "middle" | "bottom", Variants> = {
-  top: {
-    closed: { top: 0, left: 0, width: 18, rotate: 0 },
-    open:   { top: 6, left: 0, width: 18, rotate: 45 },
-  },
-  middle: {
-    closed: { opacity: 1 },
-    open:   { opacity: 0 },
-  },
-  bottom: {
-    closed: { top: 12, left: 9, width: 9, rotate: 0 },
-    open:   { top: 6,  left: 0, width: 18, rotate: -45 },
-  },
-};
-
 export default function AnimatedHamburgerIcon({
   open,
   color,
@@ -31,31 +16,38 @@ export default function AnimatedHamburgerIcon({
   open: boolean;
   color: string;
 }) {
+  // Base position/size for every bar is a Tailwind class, so it's baked
+  // into the server-rendered HTML and shows up immediately — motion only
+  // ever adds a transform (rotate/translate) on top, it never has to
+  // compute top/left/width from scratch before anything is visible.
   return (
-    <motion.span
-      initial={false}
-      animate={open ? "open" : "closed"}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="relative block w-[18px] h-[14px]"
-    >
+    <span className="relative block w-[18px] h-[14px]">
       {/* Top bar */}
       <motion.span
-        variants={VARIANTS.top}
-        className="absolute h-[1.75px] rounded-full"
+        className="absolute top-0 left-0 h-[1.75px] w-[18px] rounded-full"
         style={{ backgroundColor: color }}
+        animate={{ y: open ? 6 : 0, rotate: open ? 45 : 0 }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
       />
       {/* Middle bar */}
       <motion.span
-        variants={VARIANTS.middle}
-        className="absolute left-0 top-[6px] h-[1.75px] w-[18px] rounded-full"
+        className="absolute top-[6px] left-0 h-[1.75px] w-[18px] rounded-full"
         style={{ backgroundColor: color }}
+        animate={{ opacity: open ? 0 : 1 }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
       />
       {/* Bottom bar (shorter, offset right when closed) */}
       <motion.span
-        variants={VARIANTS.bottom}
-        className="absolute h-[1.75px] rounded-full"
+        className="absolute top-[12px] left-[9px] h-[1.75px] w-[9px] rounded-full"
         style={{ backgroundColor: color }}
+        animate={{
+          y: open ? -6 : 0,
+          x: open ? -9 : 0,
+          width: open ? 18 : 9,
+          rotate: open ? -45 : 0,
+        }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
       />
-    </motion.span>
+    </span>
   );
 }

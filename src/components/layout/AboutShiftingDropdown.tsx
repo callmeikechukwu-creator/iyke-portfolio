@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import {
@@ -35,7 +36,7 @@ type TabId = 1 | 2 | 3;
 const CLOSE_DELAY = 150; // ms
 
 const TABS: { id: TabId; title: string; Component: React.ComponentType }[] = [
-  { id: 1 as TabId, title: "About", Component: AboutTeaser },
+  { id: 1 as TabId, title: "Overview", Component: AboutTeaser },
   { id: 2 as TabId, title: "Skills", Component: SkillsTeaser },
   { id: 3 as TabId, title: "Experience", Component: ExperienceTeaser },
 ];
@@ -347,19 +348,19 @@ function AboutTeaser() {
   return (
     <div className="w-[28rem] md:w-[32rem]">
       <h3 className="mb-2 text-xl font-bold text-[var(--color-ink)]">
-        Who I am
+        Overview
       </h3>
       <p className="mb-4 text-base leading-relaxed text-muted">
-        Full stack developer in Ibadan, Nigeria — building web experiences
+        I am Ikechukwu, a full-stack developer in Ibadan, Nigeria that builds web experiences
         that turn complex problems into fast, beautiful products.
       </p>
-      <a
+      <Link
         href="/about"
         className="group inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-vermillion)] hover:text-[var(--color-vermillion-hover)] transition-colors duration-200"
       >
         <span>Read full bio</span>
         <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
-      </a>
+      </Link>
     </div>
   );
 }
@@ -390,13 +391,13 @@ function SkillsTeaser() {
           </div>
         ))}
       </div>
-      <a
+      <Link
         href="/skills"
         className="group inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-vermillion)] hover:text-[var(--color-vermillion-hover)] transition-colors duration-200"
       >
         <span>View all skills</span>
         <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
-      </a>
+      </Link>
     </div>
   );
 }
@@ -417,13 +418,13 @@ function ExperienceTeaser() {
           <span>Freelance builds under Iyke Visuals Studios</span>
         </li>
       </ul>
-      <a
+      <Link
         href="/experience"
         className="group inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-vermillion)] hover:text-[var(--color-vermillion-hover)] transition-colors duration-200"
       >
         <span>See full timeline</span>
         <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
-      </a>
+      </Link>
     </div>
   );
 }

@@ -12,11 +12,10 @@ interface TestimonialsProps {
 
 export default function Testimonials({ testimonials }: TestimonialsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-
-  if (!testimonials || testimonials.length === 0) return null;
-
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  if (!testimonials || testimonials.length === 0) return null;
 
   const minSwipeDistance = 50;
 

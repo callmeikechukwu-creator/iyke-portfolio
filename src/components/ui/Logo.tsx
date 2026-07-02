@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /**
@@ -37,7 +38,7 @@ export default function Logo({
   wordmarkSize = "1.1rem",
 }: LogoProps) {
   return (
-    <a
+    <Link
       href={href}
       aria-label="Ikechukwu Alaeto — Home"
       className={cn("inline-flex items-center select-none", className || "text-ink")}
@@ -47,7 +48,7 @@ export default function Logo({
       ) : (
         <Monogram size={monogramSize} className="text-current" />
       )}
-    </a>
+    </Link>
   );
 }
 

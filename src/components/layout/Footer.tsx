@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const footerLinks = [
@@ -84,12 +85,12 @@ export default function Footer() {
               <ul className="flex flex-col gap-3 font-body text-sm font-semibold">
                 {footerLinks.map((link) => (
                   <li key={link.href}>
-                    <a
+                    <Link
                       href={link.href}
                       className="text-[var(--color-base)]/75 hover:text-[var(--color-vermillion)] transition-colors duration-200"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

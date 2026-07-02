@@ -1,9 +1,9 @@
 "use client";
  
-import { useState, useEffect, useRef, type MutableRefObject } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { gsap } from "gsap";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/Logo";
 import AnimatedHamburgerIcon from "@/components/ui/AnimatedHamburgerIcon";
@@ -34,7 +34,7 @@ const navLinks = [
 ];
 
 const aboutGroupLinks = [
-  { label: "About",      href: "/about" },
+  { label: "Overview",   href: "/about" },
   { label: "Skills",     href: "/skills" },
   { label: "Experience", href: "/experience" },
 ];
@@ -65,9 +65,6 @@ export default function Navbar() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [activePane, setActivePane] = useState<"main" | "about">("main");
   const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [aboutExpanded, setAboutExpanded] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const menuLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const pathname                  = usePathname();
 
   let activeItem = "/";
@@ -124,40 +121,7 @@ export default function Navbar() {
     setMenuOpen(false);
   }, [pathname]);
 
-  /* ── GSAP: animate mobile menu open/close ── */
-  useEffect(() => {
-    const menu = menuRef.current;
-    if (!menu) return;
 
-    const links = menuLinksRef.current.filter(Boolean) as HTMLAnchorElement[];
-    const tl = gsap.timeline();
-
-    if (menuOpen) {
-      gsap.set(menu, { visibility: "visible" });
-      tl.fromTo(
-        menu,
-        { yPercent: -100 },
-        { yPercent: 0, duration: 0.6, ease: "power4.inOut" }
-      ).fromTo(
-        links,
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: "power3.out" },
-        "-=0.25"
-      );
-    } else {
-      tl.to(links, { opacity: 0, duration: 0.2 })
-        .to(
-          menu,
-          { yPercent: -100, duration: 0.5, ease: "power4.inOut" },
-          "-=0.1"
-        )
-        .set(menu, { visibility: "hidden" });
-    }
-
-    return () => {
-      tl.kill();
-    };
-  }, [menuOpen]);
 
   /* ── Load initial theme on mount ── */
   useEffect(() => {
@@ -243,7 +207,7 @@ export default function Navbar() {
           {/* ── Right: CTA & Hamburger lockup ── */}
           <div className="flex items-center gap-2 md:gap-4">
             {/* Resume button */}
-            <a
+            <Link
               href="/resume"
               className={cn(
                 "hidden lg:inline-flex items-center justify-center gap-2",
@@ -256,15 +220,15 @@ export default function Navbar() {
               )}
             >
               Resume
-            </a>
+            </Link>
 
             {/* CTA pill (visible on desktop and mobile) */}
-            <a
+            <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 h-10 lg:h-11 px-4 lg:px-6 rounded-full bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85 text-sm font-semibold whitespace-nowrap leading-none transition-all duration-200"
             >
               Let&apos;s talk
-            </a>
+            </Link>
 
             {/* Hamburger — Gemini-style: 3 lines in a circular pill */}
             <button
@@ -278,13 +242,15 @@ export default function Navbar() {
                 "w-10 h-10 md:w-11 md:h-11 rounded-full",
                 "transition-all duration-300",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-vermillion)]",
-                "bg-[var(--color-ink)]/[0.06] hover:bg-[var(--color-ink)]/[0.1] active:bg-[var(--color-ink)]/[0.15]"
+                menuOpen
+                  ? "bg-[var(--color-surface)]/75 backdrop-blur-xl border border-[var(--color-border)]/50 shadow-md hover:bg-[var(--color-surface)]/90"
+                  : "bg-[var(--color-ink)]/[0.06] hover:bg-[var(--color-ink)]/[0.1] active:bg-[var(--color-ink)]/[0.15]"
               )}
             >
               {/* 3-line hamburger → X morphing icon (motion/react) */}
               <AnimatedHamburgerIcon
                 open={menuOpen}
-                color={menuOpen ? "var(--color-base)" : "var(--color-ink)"}
+                color="var(--color-ink)"
               />
             </button>
           </div>
@@ -323,10 +289,10 @@ export default function Navbar() {
                 transition={{ type: "spring", stiffness: 300, damping: 28 }}
                 className="absolute inset-0 flex flex-col justify-between"
               >
-                <nav aria-label="Mobile navigation links" className="flex-1 overflow-y-auto pr-1">
+                <nav aria-label="Mobile navigation links" className="flex-1 overflow-y-auto pr-4">
                   <div className="flex flex-col gap-1">
                     {/* Home */}
-                    <a
+                    <Link
                       href="/"
                       className={cn(
                         "flex items-center justify-between py-4 border-b border-[var(--color-border)]/20 text-xl font-bold transition-colors duration-200",
@@ -335,7 +301,7 @@ export default function Navbar() {
                     >
                       <span>Home</span>
                       <ArrowUpRight size={18} className="opacity-40" />
-                    </a>
+                    </Link>
 
                     {/* About Accordion Trigger */}
                     <button
@@ -350,7 +316,7 @@ export default function Navbar() {
                     {mobileNavLinks.slice(1).map((link) => {
                       const isActiveLink = pathname.startsWith(link.href);
                       return (
-                        <a
+                        <Link
                           key={link.href}
                           href={link.href}
                           className={cn(
@@ -360,7 +326,7 @@ export default function Navbar() {
                         >
                           <span>{link.label}</span>
                           <ArrowUpRight size={18} className="opacity-40" />
-                        </a>
+                        </Link>
                       );
                     })}
                   </div>
@@ -404,12 +370,12 @@ export default function Navbar() {
                   </div>
 
                   {/* Contact Call-to-action button */}
-                  <a
+                  <Link
                     href="/contact"
-                    className="flex items-center justify-center w-full py-4 rounded-2xl bg-[var(--color-vermillion)] text-[var(--color-base)] font-bold text-center hover:opacity-90 active:scale-98 transition-all duration-200 shadow-md"
+                    className="flex items-center justify-center w-full py-4 rounded-2xl bg-[var(--color-vermillion)] text-[var(--color-base)] font-bold text-center hover:opacity-90 active:scale-98 transition-all duration-200 shadow-md animate-tap"
                   >
                     Let's Talk
-                  </a>
+                  </Link>
                 </div>
               </motion.div>
 
@@ -426,18 +392,23 @@ export default function Navbar() {
                 {/* Back button */}
                 <button
                   onClick={() => setActivePane("main")}
-                  className="flex items-center gap-2 py-3 mb-4 text-sm font-bold text-muted hover:text-[var(--color-ink)] cursor-pointer focus:outline-none w-fit"
+                  className="flex items-center gap-2 py-3 mb-1 text-sm font-bold text-muted hover:text-[var(--color-ink)] cursor-pointer focus:outline-none w-fit"
                 >
                   <ChevronLeft size={16} />
                   <span>Back to Menu</span>
                 </button>
 
-                <nav aria-label="About submenu links" className="flex-1 overflow-y-auto">
+                <h2 className="mb-3 text-xs font-bold text-muted uppercase tracking-wider pl-1">
+                  About
+                </h2>
+
+                <nav aria-label="About submenu links" className="flex-1 overflow-y-auto pr-4">
                   <div className="flex flex-col gap-1">
                     {aboutGroupLinks.map((link) => {
                       const isSubActive = pathname.startsWith(link.href);
+                      const displayLabel = link.label === "About" ? "Overview" : link.label;
                       return (
-                        <a
+                        <Link
                           key={link.href}
                           href={link.href}
                           className={cn(
@@ -445,9 +416,9 @@ export default function Navbar() {
                             isSubActive ? "text-[var(--color-vermillion)]" : "text-[var(--color-ink)]/80 hover:text-[var(--color-ink)]"
                           )}
                         >
-                          <span>{link.label}</span>
+                          <span>{displayLabel}</span>
                           <ArrowUpRight size={18} className="opacity-40" />
-                        </a>
+                        </Link>
                       );
                     })}
                   </div>
@@ -459,61 +430,6 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-/* Mobile nav item — single flat link row */
-function MobileNavItem({
-  link,
-  index,
-  isActive,
-  menuLinksRef,
-}: {
-  link: { label: string; href: string };
-  index: number;
-  isActive: boolean;
-  menuLinksRef: MutableRefObject<(HTMLAnchorElement | null)[]>;
-}) {
-  return (
-    <li className="border-b border-[rgba(240,237,230,0.15)] last:border-0 flex items-center">
-      <a
-        href={link.href}
-        ref={(el) => { menuLinksRef.current[index] = el; }}
-        className={cn(
-          "group w-full py-2 text-logo leading-none tracking-normal",
-          "transition-all duration-200",
-          isActive
-            ? "text-[var(--color-ink)] opacity-100"
-            : "text-[var(--color-base)] opacity-70 hover:opacity-100"
-        )}
-        style={{
-          fontSize: "clamp(1.05rem, 4vw, 2.6rem)",
-          opacity: 0,
-        }}
-      >
-        <div
-          className={cn(
-            "flex items-center gap-3 transition-transform duration-300 ease-[var(--ease-out-expo)]",
-            isActive ? "translate-x-4" : "group-hover:translate-x-4"
-          )}
-        >
-          <span className={cn(isActive && "font-bold")}>
-            {link.label.toUpperCase()}
-          </span>
-          <span
-            className={cn(
-              "transition-all duration-300 ease-[var(--ease-out-expo)] text-current",
-              isActive
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-            )}
-          >
-            ↗
-          </span>
-        </div>
-      </a>
-    </li>
   );
 }
 
@@ -545,7 +461,7 @@ function NavLink({
   }
 
   return (
-    <a
+    <Link
       href={href}
       role="listitem"
       onMouseEnter={() => setHoveredItem(href)}
@@ -567,7 +483,7 @@ function NavLink({
           transition={{ type: "spring", stiffness: 320, damping: 30 }}
         />
       )}
-    </a>
+    </Link>
   );
 }
 
