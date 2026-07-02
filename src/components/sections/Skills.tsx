@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Code2, Server, Database, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -148,20 +149,39 @@ export default function Skills() {
         {/* ── Header ── */}
         <div
           ref={headerRef}
-          className="section-wrapper flex flex-col gap-3"
+          className="section-wrapper"
         >
-          <span className="text-body text-xs font-bold text-[var(--color-vermillion)] uppercase tracking-[var(--tracking-wider)]">
-            Capabilities
-          </span>
-          <h2
-            className="text-display text-[var(--color-base)]"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.03em" }}
-          >
-            TECHNICAL CAPABILITIES
-          </h2>
-          <p className="text-body text-[var(--color-base)]/60 text-base md:text-lg leading-relaxed max-w-[600px] mt-2">
-            A specialized full-stack development toolkit. Engineered for rapid deployments, highly responsive animations, and optimized databases.
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Header Text */}
+            <div className="lg:col-span-7 flex flex-col gap-3">
+              <span className="text-body text-xs font-bold text-[var(--color-vermillion)] uppercase tracking-[var(--tracking-wider)]">
+                Capabilities
+              </span>
+              <h2
+                className="text-display text-[var(--color-base)]"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.03em" }}
+              >
+                TECHNICAL CAPABILITIES
+              </h2>
+              <p className="text-body text-[var(--color-base)]/60 text-base md:text-lg leading-relaxed max-w-[600px] mt-2 font-body">
+                A specialized full-stack development toolkit. Engineered for rapid deployments, highly responsive animations, and optimized databases.
+              </p>
+            </div>
+
+            {/* 3D Visual */}
+            <div className="lg:col-span-5 flex justify-center w-full">
+              <div className="relative w-full aspect-square max-w-[280px] border border-[var(--color-base)]/10 bg-[var(--color-base)]/[0.02] rounded-3xl p-4 overflow-hidden flex items-center justify-center shadow-inner hover:scale-[1.01] transition-transform duration-500">
+                <div className="absolute inset-0 bg-gradient-to-tr from-vermillion/[0.02] to-transparent pointer-events-none" />
+                <Image
+                  src="/brand/3d-skills.png"
+                  alt="3D skills schematic network illustration"
+                  width={220}
+                  height={220}
+                  className="object-contain hover:scale-102 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* ── Opposing Marquees ── */}

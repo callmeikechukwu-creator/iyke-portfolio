@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
@@ -122,7 +121,7 @@ export default function FeaturedProjectsGrid({ projects }: FeaturedProjectsGridP
                 FEATURED PROJECTS
               </h2>
             </div>
-            <Link
+            <a
               href="/projects"
               className="
                 inline-flex items-center gap-2
@@ -151,7 +150,7 @@ export default function FeaturedProjectsGrid({ projects }: FeaturedProjectsGridP
                 <line x1="2" y1="10" x2="10" y2="2"></line>
                 <polyline points="4 2 10 2 10 8"></polyline>
               </svg>
-            </Link>
+            </a>
           </div>
 
           {/* Responsive Grid */}
@@ -175,7 +174,7 @@ export default function FeaturedProjectsGrid({ projects }: FeaturedProjectsGridP
                         config.cardBorder
                       )}
                     >
-                      <Link
+                      <a
                         href={`/projects/${project.slug}`}
                         className="absolute inset-0 z-30"
                         aria-label={`View case study for ${project.title}`}

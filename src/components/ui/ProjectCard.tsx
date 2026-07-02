@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface Project {
@@ -72,7 +71,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           config.cardBorder
         )}
       >
-        <Link
+        <a
           href={`/projects/${project.slug}`}
           className="absolute inset-0 z-30"
           aria-label={`View case study for ${project.title}`}

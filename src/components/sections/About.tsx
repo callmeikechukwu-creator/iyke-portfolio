@@ -189,6 +189,18 @@ export default function About() {
                 My development journey is focused on creating things that feel alive. Rather than just building functional interfaces, I aim for interactive visual polish and absolute reliability under the hood. Using modern platforms like Next.js, TypeScript, Node.js, and clean databases, I build architectures that scale smoothly.
               </p>
 
+              {/* 3D Visual Banner */}
+              <div className="reveal-item relative w-full aspect-[2/1] rounded-2xl overflow-hidden border border-border bg-base/10 flex items-center justify-center p-6 my-2 shadow-inner hover:scale-[1.01] transition-transform duration-500">
+                <div className="absolute inset-0 bg-gradient-to-tr from-vermillion/[0.01] to-transparent pointer-events-none" />
+                <Image
+                  src="/brand/3d-about.png"
+                  alt="Futuristic workstation 3D illustration"
+                  fill
+                  className="object-contain p-4"
+                  sizes="(max-width: 768px) 100vw, 760px"
+                />
+              </div>
+
               <p className="reveal-item text-muted">
                 Outside of direct coding, I explore creative technology, motion systems, and UI details. I collaborate closely with companies, design teams, and startups to convert complex product goals into highly optimized, responsive digital realities.
               </p>

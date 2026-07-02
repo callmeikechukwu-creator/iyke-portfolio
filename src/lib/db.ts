@@ -6,19 +6,23 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-const connectionString = process.env.DATABASE_URL;
-
 const createPrismaClient = () => {
+  // Read at call time so Next.js has already loaded .env.local
+  const connectionString = process.env.DATABASE_URL;
+
   if (connectionString) {
     if (connectionString.startsWith("postgres://") || connectionString.startsWith("postgresql://")) {
-      const pool = new pg.Pool({ connectionString });
+      const pool = new pg.Pool({
+        connectionString,
+        ssl: { rejectUnauthorized: false },
+      });
       const adapter = new PrismaPg(pool);
       return new PrismaClient({
         adapter,
         log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
       });
     }
-    
+
     if (connectionString.startsWith("prisma+postgres://")) {
       return new PrismaClient({
         accelerateUrl: connectionString,
@@ -27,7 +31,7 @@ const createPrismaClient = () => {
     }
   }
 
-  // Fallback default client
+  // Fallback — will fail loudly if DATABASE_URL is truly missing
   return new PrismaClient({
     log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
   });

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Stack_Sans_Notch } from "next/font/google";
 import { getBaseUrl } from "@/lib/utils";
 import "./globals.css";
 
-const stackSansNotch = Stack_Sans_Notch({
+const stackSansNotch = localFont({
+  src: [
+    {
+      path: "../../public/fonts/HostGrotesk/HostGrotesk-VariableFont_wght.ttf",
+      style: "normal",
+    },
+  ],
   variable: "--font-stack-sans-notch",
-  subsets: ["latin"],
-  // Stack Sans Notch is a variable font (wght 200–700 axis).
-  // For variable fonts, omit `weight` — Next.js fetches the full axis range.
-  display: "swap",
-  adjustFontFallback: false, // Font not yet in Next.js metrics DB — suppresses harmless warning
 });
 
 

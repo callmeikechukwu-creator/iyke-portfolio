@@ -41,9 +41,8 @@ export default function Hero() {
     let line2Cleanup: (() => void) | null = null;
 
     const ctx = gsap.context(() => {
-      // Delay entrance slightly to let loader exit, if it played
-      const loaderPlayed = sessionStorage.getItem("loader-played");
-      const entranceDelay = loaderPlayed ? 0.1 : 2.4; // if loader just played, wait for curtain
+      // Loader always plays on full page load — fixed 2.4s delay
+      const entranceDelay = 2.4;
 
       const tl = gsap.timeline({ delay: entranceDelay });
 

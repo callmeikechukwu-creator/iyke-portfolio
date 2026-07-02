@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getTechIconComponent } from "@/components/ui/Icons";
@@ -168,13 +167,13 @@ async function ProjectDetailInner({ slug }: { slug: string }) {
       <header className="max-w-[var(--content-max-width)] mx-auto px-6 md:px-12 pt-12 md:pt-16 pb-12 flex flex-col gap-8">
         
         {/* Back Link */}
-        <Link
+        <a
           href="/projects"
           className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink transition-colors duration-300 font-body w-fit"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Works
-        </Link>
+        </a>
 
         {/* Title and Short Description */}
         <div className="flex flex-col gap-3">

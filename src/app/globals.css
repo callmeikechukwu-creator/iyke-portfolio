@@ -14,6 +14,40 @@
    ------------------------------------------------------------ */
 
 @font-face {
+  font-family: 'Biggie Finish Demo';
+  src: url('/fonts/Biggie%20Finish/Biggie-Finish-Demo-BF6a40d51cc231b.otf') format('opentype');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Biggie Finish Outline';
+  src: url('/fonts/Biggie%20Finish/Biggie-Finish-Outline-Demo-BF6a40d51e3adbd.otf') format('opentype');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Galgo';
+  src: url('/fonts/Galgo/Galgo%20Condensed/Galgo.woff') format('woff'),
+       url('/fonts/Galgo/Galgo%20Condensed/Galgo.otf') format('opentype'),
+       url('/fonts/Galgo/Galgo%20Condensed/Galgo.ttf') format('truetype');
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ballega';
+  src: url('/fonts/Ballega/ballega.otf') format('opentype');
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'PP Mori';
   src: url('/fonts/Mori/PPMori-Extralight.otf') format('opentype');
   font-weight: 200;
@@ -100,7 +134,8 @@
   /* --- Font Families --- */
   --font-display: var(--font-host-grotesk), sans-serif;
   --font-body:    'PP Mori', 'Helvetica Neue', Arial, sans-serif;
-  --font-logo:    var(--font-stack-sans-notch), sans-serif;
+  --font-logo:    'Biggie Finish Demo', sans-serif;
+  --font-logo-outline: 'Biggie Finish Outline', sans-serif;
 
   /* --- Fluid Typography Scale --- */
   --text-xs:    clamp(0.6875rem, 1vw, 0.75rem);
@@ -828,3 +863,5 @@ html.lenis body {
   -webkit-text-fill-color: var(--color-vermillion) !important;
   background-color: transparent !important;
 }
+
+

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const footerLinks = [
@@ -51,8 +50,8 @@ export default function Footer() {
         {/* ── Top Row: Giant Logo Wordmark ── */}
         <div className="w-full overflow-hidden select-none pointer-events-none border-b border-[var(--color-base)]/10 pb-10 md:pb-14">
           <span
-            className="text-display block w-full text-center font-bold text-[var(--color-base)] tracking-tighter uppercase opacity-90 leading-[0.8] whitespace-nowrap"
-            style={{ fontSize: "clamp(1.4rem, 8vw, 11rem)", letterSpacing: "-0.05em" }}
+            className="block w-full text-center font-bold text-[var(--color-base)] uppercase opacity-90 leading-[1.5] py-4 whitespace-nowrap"
+            style={{ fontSize: "clamp(1.2rem, 7vw, 8.5rem)", letterSpacing: "0.02em", fontFamily: "var(--font-logo-outline)" }}
           >
             IKECHUKWU&nbsp;ALAETO
           </span>
@@ -85,12 +84,12 @@ export default function Footer() {
               <ul className="flex flex-col gap-3 font-body text-sm font-semibold">
                 {footerLinks.map((link) => (
                   <li key={link.href}>
-                    <Link
+                    <a
                       href={link.href}
                       className="text-[var(--color-base)]/75 hover:text-[var(--color-vermillion)] transition-colors duration-200"
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>

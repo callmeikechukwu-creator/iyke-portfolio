@@ -5,6 +5,7 @@ import { Send, CheckCircle, AlertCircle } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -153,6 +154,18 @@ export default function ContactForm() {
                 <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-amber)]" />
                 <span>Location: Ibadan, Nigeria (GMT+1)</span>
               </div>
+            </div>
+
+            {/* 3D Contact Illustration */}
+            <div className="relative w-full aspect-[16/10] max-w-[340px] border border-[var(--color-border)] bg-[var(--color-surface)] rounded-3xl p-4 overflow-hidden flex items-center justify-center shadow-inner mt-8 hover:scale-[1.01] transition-transform duration-500">
+              <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-vermillion)]/[0.02] to-transparent pointer-events-none" />
+              <Image
+                src="/brand/3d-contact.png"
+                alt="3D Mail envelope illustration"
+                width={200}
+                height={200}
+                className="object-contain hover:translate-y-[-2px] transition-transform duration-500"
+              />
             </div>
           </div>
 

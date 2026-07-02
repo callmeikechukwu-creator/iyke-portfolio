@@ -1,27 +1,41 @@
 "use client";
-
+ 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import type { MutableRefObject } from "react";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/Logo";
+import AnimatedHamburgerIcon from "@/components/ui/AnimatedHamburgerIcon";
+import AboutShiftingDropdown from "@/components/layout/AboutShiftingDropdown";
+import { ChevronDown } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────
    Navigation links — full page routes (multi-page architecture)
+   "About" is a grouped trigger (desktop: hover dropdown,
+   mobile: tap-to-expand accordion) covering About/Skills/Experience.
 ───────────────────────────────────────────────────────────── */
 const navLinks = [
-  { label: "Home",       href: "/" },
+  { label: "Home",     href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blog",     href: "/blog" },
+  { label: "Contact",  href: "/contact" },
+];
+
+const aboutGroupLinks = [
   { label: "About",      href: "/about" },
-  { label: "Projects",   href: "/projects" },
   { label: "Skills",     href: "/skills" },
   { label: "Experience", href: "/experience" },
-  { label: "Contact",    href: "/contact" },
 ];
 
 const mobileNavLinks = [
-  ...navLinks,
-  { label: "Resume",     href: "/resume" },
+  { label: "Home", href: "/" },
+  // "About" group is rendered separately as an accordion in the mobile menu
+  { label: "Projects", href: "/projects" },
+  { label: "Blog",     href: "/blog" },
+  { label: "Contact",  href: "/contact" },
+  { label: "Resume",   href: "/resume" },
 ];
 
 /* ─────────────────────────────────────────────────────────────
@@ -38,7 +52,17 @@ export default function Navbar() {
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
   const [mounted,  setMounted]    = useState(false);   // hydration guard
+  const [aboutExpanded, setAboutExpanded] = useState(false); // mobile accordion
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const pathname                  = usePathname();
+
+  let activeItem = "/";
+  if (pathname === "/") activeItem = "/";
+  else if (pathname.startsWith("/about") || pathname.startsWith("/skills") || pathname.startsWith("/experience")) {
+    activeItem = "about";
+  } else if (pathname.startsWith("/projects")) activeItem = "/projects";
+  else if (pathname.startsWith("/blog")) activeItem = "/blog";
+  else if (pathname.startsWith("/contact")) activeItem = "/contact";
 
   const menuRef      = useRef<HTMLDivElement>(null);
   const menuLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -125,9 +149,11 @@ export default function Navbar() {
     if (menuTlRef.current) {
       menuTlRef.current.reverse().then(() => {
         setMenuOpen(false);
+        setAboutExpanded(false);
       });
     } else {
       setMenuOpen(false);
+      setAboutExpanded(false);
     }
   }
 
@@ -146,8 +172,7 @@ export default function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-[var(--z-navbar)]",
           "h-[var(--navbar-height)]",
-          "flex items-center justify-between",
-          "px-6 md:px-10 lg:px-16",
+          "flex items-center",
           "transition-all duration-300 ease-in-out",
           menuOpen
             ? "bg-[var(--color-vermillion)] border-b border-[rgba(240,237,230,0.25)] shadow-none"
@@ -158,115 +183,110 @@ export default function Navbar() {
               )
         )}
       >
-        {/* ── Left: Logo lockup ── */}
-        <Logo
-          variant="wordmark"
-          wordmarkSize="clamp(0.9rem, 2.2vw, 1.15rem)"
-          className={menuOpen ? "text-[var(--color-base)]" : "text-[var(--color-ink)]"}
-        />
+        <div className="w-full max-w-[var(--content-max-width)] mx-auto flex items-center justify-between px-6 md:px-10 lg:px-16">
+          {/* ── Left: Logo lockup ── */}
+          <Logo
+            variant="wordmark"
+            wordmarkSize="clamp(1.4rem, 3.2vw, 2.1rem)"
+            className={menuOpen ? "text-[var(--color-base)]" : "text-[var(--color-ink)]"}
+          />
 
-        {/* ── Center/Right: Desktop nav links, evenly spaced ── */}
-        <div className="hidden lg:flex items-center gap-6" role="list">
-          {navLinks.map((link) => (
+          {/* ── Center/Right: Desktop nav links, evenly spaced ── */}
+          <div
+            className="hidden lg:flex items-center gap-1.5 relative"
+            onMouseLeave={() => setHoveredItem(null)}
+            role="list"
+          >
             <NavLink
-              key={link.href}
-              href={link.href}
-              label={link.label}
-              isActive={isActive(link.href)}
+              href="/"
+              label="Home"
+              hoveredItem={hoveredItem}
+              setHoveredItem={setHoveredItem}
+              activeItem={activeItem}
             />
-          ))}
-        </div>
 
-        {/* ── Right: CTA & Hamburger lockup ── */}
-        <div className="flex items-center gap-2 md:gap-4">
-          {/* Resume button */}
-          <Link
-            href="/resume"
-            className={cn(
-              "hidden lg:inline-flex items-center justify-center gap-2",
-              "h-10 lg:h-11 px-4 lg:px-6 rounded-full",
-              "text-sm font-semibold whitespace-nowrap leading-none",
-              "transition-all duration-200",
-              menuOpen
-                ? "border border-[rgba(240,237,230,0.3)] text-[var(--color-base)] hover:bg-[rgba(240,237,230,0.1)]"
-                : mounted && pathname === "/resume"
-                  ? "bg-[var(--color-ink)] text-[var(--color-base)] border border-[var(--color-ink)] hover:opacity-85"
-                  : "border border-[var(--color-border)] bg-transparent text-[var(--color-ink)] hover:bg-[var(--color-base)]"
-            )}
-          >
-            Resume
-          </Link>
+            <AboutShiftingDropdown
+              menuOpen={menuOpen}
+              isActiveGroup={aboutGroupLinks.some((l) => isActive(l.href))}
+              hoveredItem={hoveredItem}
+              setHoveredItem={setHoveredItem}
+              activeItem={activeItem}
+            />
 
-          {/* CTA pill (visible on desktop and mobile) */}
-          <Link
-            href="/contact"
-            className={cn(
-              "inline-flex items-center justify-center gap-2",
-              "h-10 lg:h-11 px-4 lg:px-6 rounded-full",
-              menuOpen
-                ? "bg-[var(--color-base)] text-[var(--color-vermillion)] hover:bg-[rgba(240,237,230,0.9)]"
-                : "bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85",
-              "text-sm font-semibold whitespace-nowrap leading-none",
-              "transition-all duration-200"
-            )}
-          >
-            Let&apos;s talk
-          </Link>
+            {navLinks
+              .filter((link) => link.href !== "/")
+              .map((link) => (
+                <NavLink
+                  key={link.href}
+                  href={link.href}
+                  label={link.label}
+                  hoveredItem={hoveredItem}
+                  setHoveredItem={setHoveredItem}
+                  activeItem={activeItem}
+                />
+              ))}
+          </div>
 
-          {/* Hamburger — Gemini-style: 3 lines in a circular pill */}
-          <button
-            id="navbar-hamburger"
-            onClick={toggleMenu}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            className={cn(
-              "lg:hidden relative z-50 flex items-center justify-center",
-              "w-10 h-10 md:w-11 md:h-11 rounded-full",
-              "transition-all duration-300",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-vermillion)]",
-              menuOpen
-                ? "bg-[rgba(240,237,230,0.15)] hover:bg-[rgba(240,237,230,0.25)] active:bg-[rgba(240,237,230,0.3)]"
-                : "bg-transparent hover:bg-[var(--color-ink)]/[0.07] active:bg-[var(--color-ink)]/[0.12]"
-            )}
-          >
-            {/* 3-line hamburger → X morphing icon */}
-            <span className="relative flex flex-col justify-center items-center w-[18px] h-[14px]">
-              {/* Line 1 — top */}
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "absolute block h-[1.75px] bg-current rounded-full transition-all duration-300 ease-[var(--ease-out-expo)]",
-                  menuOpen
-                    ? "w-[18px] top-1/2 -translate-y-1/2 rotate-45"
-                    : "w-[18px] top-0 rotate-0"
-                )}
-                style={{ color: menuOpen ? "var(--color-base)" : "var(--color-ink)" }}
+          {/* ── Right: CTA & Hamburger lockup ── */}
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Resume button */}
+            <a
+              href="/resume"
+              className={cn(
+                "hidden lg:inline-flex items-center justify-center gap-2",
+                "h-10 lg:h-11 px-4 lg:px-6 rounded-full",
+                "text-sm font-semibold whitespace-nowrap leading-none",
+                "transition-all duration-200",
+                menuOpen
+                  ? "border border-[rgba(240,237,230,0.3)] text-[var(--color-base)] hover:bg-[rgba(240,237,230,0.1)]"
+                  : mounted && pathname === "/resume"
+                    ? "bg-[var(--color-ink)] text-[var(--color-base)] border border-[var(--color-ink)] hover:opacity-85"
+                    : "border border-[var(--color-border)] bg-transparent text-[var(--color-ink)] hover:bg-[var(--color-base)]"
+              )}
+            >
+              Resume
+            </a>
+
+            {/* CTA pill (visible on desktop and mobile) */}
+            <a
+              href="/contact"
+              className={cn(
+                "inline-flex items-center justify-center gap-2",
+                "h-10 lg:h-11 px-4 lg:px-6 rounded-full",
+                menuOpen
+                  ? "bg-[var(--color-base)] text-[var(--color-vermillion)] hover:bg-[rgba(240,237,230,0.9)]"
+                  : "bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85",
+                "text-sm font-semibold whitespace-nowrap leading-none",
+                "transition-all duration-200"
+              )}
+            >
+              Let&apos;s talk
+            </a>
+
+            {/* Hamburger — Gemini-style: 3 lines in a circular pill */}
+            <button
+              id="navbar-hamburger"
+              onClick={toggleMenu}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              className={cn(
+                "lg:hidden relative z-50 flex items-center justify-center",
+                "w-10 h-10 md:w-11 md:h-11 rounded-full",
+                "transition-all duration-300",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-vermillion)]",
+                menuOpen
+                  ? "bg-[rgba(240,237,230,0.15)] hover:bg-[rgba(240,237,230,0.25)] active:bg-[rgba(240,237,230,0.3)]"
+                  : "bg-[var(--color-ink)]/[0.06] hover:bg-[var(--color-ink)]/[0.1] active:bg-[var(--color-ink)]/[0.15]"
+              )}
+            >
+              {/* 3-line hamburger → X morphing icon (motion/react) */}
+              <AnimatedHamburgerIcon
+                open={menuOpen}
+                color={menuOpen ? "var(--color-base)" : "var(--color-ink)"}
               />
-              {/* Line 2 — middle */}
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "absolute block h-[1.75px] rounded-full transition-all duration-300 ease-[var(--ease-out-expo)]",
-                  menuOpen
-                    ? "w-0 opacity-0 top-1/2 -translate-y-1/2"
-                    : "w-[14px] top-1/2 -translate-y-1/2 opacity-100 bg-current"
-                )}
-                style={{ color: menuOpen ? "var(--color-base)" : "var(--color-ink)" }}
-              />
-              {/* Line 3 — bottom */}
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "absolute block h-[1.75px] bg-current rounded-full transition-all duration-300 ease-[var(--ease-out-expo)]",
-                  menuOpen
-                    ? "w-[18px] top-1/2 -translate-y-1/2 -rotate-45"
-                    : "w-[18px] bottom-0 rotate-0"
-                )}
-                style={{ color: menuOpen ? "var(--color-base)" : "var(--color-ink)" }}
-              />
-            </span>
-          </button>
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -295,124 +315,200 @@ export default function Navbar() {
             regardless of screen height (phone vs tablet) ── */}
         <nav
           aria-label="Mobile navigation links"
-          className="flex-1 flex flex-col justify-center min-h-0"
+          className="flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-contain [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
-          <ul className="flex flex-col h-full justify-evenly">
-            {mobileNavLinks.map((link, i) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
+          <ul className="flex flex-col min-h-full justify-evenly">
+            {/* ── Home ── */}
+            <MobileNavItem
+              link={mobileNavLinks[0]}
+              index={0}
+              isActive={pathname === "/"}
+              menuLinksRef={menuLinksRef}
+            />
 
-              return (
-                <li
-                  key={link.href}
-                  className="border-b border-[rgba(240,237,230,0.15)] last:border-0 flex items-center"
-                >
-                  <Link
-                    href={link.href}
-                    ref={(el) => { menuLinksRef.current[i] = el; }}
-                    className={cn(
-                      "group w-full py-3 text-logo leading-none tracking-normal",
-                      "transition-all duration-200",
-                      isActive
-                        ? "text-[var(--color-ink)] opacity-100"
-                        : "text-[var(--color-base)] opacity-70 hover:opacity-100"
-                    )}
-                    style={{
-                      fontSize: "clamp(1.6rem, 5vw, 3.5rem)",
-                      opacity: 0,
-                    }}
-                  >
-                    <div
-                      className={cn(
-                        "flex items-center gap-3 transition-transform duration-300 ease-[var(--ease-out-expo)]",
-                        isActive ? "translate-x-4" : "group-hover:translate-x-4"
-                      )}
-                    >
-                      <span className={cn(isActive && "font-bold")}>
-                        {link.label.toUpperCase()}
-                      </span>
-                      <span
+            {/* ── About accordion (About / Skills / Experience) ── */}
+            <li className="border-b border-[rgba(240,237,230,0.15)]">
+              <button
+                type="button"
+                onClick={() => setAboutExpanded((v) => !v)}
+                ref={(el) => { menuLinksRef.current[1] = el as unknown as HTMLAnchorElement; }}
+                aria-expanded={aboutExpanded}
+                className={cn(
+                  "group flex w-full items-center justify-between gap-3 py-2 text-logo leading-none tracking-normal",
+                  "transition-all duration-200",
+                  aboutGroupLinks.some((l) => pathname.startsWith(l.href))
+                    ? "text-[var(--color-ink)] opacity-100"
+                    : "text-[var(--color-base)] opacity-70 hover:opacity-100"
+                )}
+                style={{ fontSize: "clamp(1.05rem, 4vw, 2.6rem)", opacity: 0 }}
+              >
+                <span className="flex items-center gap-3">
+                  <span>ABOUT</span>
+                </span>
+                <ChevronDown
+                  className={cn(
+                    "transition-transform duration-300 ease-[var(--ease-out-expo)]",
+                    aboutExpanded && "rotate-180"
+                  )}
+                  size={22}
+                />
+              </button>
+
+              {/* Expand-in-place sub-links */}
+              <div
+                className={cn(
+                  "grid overflow-hidden transition-[grid-template-rows] duration-300 ease-[var(--ease-out-expo)]",
+                  aboutExpanded ? "grid-rows-[1fr] pb-3" : "grid-rows-[0fr]"
+                )}
+              >
+                <div className="min-h-0 flex flex-col gap-1 pl-4">
+                  {aboutGroupLinks.map((link) => {
+                    const active = pathname.startsWith(link.href);
+                    return (
+                      <a
+                        key={link.href}
+                        href={link.href}
                         className={cn(
-                          "transition-all duration-300 ease-[var(--ease-out-expo)] text-current",
-                          isActive
-                            ? "opacity-100 translate-x-0"
-                            : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                          "py-1.5 text-body text-base",
+                          "transition-colors duration-200",
+                          active
+                            ? "text-[var(--color-ink)] font-semibold"
+                            : "text-[var(--color-base)] opacity-70 hover:opacity-100"
                         )}
                       >
-                        ↗
-                      </span>
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
+                        {link.label}
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            </li>
+
+            {/* ── Remaining flat links (Projects, Blog, Contact, Resume) ── */}
+            {mobileNavLinks.slice(1).map((link, i) => (
+              <MobileNavItem
+                key={link.href}
+                link={link}
+                index={i + 2}
+                isActive={pathname.startsWith(link.href)}
+                menuLinksRef={menuLinksRef}
+              />
+            ))}
           </ul>
         </nav>
 
-        {/* ── Social footer: always anchored at bottom, never eats into link space ── */}
-        <div className="shrink-0 pt-4 pb-2 border-t border-[rgba(240,237,230,0.15)] flex gap-5 flex-wrap">
-          {socialLinks.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "text-body font-semibold uppercase tracking-[var(--tracking-wider)]",
-                "text-[var(--color-base)] opacity-60 hover:opacity-100",
-                "transition-all duration-200",
-                "text-[clamp(0.6rem,1.5vw,0.75rem)]"
-              )}
-            >
-              {s.label}
-            </a>
-          ))}
-        </div>
+
       </div>
     </>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────
-   DESKTOP NAV LINK
-   Adam Hartwig-style vertical text slide on hover.
-   Two text layers stacked — top (ink) exits up, bottom (vermillion) enters from below.
-───────────────────────────────────────────────────────────── */
+/* Mobile nav item — single flat link row */
+function MobileNavItem({
+  link,
+  index,
+  isActive,
+  menuLinksRef,
+}: {
+  link: { label: string; href: string };
+  index: number;
+  isActive: boolean;
+  menuLinksRef: MutableRefObject<(HTMLAnchorElement | null)[]>;
+}) {
+  return (
+    <li className="border-b border-[rgba(240,237,230,0.15)] last:border-0 flex items-center">
+      <a
+        href={link.href}
+        ref={(el) => { menuLinksRef.current[index] = el; }}
+        className={cn(
+          "group w-full py-2 text-logo leading-none tracking-normal",
+          "transition-all duration-200",
+          isActive
+            ? "text-[var(--color-ink)] opacity-100"
+            : "text-[var(--color-base)] opacity-70 hover:opacity-100"
+        )}
+        style={{
+          fontSize: "clamp(1.05rem, 4vw, 2.6rem)",
+          opacity: 0,
+        }}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-3 transition-transform duration-300 ease-[var(--ease-out-expo)]",
+            isActive ? "translate-x-4" : "group-hover:translate-x-4"
+          )}
+        >
+          <span className={cn(isActive && "font-bold")}>
+            {link.label.toUpperCase()}
+          </span>
+          <span
+            className={cn(
+              "transition-all duration-300 ease-[var(--ease-out-expo)] text-current",
+              isActive
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+            )}
+          >
+            ↗
+          </span>
+        </div>
+      </a>
+    </li>
+  );
+}
+
 function NavLink({
   href,
   label,
-  isActive,
+  hoveredItem,
+  setHoveredItem,
+  activeItem,
 }: {
   href: string;
   label: string;
-  isActive: boolean;
+  hoveredItem: string | null;
+  setHoveredItem: (val: string | null) => void;
+  activeItem: string;
 }) {
+  const isCurrentHighlight = hoveredItem === href || (hoveredItem === null && activeItem === href);
+  const isActive = activeItem === href;
+
+  let textColorClass = "text-muted";
+  if (isCurrentHighlight) {
+    if (hoveredItem === null && activeItem === href) {
+      textColorClass = "text-[var(--color-base)]";
+    } else {
+      textColorClass = "text-[var(--color-ink)]";
+    }
+  } else if (isActive) {
+    textColorClass = "text-[var(--color-ink)]";
+  }
+
   return (
-    <Link
+    <a
       href={href}
       role="listitem"
+      onMouseEnter={() => setHoveredItem(href)}
       className={cn(
-        "relative text-sm font-medium select-none group py-2",
-        "transition-colors duration-200",
-        isActive
-          ? "text-[var(--color-ink)]"
-          : "text-muted hover:text-[var(--color-ink)]"
+        "relative text-sm font-semibold select-none py-2 px-4 rounded-full transition-colors duration-200 no-underline focus:outline-none focus-visible:outline-none",
+        textColorClass
       )}
     >
-      {label}
-      <span
-        aria-hidden="true"
-        className={cn(
-          "absolute left-0 -bottom-0.5 h-[1.5px] bg-[var(--color-ink)] rounded-full",
-          "transition-transform duration-300 ease-[var(--ease-out-expo)]",
-          isActive
-            ? "w-full scale-x-100"
-            : "w-full scale-x-0 origin-left group-hover:scale-x-100"
-        )}
-      />
-    </Link>
+      <span className="relative z-10">{label}</span>
+      {isCurrentHighlight && (
+        <motion.div
+          layoutId="navbar-capsule"
+          className={cn(
+            "absolute inset-0 rounded-full z-0",
+            hoveredItem === null && activeItem === href
+              ? "bg-[var(--color-ink)]"
+              : "bg-[var(--color-ink)]/[0.06]"
+          )}
+          transition={{ type: "spring", stiffness: 320, damping: 30 }}
+        />
+      )}
+    </a>
   );
 }
 
@@ -420,40 +516,4 @@ function NavLink({
    HAMBURGER ICON
    Two-line animated hamburger → X on open
 ───────────────────────────────────────────────────────────── */
-function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 18 18"
-      fill="none"
-      aria-hidden="true"
-      className="text-[var(--color-ink)]"
-    >
-      {/* Top line */}
-      <line
-        x1="0" y1="3" x2="18" y2="3"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        className="transition-transform duration-300"
-        style={{
-          transformOrigin: "9px 3px",
-          transform: isOpen ? "rotate(45deg) translateY(6px)" : "rotate(0deg)",
-        }}
-      />
-      {/* Bottom line */}
-      <line
-        x1="0" y1="15" x2="18" y2="15"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        className="transition-transform duration-300"
-        style={{
-          transformOrigin: "9px 15px",
-          transform: isOpen ? "rotate(-45deg) translateY(-6px)" : "rotate(0deg)",
-        }}
-      />
-    </svg>
-  );
-}
+

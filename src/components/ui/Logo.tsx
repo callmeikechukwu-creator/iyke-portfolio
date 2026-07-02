@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /**
@@ -38,7 +37,7 @@ export default function Logo({
   wordmarkSize = "1.1rem",
 }: LogoProps) {
   return (
-    <Link
+    <a
       href={href}
       aria-label="Ikechukwu Alaeto — Home"
       className={cn("inline-flex items-center select-none", className || "text-ink")}
@@ -48,7 +47,7 @@ export default function Logo({
       ) : (
         <Monogram size={monogramSize} className="text-current" />
       )}
-    </Link>
+    </a>
   );
 }
 
@@ -57,8 +56,8 @@ export default function Logo({
 function Wordmark({ size, className }: { size: string; className?: string }) {
   return (
     <span
-      className={cn("text-logo font-bold leading-none tracking-tight whitespace-nowrap inline-block", className)}
-      style={{ fontSize: size }}
+      className={cn("font-bold leading-none tracking-normal whitespace-nowrap inline-block uppercase", className)}
+      style={{ fontSize: size, fontFamily: "var(--font-logo)" }}
     >
       IKECHUKWU ALAETO
     </span>

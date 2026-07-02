@@ -1,116 +1,196 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { splitChars } from "@/lib/animations";
+
+/* ─────────────────────────────────────────────────────────────
+   GLITCH CHARSET — used for the scramble effect
+────────────────────────────────────────────────────────────── */
+const GLITCH_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
+function randChar() {
+  return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+}
 
 /**
- * PageLoader
- * Cinematic full-screen loader that plays on first visit per session.
- * Skipped on subsequent in-session navigations (sessionStorage flag).
+ * PageLoader — DANGEROUS BUILD
+ *
+ * Plays on every full page load — no flags, no storage.
+ * Use <a href="..."> for internal links so every navigation is a real load.
  *
  * Sequence:
- * 1. Deep charcoal overlay covers the screen
- * 2. "IKECHUKWU" animates in — letter by letter, clipping up from below
- * 3. "ALAETO" follows with a slight delay
- * 4. Brief hold (200ms)
- * 5. Exit: two curtain panels slide — left half goes left, right half goes right
- * 6. Loader unmounts
+ * 0. Overlay is solid ink from first paint — no FOUC ever.
+ * 1. ENTRY: All letters appear scrambling simultaneously (~28fps glitch chars).
+ *    A vermillion stroke draws left→right across the name.
+ *    Each letter locks to its real char with a violent snap as the stroke passes.
+ * 2. HOLD: ~200ms.
+ * 3. EXIT: White flash → overlay rips upward at expo speed (0.55s).
+ *    Page scales in from 0.94 → 1 simultaneously.
  *
- * Total duration: ~2 seconds
+ * Total duration: ~2.4s
  */
 export default function PageLoader() {
-  // Start visible so the loader is part of the SSR / initial paint.
-  // The useEffect below will immediately dismiss it if already played.
   const [visible, setVisible] = useState(true);
 
-  const overlayRef   = useRef<HTMLDivElement>(null);
-  const leftRef      = useRef<HTMLDivElement>(null);
-  const rightRef     = useRef<HTMLDivElement>(null);
-  const line1Ref     = useRef<HTMLSpanElement>(null);
-  const line2Ref     = useRef<HTMLSpanElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const strokeRef  = useRef<HTMLDivElement>(null);
+  const flashRef   = useRef<HTMLDivElement>(null);
+  const line1Ref   = useRef<HTMLDivElement>(null);
+  const line2Ref   = useRef<HTMLDivElement>(null);
 
-  // useLayoutEffect runs synchronously before the browser paints,
-  // so returning visitors never see a flash of the loader overlay.
-  useLayoutEffect(() => {
-    const hasPlayed = sessionStorage.getItem("loader-played");
-    if (hasPlayed) {
-      setVisible(false);
-    }
-  }, []);
-
-  /* ── Build & run the GSAP timeline only once the loader is actually
-        mounted in the DOM (i.e. after `visible` flips true and refs exist) ── */
   useEffect(() => {
     if (!visible) return;
-    if (!leftRef.current || !rightRef.current) return;
+    if (!overlayRef.current) return;
 
-    // Prevent scroll during loader
     document.body.style.overflow = "hidden";
 
-    let line1Cleanup: (() => void) | null = null;
-    let line2Cleanup: (() => void) | null = null;
+    /* ── 1. Build char spans for both lines ── */
+    const buildLine = (el: HTMLDivElement | null, word: string) => {
+      if (!el) return [];
+      el.innerHTML = "";
+      return word.split("").map((char, i) => {
+        const wrapper = document.createElement("span");
+        wrapper.style.cssText = [
+          "display:inline-block",
+          "overflow:hidden",
+          "vertical-align:bottom",
+        ].join(";");
 
+        const inner = document.createElement("span");
+        inner.style.cssText = [
+          "display:inline-block",
+          // Start invisible — CSS handles FOUC, not JS
+          "opacity:0",
+          "transform:translateY(110%) skewX(-12deg)",
+          "will-change:transform,opacity",
+        ].join(";");
+        inner.textContent = char;
+        inner.dataset.real = char;
+        inner.dataset.index = String(i);
+
+        wrapper.appendChild(inner);
+        el.appendChild(wrapper);
+        return inner;
+      });
+    };
+
+    const chars1 = buildLine(line1Ref.current, "IKECHUKWU");
+    const chars2 = buildLine(line2Ref.current, "ALAETO");
+    const allChars = [...chars1, ...chars2];
+
+    /* ── 2. Scramble loop — runs until each char is locked ── */
+    const locked = new Set<number>();
+    let rafId: number;
+    let lastTick = 0;
+    const TICK_INTERVAL = 1000 / 28; // ~28fps scramble feels analog
+
+    const scrambleTick = (now: number) => {
+      if (now - lastTick > TICK_INTERVAL) {
+        lastTick = now;
+        allChars.forEach((span, i) => {
+          if (!locked.has(i) && span.style.opacity !== "0") {
+            span.textContent = randChar();
+          }
+        });
+      }
+      rafId = requestAnimationFrame(scrambleTick);
+    };
+
+    /* ── 3. GSAP timeline ── */
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {
-          sessionStorage.setItem("loader-played", "1");
+          cancelAnimationFrame(rafId);
           document.body.style.overflow = "";
-          // Small delay before unmounting so exit animation fully completes
           setTimeout(() => setVisible(false), 50);
         },
       });
 
-      // Ensure initial state (in case of fast render)
-      gsap.set([leftRef.current, rightRef.current], { xPercent: 0 });
+      const totalChars = allChars.length;
+      // Stroke travels across the full name width over 1.0s
+      const STROKE_DURATION = 1.0;
+      const LOCK_START   = 0.15; // when first char locks
+      const LOCK_END     = 1.05; // when last char locks
+      const LOCK_SPREAD  = LOCK_END - LOCK_START;
 
-      // ① Line 1: "IKECHUKWU" — char by char
-      if (line1Ref.current) {
-        const { tween: tl1, cleanup } = splitChars(line1Ref.current, {
-          stagger: 0.05,
-          duration: 0.5,
-          delay: 0.2,
+      // ① Make all chars visible (but scrambling) + start scramble loop
+      tl.call(() => {
+        allChars.forEach((span) => {
+          span.style.opacity = "1";
+          span.style.transform = "translateY(0%) skewX(0deg)";
+          span.textContent = randChar();
         });
-        line1Cleanup = cleanup;
-        tl.add(tl1, 0);
+        rafId = requestAnimationFrame(scrambleTick);
+      }, [], 0);
+
+      // ② Draw the vermillion stroke line left → right
+      if (strokeRef.current) {
+        gsap.set(strokeRef.current, { scaleX: 0, transformOrigin: "left center" });
+        tl.to(
+          strokeRef.current,
+          { scaleX: 1, duration: STROKE_DURATION, ease: "power2.inOut" },
+          0.1
+        );
       }
 
-      // ② Line 2: "ALAETO" — char by char, 300ms after line 1 starts
-      if (line2Ref.current) {
-        const { tween: tl2, cleanup } = splitChars(line2Ref.current, {
-          stagger: 0.06,
-          duration: 0.5,
-          delay: 0,
-        });
-        line2Cleanup = cleanup;
-        tl.add(tl2, 0.45);
+      // ③ Lock each character as the stroke passes it
+      allChars.forEach((span, i) => {
+        const lockAt = LOCK_START + (i / (totalChars - 1)) * LOCK_SPREAD;
+        tl.call(
+          (s: HTMLSpanElement, idx: number) => {
+            locked.add(idx);
+            s.textContent = s.dataset.real || "";
+            // Violent snap in from below — skew snaps straight
+            gsap.fromTo(
+              s,
+              { y: "60%", skewX: -14, opacity: 0.4 },
+              { y: "0%", skewX: 0, opacity: 1, duration: 0.28, ease: "power4.out" }
+            );
+          },
+          [span, i],
+          lockAt
+        );
+      });
+
+      // ④ Brief hold — grain pulses
+      const holdAt = LOCK_END + 0.05;
+      tl.to({}, { duration: 0.22 }, holdAt);
+
+      // ⑤ White flash frame
+      const exitAt = holdAt + 0.22;
+      if (flashRef.current) {
+        tl.to(
+          flashRef.current,
+          { opacity: 1, duration: 0.06, ease: "none" },
+          exitAt
+        );
+        tl.to(
+          flashRef.current,
+          { opacity: 0, duration: 0.12, ease: "none" },
+          exitAt + 0.06
+        );
       }
 
-      // ③ Brief hold
-      tl.to({}, { duration: 0.3 });
-
-      // ④ Exit: curtain split — left panel exits left, right panel exits right
+      // ⑥ Overlay RIPS upward — violent expo, 0.55s
       tl.to(
-        leftRef.current,
-        { xPercent: -100, duration: 0.65, ease: "power4.inOut" },
-        "exit"
+        overlayRef.current,
+        { yPercent: -105, duration: 0.55, ease: "expo.in" },
+        exitAt + 0.04
       );
-      tl.to(
-        rightRef.current,
-        { xPercent: 100, duration: 0.65, ease: "power4.inOut" },
-        "exit"
+
+      // ⑦ Page content scales in from 0.94 simultaneously
+      tl.fromTo(
+        "#main-content",
+        { scale: 0.94, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.55, ease: "expo.out" },
+        exitAt + 0.04
       );
     });
 
     return () => {
+      cancelAnimationFrame(rafId);
       ctx.revert();
-      if (line1Cleanup) {
-        line1Cleanup();
-      }
-      if (line2Cleanup) {
-        line2Cleanup();
-      }
       document.body.style.overflow = "";
+      gsap.set("#main-content", { clearProps: "all" });
     };
   }, [visible]);
 
@@ -120,48 +200,70 @@ export default function PageLoader() {
     <div
       ref={overlayRef}
       aria-live="polite"
-      aria-label="Loading Ikechukwu Alaeto's portfolio"
-      className="fixed inset-0 z-[var(--z-loader)] pointer-events-none select-none"
+      aria-label="Loading portfolio"
+      className="fixed inset-0 z-[var(--z-loader)] select-none overflow-hidden"
+      style={{ backgroundColor: "var(--color-ink)", willChange: "transform" }}
     >
-      {/* ── Left curtain panel ── */}
+      {/* ── Grain texture overlay ── */}
       <div
-        ref={leftRef}
-        className="absolute inset-y-0 left-0 w-1/2 bg-[var(--color-ink)]"
         aria-hidden="true"
+        className="absolute inset-0 pointer-events-none z-0 opacity-[0.06]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+          backgroundSize: "180px 180px",
+        }}
       />
 
-      {/* ── Right curtain panel ── */}
+      {/* ── White flash layer ── */}
       <div
-        ref={rightRef}
-        className="absolute inset-y-0 right-0 w-1/2 bg-[var(--color-ink)]"
+        ref={flashRef}
         aria-hidden="true"
+        className="absolute inset-0 z-20 pointer-events-none"
+        style={{ backgroundColor: "#fff", opacity: 0 }}
       />
 
-      {/* ── Wordmark (sits above both curtain panels, always centred) ── */}
+      {/* ── Wordmark + stroke container ── */}
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center gap-0 z-10"
+        className="absolute inset-0 flex flex-col items-center justify-center z-10"
         aria-hidden="true"
       >
-        <span
-          ref={line1Ref}
-          className="text-logo text-[var(--color-base)] leading-none"
-          style={{
-            fontSize: "clamp(2.5rem, 8vw, 7rem)",
-            letterSpacing: "0.04em",
-          }}
-        >
-          IKECHUKWU
-        </span>
-        <span
-          ref={line2Ref}
-          className="text-logo text-[var(--color-base)] leading-none"
-          style={{
-            fontSize: "clamp(2.5rem, 8vw, 7rem)",
-            letterSpacing: "0.04em",
-          }}
-        >
-          ALAETO
-        </span>
+        {/* Vermillion stroke line — positioned behind text via z-index */}
+        <div className="relative w-full flex flex-col items-center">
+          {/* The stroke sits centred, spanning the name width */}
+          <div
+            ref={strokeRef}
+            className="absolute top-1/2 -translate-y-1/2 h-[2px] w-[min(72vw,660px)] z-0 pointer-events-none"
+            style={{ backgroundColor: "var(--color-vermillion)", transformOrigin: "left center" }}
+          />
+
+          {/* Line 1: IKECHUKWU */}
+          <div
+            ref={line1Ref}
+            className="relative z-10 leading-none tracking-[0.06em] text-[var(--color-base)]"
+            style={{
+              fontFamily: "var(--font-host-grotesk), sans-serif",
+              fontWeight: 900,
+              fontSize: "clamp(2.8rem, 9vw, 7.5rem)",
+              letterSpacing: "0.06em",
+            }}
+          >
+            IKECHUKWU
+          </div>
+
+          {/* Line 2: ALAETO */}
+          <div
+            ref={line2Ref}
+            className="relative z-10 leading-none text-[var(--color-base)]"
+            style={{
+              fontFamily: "var(--font-host-grotesk), sans-serif",
+              fontWeight: 900,
+              fontSize: "clamp(2.8rem, 9vw, 7.5rem)",
+              letterSpacing: "0.06em",
+            }}
+          >
+            ALAETO
+          </div>
+        </div>
       </div>
     </div>
   );

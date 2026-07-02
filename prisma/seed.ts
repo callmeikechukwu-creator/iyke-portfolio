@@ -39,7 +39,56 @@ async function main() {
     });
   }
 
-  console.log("Successfully seeded testimonials!");
+  console.log("Seeding database blog posts...");
+
+  // Clear existing blog posts
+  await prisma.blogPost.deleteMany();
+
+  const blogPosts = [
+    {
+      title: "Welcome to my Tech Journal",
+      slug: "welcome-to-my-tech-journal",
+      content: `
+        <p>Welcome to my technical journal. This blog is a space where I share my experiences, tutorials, and insights gained while designing full-stack web applications and low-latency backend systems.</p>
+        <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">What to Expect</h2>
+        <p>Here, you will find deep-dives on Next.js optimizations, database scaling strategies with PostgreSQL and Redis, API design best practices, and real-time Socket.io architectures. My goal is to break down complex engineering concepts into structured, actionable case studies.</p>
+        <p class="mt-4">Stay tuned for regular updates, and feel free to connect via the contact page if you want to collaborate on your next project!</p>
+      `,
+      published: true,
+    },
+    {
+      title: "Building Resilient Real-Time Systems with WebSockets",
+      slug: "building-resilient-real-time-systems-with-websockets",
+      content: `
+        <p>WebSockets have revolutionized the way we build interactive applications by enabling full-duplex communication channels over a single TCP connection. However, maintaining stable WebSocket connections under high load requires careful consideration of scaling strategies, reconnection states, and connection tracking mechanisms.</p>
+        <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">The Architecture Challenge</h2>
+        <p>Unlike standard stateless HTTP requests, WebSocket connections are persistent. This means that every active user maintains an open connection to a specific server instance. When scaling horizontal servers, you must route socket events across instances—typically using a Redis Adapter to pub/sub coordinates between servers.</p>
+        <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">Optimizing Reconnections</h2>
+        <p>Client-side socket logic must implement exponential backoff reconnection strategies to prevent a thundering herd problem when a server node restarts or experiences transient networking glitches.</p>
+      `,
+      published: true,
+    },
+    {
+      title: "Optimizing Database Query Latency with Redis Caching",
+      slug: "optimizing-database-query-latency-with-redis-caching",
+      content: `
+        <p>Slow database queries are one of the most common bottlenecks in modern web architectures. While indexing database fields is the first line of defense, implementing an in-memory caching layer using Redis can drop query latencies from hundreds of milliseconds to sub-millisecond ranges.</p>
+        <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">Cache Aside Strategy</h2>
+        <p>The Cache-Aside pattern (or Lazy Loading) is the most standard approach: query the Redis cache first; if it's a hit, return the cached payload. If it's a miss, fetch the records from the main database, populate the cache, and return the data.</p>
+        <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">Cache Invalidation</h2>
+        <p>Managing cache expiry and invalidation is critical to prevent serving stale data. Utilizing short Time-To-Live (TTL) policies and hooks to invalidate specific cache keys on record updates ensures consistency.</p>
+      `,
+      published: true,
+    },
+  ];
+
+  for (const post of blogPosts) {
+    await prisma.blogPost.create({
+      data: post,
+    });
+  }
+
+  console.log("Successfully seeded testimonials and blog posts!");
 }
 
 main()
