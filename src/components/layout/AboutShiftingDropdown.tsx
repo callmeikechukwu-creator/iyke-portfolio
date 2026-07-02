@@ -378,7 +378,7 @@ function SkillsTeaser() {
   return (
     <div className="w-[28rem] md:w-[32rem]">
       <h3 className="mb-3 text-xl font-bold text-[var(--color-ink)]">
-        Core stack
+        My Core Stack
       </h3>
       <div className="mb-4 grid grid-cols-3 gap-3">
         {SKILL_ICONS.map(({ name, Icon }) => (
@@ -406,7 +406,7 @@ function ExperienceTeaser() {
   return (
     <div className="w-[28rem] md:w-[32rem]">
       <h3 className="mb-2 text-xl font-bold text-[var(--color-ink)]">
-        Recent work
+        My Recent Works
       </h3>
       <ul className="mb-4 space-y-2">
         <li className="text-base text-muted flex items-start gap-2">

@@ -127,19 +127,7 @@ export default function BlogIndexPage() {
   return (
     <section aria-label="Blog posts list" className="w-full bg-[var(--color-surface)] border-b border-border py-20 md:py-28 min-h-[70vh] flex items-center">
       <div className="section-wrapper w-full">
-        <ScrollReveal direction="fade" delay={0.1}>
-          <div className="flex flex-col gap-3 mb-12 md:mb-16">
-            <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
-              Journal
-            </span>
-            <h1
-              className="text-display text-ink"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
-            >
-              Latest Writings
-            </h1>
-          </div>
-        </ScrollReveal>
+
         <Suspense
           fallback={
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
