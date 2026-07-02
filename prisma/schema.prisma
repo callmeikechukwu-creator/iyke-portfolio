@@ -43,13 +43,25 @@ model Admin {
 }
 
 model BlogPost {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  slug      String   @unique
-  content   String?  // Markdown/HTML content
-  published Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  slug       String   @unique
+  content    String?  // Markdown/HTML content
+  coverImage String?  // Header image URL
+  excerpt    String?  // Blog post short summary card text
+  category   String?  // Article category label (e.g. Announcements, Tech Guide)
+  published  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Comment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  blogPostId String   @db.ObjectId
+  authorName String
+  content    String
+  approved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
 }
 
 model Testimonial {

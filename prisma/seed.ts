@@ -48,21 +48,31 @@ async function main() {
     {
       title: "Welcome to my Tech Journal",
       slug: "welcome-to-my-tech-journal",
+      excerpt: "An overview of what to expect in my technical journal, where I share tutorials and architectural deep-dives on full-stack scalability.",
+      category: "Announcements",
+      coverImage: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?fit=crop&w=1200&h=630&q=80",
       content: `
         <p>Welcome to my technical journal. This blog is a space where I share my experiences, tutorials, and insights gained while designing full-stack web applications and low-latency backend systems.</p>
         <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">What to Expect</h2>
         <p>Here, you will find deep-dives on Next.js optimizations, database scaling strategies with PostgreSQL and Redis, API design best practices, and real-time Socket.io architectures. My goal is to break down complex engineering concepts into structured, actionable case studies.</p>
-        <p class="mt-4">Stay tuned for regular updates, and feel free to connect via the contact page if you want to collaborate on your next project!</p>
+        <p class="mt-4">Want to see how I scale WebSocket configurations under high load? Read the full write-up in my related article:</p>
+        [related-post:building-resilient-real-time-systems-with-websockets]
+        <p class="mt-6">Stay tuned for regular updates, and feel free to connect via the contact page if you want to collaborate on your next project!</p>
       `,
       published: true,
     },
     {
       title: "Building Resilient Real-Time Systems with WebSockets",
       slug: "building-resilient-real-time-systems-with-websockets",
+      excerpt: "A deep dive into scaling horizontal WebSocket servers, managing reconnection states, and distributing TCP coordinate events using Redis pub/sub adapters.",
+      category: "Technical Guide",
+      coverImage: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?fit=crop&w=1200&h=630&q=80",
       content: `
         <p>WebSockets have revolutionized the way we build interactive applications by enabling full-duplex communication channels over a single TCP connection. However, maintaining stable WebSocket connections under high load requires careful consideration of scaling strategies, reconnection states, and connection tracking mechanisms.</p>
         <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">The Architecture Challenge</h2>
         <p>Unlike standard stateless HTTP requests, WebSocket connections are persistent. This means that every active user maintains an open connection to a specific server instance. When scaling horizontal servers, you must route socket events across instances—typically using a Redis Adapter to pub/sub coordinates between servers.</p>
+        <p class="mt-4">Related to backend scaling, caching database payloads is another critical optimization technique. You can check out my caching guide here:</p>
+        [related-post:optimizing-database-query-latency-with-redis-caching]
         <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">Optimizing Reconnections</h2>
         <p>Client-side socket logic must implement exponential backoff reconnection strategies to prevent a thundering herd problem when a server node restarts or experiences transient networking glitches.</p>
       `,
@@ -71,6 +81,9 @@ async function main() {
     {
       title: "Optimizing Database Query Latency with Redis Caching",
       slug: "optimizing-database-query-latency-with-redis-caching",
+      excerpt: "How to drop database query response times to sub-millisecond speeds using lazy-loading Cache-Aside structures and short TTL validation strategies.",
+      category: "Database Scaling",
+      coverImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?fit=crop&w=1200&h=630&q=80",
       content: `
         <p>Slow database queries are one of the most common bottlenecks in modern web architectures. While indexing database fields is the first line of defense, implementing an in-memory caching layer using Redis can drop query latencies from hundreds of milliseconds to sub-millisecond ranges.</p>
         <h2 class="font-body text-xl font-bold mt-6 mb-3 text-ink">Cache Aside Strategy</h2>

@@ -4,7 +4,9 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { db } from "@/lib/db";
 import ScrollReveal from "@/components/animations/ScrollReveal";
-/** Native date formatter — no package needed */
+import InteractiveFolder from "@/components/ui/InteractiveFolder";
+
+/** Native date formatter */
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -32,47 +34,17 @@ async function BlogContentSection() {
 
   if (posts.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center text-center py-16 md:py-24 max-w-xl mx-auto px-6">
-        {/* Inline SVG: stacked pages + pen */}
-        <svg
-          viewBox="0 0 160 160"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-36 h-36 md:w-44 md:h-44 mb-8"
-          aria-hidden="true"
-        >
-          {/* Shadow */}
-          <rect x="48" y="36" width="82" height="102" rx="7" fill="rgba(0,0,0,0.05)" />
-          {/* Back page */}
-          <rect x="40" y="28" width="82" height="102" rx="7" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.5" />
-          {/* Front page */}
-          <rect x="30" y="18" width="82" height="102" rx="7" fill="var(--color-base)" stroke="var(--color-border)" strokeWidth="1.5" />
-          {/* Rule lines */}
-          <line x1="44" y1="40" x2="98" y2="40" stroke="var(--color-border)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="44" y1="54" x2="98" y2="54" stroke="var(--color-border)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="44" y1="68" x2="80" y2="68" stroke="var(--color-border)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="44" y1="82" x2="98" y2="82" stroke="var(--color-border)" strokeWidth="1.5" strokeLinecap="round" />
-          {/* Pen — rotated -40deg around its tip at (108,128) */}
-          <g transform="rotate(-40, 108, 128)">
-            {/* Cap */}
-            <rect x="102" y="72" width="12" height="10" rx="3" fill="var(--color-ink)" />
-            {/* Barrel */}
-            <rect x="102" y="81" width="12" height="42" rx="3" fill="var(--color-vermillion)" />
-            {/* Grip */}
-            <rect x="102" y="110" width="12" height="9" rx="2" fill="rgba(0,0,0,0.18)" />
-            {/* Tip */}
-            <polygon points="102,119 114,119 108,134" fill="var(--color-ink)" />
-          </g>
-        </svg>
-        <h2 className="font-body text-3xl font-black tracking-tight text-ink mb-4">
-          Writing in Progress
+      <div className="flex flex-col items-center justify-center text-center py-12 md:py-20 max-w-xl mx-auto px-6">
+        <InteractiveFolder size={1.25} />
+        <h2 className="text-display text-xl font-bold uppercase tracking-tight text-ink mt-8 mb-3 font-logo">
+          BE THE FIRST TO SHARE YOUR THOUGHTS
         </h2>
-        <p className="text-body text-base text-muted leading-relaxed font-body">
-          Stay tuned for future articles, tutorials, and technical writings. Check back soon!
+        <p className="text-sm text-muted leading-relaxed font-display font-medium max-w-[280px]">
+          No posts have been published yet. Interact with the drafts above to see upcoming topics!
         </p>
         <a
           href="/"
-          className="mt-8 px-6 py-3 bg-ink text-base text-xs font-bold font-body rounded-full hover:opacity-90 active:scale-95 transition-all duration-200"
+          className="mt-8 px-6 py-2.5 bg-ink hover:bg-vermillion text-base hover:text-white text-xs font-bold font-body rounded-full transition-all duration-300 active:scale-95 uppercase tracking-wider"
         >
           Return Home
         </a>
@@ -81,40 +53,62 @@ async function BlogContentSection() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
       {posts.map((post) => {
         // Calculate read time: assume 200 words per minute
         const wordCount = post.content ? post.content.split(/\s+/).length : 0;
         const readTime = Math.max(1, Math.ceil(wordCount / 200));
-
-        // Short excerpt: clean first 140 chars of content
-        const excerpt = post.content
-          ? post.content.replace(/<[^>]*>/g, "").substring(0, 140) + "..."
-          : "Read the full article to learn more.";
+        const cover = post.coverImage || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?fit=crop&w=800&h=500&q=80";
 
         return (
           <article
             key={post.id}
-            className="group relative flex flex-col justify-between p-6 rounded-3xl border border-border bg-surface hover:border-vermillion/40 transition-colors duration-300 active:scale-[0.98]"
+            className="group relative flex flex-col justify-between rounded-3xl border border-border bg-surface overflow-hidden hover:border-vermillion/40 hover:shadow-lg transition-all duration-300 active:scale-[0.99] h-full"
           >
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between text-body text-[10px] font-bold text-muted uppercase tracking-wider">
-                <span>{formatDate(new Date(post.createdAt))}</span>
-                <span>{readTime} min read</span>
+            <div className="flex flex-col">
+              {/* Cover Image Frame */}
+              <div className="relative w-full aspect-[16/10] overflow-hidden border-b border-border">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={cover}
+                  alt={post.title}
+                  className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/10 to-transparent pointer-events-none" />
               </div>
-              <h3 className="font-body text-xl font-black text-ink leading-snug group-hover:text-vermillion transition-colors duration-200">
-                <a href={`/blog/${post.slug}`} className="focus:outline-none">
-                  {/* Stretches link to cover card */}
-                  <span className="absolute inset-0 z-10" />
-                  {post.title}
-                </a>
-              </h3>
-              <p className="text-body text-sm text-muted leading-relaxed font-body">
-                {excerpt}
-              </p>
+
+              {/* Card Meta Content */}
+              <div className="p-6 flex flex-col gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-bold text-vermillion uppercase tracking-wider bg-vermillion/5 px-2 py-0.5 rounded-md font-display">
+                    {post.category || "Announcements"}
+                  </span>
+                  <span className="text-[9px] font-bold text-muted uppercase tracking-wider font-display">
+                    {readTime} min read
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-bold text-ink leading-snug group-hover:text-vermillion transition-colors duration-200 uppercase font-logo">
+                  <a href={`/blog/${post.slug}`} className="focus:outline-none">
+                    <span className="absolute inset-0 z-10" />
+                    {post.title}
+                  </a>
+                </h3>
+
+                <p className="text-sm text-muted leading-relaxed font-display font-medium mt-1.5">
+                  {post.excerpt || "Read the full article to explore deep dives, scaling guidelines, and insights."}
+                </p>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-vermillion mt-6 font-body">
-              Read article <span aria-hidden="true">→</span>
+
+            {/* Card Footer action */}
+            <div className="px-6 pb-6 pt-2 flex items-center justify-between border-t border-border/40 mt-auto">
+              <span className="text-[10px] font-bold text-muted uppercase tracking-wider font-display">
+                {formatDate(new Date(post.createdAt))}
+              </span>
+              <div className="flex items-center gap-1 text-[10px] font-bold text-vermillion uppercase tracking-wider font-display">
+                Read Article <span className="transform group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
+              </div>
             </div>
           </article>
         );
@@ -125,14 +119,27 @@ async function BlogContentSection() {
 
 export default function BlogIndexPage() {
   return (
-    <section aria-label="Blog posts list" className="w-full bg-[var(--color-surface)] border-b border-border py-20 md:py-28 min-h-[70vh] flex items-center">
+    <section aria-label="Blog posts list" className="w-full bg-[var(--color-surface)] border-b border-border py-20 md:py-28 min-h-[85vh] flex items-center">
       <div className="section-wrapper w-full">
+        <ScrollReveal direction="fade" delay={0.1}>
+          <div className="flex flex-col gap-3 mb-12 md:mb-16">
+            <span className="text-label text-vermillion uppercase tracking-[var(--tracking-wide)]">
+              Journal
+            </span>
+            <h1
+              className="text-display text-ink uppercase font-logo"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
+            >
+              Latest Writings
+            </h1>
+          </div>
+        </ScrollReveal>
 
         <Suspense
           fallback={
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
               {[...Array(3)].map((_, idx) => (
-                <div key={idx} className="h-64 rounded-3xl border border-border bg-base/5 animate-pulse" />
+                <div key={idx} className="h-96 rounded-3xl border border-border bg-base/5 animate-pulse" />
               ))}
             </div>
           }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { getBaseUrl } from "@/lib/utils";
 import "./globals.css";
+import GlobalGatekeeper from "@/components/ui/GlobalGatekeeper";
 
 const stackSansNotch = localFont({
   src: [
@@ -173,7 +174,11 @@ export default function RootLayout({
         {/* Safari pinned tab */}
         <link rel="mask-icon" href="/icon.svg" color="#D63A2F" />
       </head>
-      <body>{children}</body>
+      <body>
+        <GlobalGatekeeper>
+          {children}
+        </GlobalGatekeeper>
+      </body>
     </html>
   );
 }
