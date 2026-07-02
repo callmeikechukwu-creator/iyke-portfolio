@@ -134,8 +134,8 @@
   /* --- Font Families --- */
   --font-display: var(--font-host-grotesk), sans-serif;
   --font-body:    'PP Mori', 'Helvetica Neue', Arial, sans-serif;
-  --font-logo:    'Biggie Finish Demo', sans-serif;
-  --font-logo-outline: 'Biggie Finish Outline', sans-serif;
+  --font-logo:    'Ballega', sans-serif;
+  --font-logo-outline: 'Ballega', sans-serif;
 
   /* --- Fluid Typography Scale --- */
   --text-xs:    clamp(0.6875rem, 1vw, 0.75rem);

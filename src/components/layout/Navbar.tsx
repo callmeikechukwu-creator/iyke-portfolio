@@ -160,11 +160,11 @@ export default function Navbar() {
           scrolled && "shadow-[var(--shadow-sm)]"
         )}
       >
-        <div className="w-full max-w-[var(--content-max-width)] mx-auto flex items-center justify-between px-6 md:px-10 lg:px-16">
+        <div className="w-full max-w-[var(--content-max-width)] mx-auto flex items-center justify-between px-4 md:px-10 lg:px-16">
           {/* ── Left: Logo lockup ── */}
           <Logo
             variant="wordmark"
-            wordmarkSize="clamp(1.4rem, 3.2vw, 2.1rem)"
+            wordmarkSize="clamp(0.95rem, 3.2vw, 2.1rem)"
             className="text-[var(--color-ink)]"
           />
 
@@ -225,7 +225,7 @@ export default function Navbar() {
             {/* CTA pill (visible on desktop and mobile) */}
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 h-10 lg:h-11 px-4 lg:px-6 rounded-full bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85 text-sm font-semibold whitespace-nowrap leading-none transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 h-9 lg:h-11 px-3 sm:px-4 lg:px-6 rounded-full bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85 text-xs sm:text-sm font-semibold whitespace-nowrap leading-none transition-all duration-200"
             >
               Let&apos;s talk
             </Link>

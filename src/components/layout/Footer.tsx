@@ -54,7 +54,13 @@ export default function Footer() {
         <div className="w-full overflow-hidden select-none pointer-events-none border-b border-[var(--color-base)]/10 pb-10 md:pb-14">
           <span
             className="block w-full text-center font-bold text-[var(--color-base)] uppercase opacity-90 leading-[1.5] py-4 whitespace-nowrap"
-            style={{ fontSize: "clamp(1.2rem, 7vw, 8.5rem)", letterSpacing: "0.02em", fontFamily: "var(--font-logo-outline)" }}
+            style={{
+              fontSize: "clamp(1.2rem, 7vw, 8.5rem)",
+              letterSpacing: "0.02em",
+              fontFamily: "var(--font-logo-outline)",
+              WebkitTextStroke: "1.5px rgba(240, 237, 230, 0.35)",
+              color: "transparent",
+            }}
           >
             IKECHUKWU&nbsp;ALAETO
           </span>
