@@ -1,10 +1,12 @@
 import { db as prisma } from "../src/lib/db";
 
+/**
+ * Safe idempotent seed — uses upsert on unique slugs/names.
+ * Running this multiple times will NEVER wipe existing data.
+ * Only adds missing records or updates fields on existing ones.
+ */
 async function main() {
-  console.log("Seeding database testimonials...");
-
-  // Clear existing testimonials
-  await prisma.testimonial.deleteMany();
+  console.log("Seeding testimonials...");
 
   const testimonials = [
     {
@@ -34,20 +36,19 @@ async function main() {
   ];
 
   for (const item of testimonials) {
-    await prisma.testimonial.create({
-      data: item,
+    await prisma.testimonial.upsert({
+      where: { id: (await prisma.testimonial.findFirst({ where: { clientName: item.clientName } }))?.id ?? "nonexistent" },
+      update: item,
+      create: item,
     });
   }
 
-  console.log("Seeding database blog posts...");
-
-  // Clear existing blog posts
-  await prisma.blogPost.deleteMany();
+  console.log("Seeding blog posts...");
 
   const blogPosts = [
     {
-      title: "Welcome to my Tech Journal",
       slug: "welcome-to-my-tech-journal",
+      title: "Welcome to my Tech Journal",
       excerpt: "An overview of what to expect in my technical journal, where I share tutorials and architectural deep-dives on full-stack scalability.",
       category: "Announcements",
       coverImage: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?fit=crop&w=1200&h=630&q=80",
@@ -61,8 +62,8 @@ async function main() {
       published: true,
     },
     {
-      title: "Building Resilient Real-Time Systems with WebSockets",
       slug: "building-resilient-real-time-systems-with-websockets",
+      title: "Building Resilient Real-Time Systems with WebSockets",
       excerpt: "A deep dive into scaling horizontal WebSocket servers, managing reconnection states, and distributing TCP coordinate events using Redis pub/sub adapters.",
       category: "Technical Guide",
       coverImage: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?fit=crop&w=1200&h=630&q=80",
@@ -77,8 +78,8 @@ async function main() {
       published: true,
     },
     {
-      title: "Optimizing Database Query Latency with Redis Caching",
       slug: "optimizing-database-query-latency-with-redis-caching",
+      title: "Optimizing Database Query Latency with Redis Caching",
       excerpt: "How to drop database query response times to sub-millisecond speeds using lazy-loading Cache-Aside structures and short TTL validation strategies.",
       category: "Database Scaling",
       coverImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?fit=crop&w=1200&h=630&q=80",
@@ -95,12 +96,23 @@ async function main() {
   ];
 
   for (const post of blogPosts) {
-    await prisma.blogPost.create({
-      data: post,
+    await prisma.blogPost.upsert({
+      where: { slug: post.slug },
+      update: {
+        // Only update content/metadata — never overwrite publishedAt if already set
+        title: post.title,
+        excerpt: post.excerpt,
+        category: post.category,
+        coverImage: post.coverImage,
+        content: post.content,
+        published: post.published,
+        publishedAt: post.publishedAt,
+      },
+      create: post,
     });
   }
 
-  console.log("Successfully seeded testimonials and blog posts!");
+  console.log("Done — all records seeded safely.");
 }
 
 main()
