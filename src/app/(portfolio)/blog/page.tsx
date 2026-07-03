@@ -26,7 +26,7 @@ async function BlogContentSection() {
   try {
     posts = await db.blogPost.findMany({
       where: { published: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: { publishedAt: "desc" },
     });
   } catch (error) {
     console.error("Failed to query blog posts:", error);
@@ -104,7 +104,7 @@ async function BlogContentSection() {
             {/* Card Footer action */}
             <div className="px-6 pb-6 pt-2 flex items-center justify-between border-t border-border/40 mt-auto">
               <span className="text-[10px] font-bold text-muted uppercase tracking-wider font-display">
-                {formatDate(new Date(post.createdAt))}
+                {formatDate(new Date(post.publishedAt ?? post.createdAt))}
               </span>
               <div className="flex items-center gap-1 text-[10px] font-bold text-vermillion uppercase tracking-wider font-display">
                 Read Article <span className="transform group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>

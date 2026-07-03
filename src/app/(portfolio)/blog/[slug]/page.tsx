@@ -93,7 +93,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <span className="w-1.5 h-1.5 rounded-full bg-border-strong hidden sm:inline" />
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-muted/80" />
-                {formatDate(new Date(post.createdAt))}
+                {formatDate(new Date(post.publishedAt ?? post.createdAt))}
               </span>
             </div>
           </ScrollReveal>

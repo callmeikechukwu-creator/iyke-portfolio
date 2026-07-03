@@ -55,7 +55,7 @@ async function RecentBlogSection() {
   try {
     posts = await db.blogPost.findMany({
       where: { published: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: { publishedAt: "desc" },
       take: 3,
     });
   } catch (error) {
@@ -137,7 +137,7 @@ async function RecentBlogSection() {
                 >
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center justify-between text-body text-[10px] font-bold text-muted uppercase tracking-wider">
-                      <span>{formatDate(new Date(post.createdAt))}</span>
+                      <span>{formatDate(new Date(post.publishedAt ?? post.createdAt))}</span>
                       <span>{readTime} min read</span>
                     </div>
                     <h3 className="font-body text-lg font-black text-ink leading-snug group-hover:text-vermillion transition-colors duration-200">
