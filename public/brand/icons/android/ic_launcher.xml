@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Adaptive icon definition (API 26+).
+  Place this file at: res/mipmap-anydpi-v26/ic_launcher.xml
+  (and a copy as ic_launcher_round.xml for the round variant — same content)
+
+  References the per-density foreground/background PNGs already exported
+  into each mipmap-* folder in this kit (ic_launcher_foreground.png /
+  ic_launcher_background.png).
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300">
+  <defs>
+    <radialGradient id="bgGlow2" cx="18%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#1a2d52"/>
+      <stop offset="60%" stop-color="#0e1628"/>
+      <stop offset="100%" stop-color="#070a11"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="300" fill="url(#bgGlow2)"/>
+  <g id="iyke-visuals-mark">
+    <polygon points="180.60,150.00 237.33,171.77 206.78,216.31 175.76,182.30" fill="#468ce1"/>
+    <polygon points="169.08,173.92 187.42,231.85 133.56,235.74 140.81,190.27" fill="#5797e4"/>
+    <polygon points="143.19,179.83 109.34,230.29 72.72,190.60 112.78,167.92" fill="#68a2e8"/>
+    <polygon points="122.43,163.28 61.87,168.27 70.07,114.89 112.78,132.08" fill="#79aeeb"/>
+    <polygon points="122.43,136.72 80.77,92.49 127.62,65.62 140.81,109.73" fill="#8ab9ef"/>
+    <polygon points="143.19,120.17 151.80,60.02 202.02,79.89 175.76,117.70" fill="#9bc5f2"/>
+    <polygon points="169.08,126.08 221.47,95.30 237.25,146.95 191.31,150.00" fill="#acd0f6"/>
+    <circle cx="150.00" cy="150.00" r="18.97" fill="#e6f0fc"/>
+  </g>
+  <text x="290" y="132" font-family="'Host Grotesk', Arial, sans-serif" font-weight="700" font-size="64" fill="#fafcff">IYKE VISUALS</text>
+  <text x="292" y="186" font-family="'IBM Plex Sans', Arial, sans-serif" font-weight="400" font-size="22" letter-spacing="1" fill="#96b4dc">WEB &amp; APP DEVELOPMENT — VISUAL DESIGN</text>
+</svg>

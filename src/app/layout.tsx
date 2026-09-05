@@ -121,20 +121,21 @@ export const metadata: Metadata = {
   authors: [{ name: "Ikechukwu Alaeto", url: getBaseUrl() }],
   creator: "Ikechukwu Alaeto",
 
-  /* --- Icons --- */
+  /* --- Icons & Favicon --- */
   icons: {
     icon: [
-      { url: "/favicon.ico?v=5", sizes: "any" },
-      { url: "/icon.png?v=5", sizes: "512x512", type: "image/png" },
-      { url: "/favicon.svg?v=5", type: "image/svg+xml" },
-      { url: "/favicon-32x32.png?v=5", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png?v=5", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/icon.svg", type: "image/svg+xml" },
     ],
+    shortcut: ["/favicon.ico"],
     apple: [
-      { url: "/apple-touch-icon.png?v=5", sizes: "180x180", type: "image/png" },
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
     other: [
-      { rel: "mask-icon", url: "/icon.svg?v=5", color: "#D63A2F" },
+      { rel: "mask-icon", url: "/icon.svg", color: "#0e1628" },
     ],
   },
 
@@ -201,11 +202,16 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Favicon & App Icons (Gold Standard) */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         {/* Windows tile */}
-        <meta name="msapplication-TileColor" content="#D63A2F" />
+        <meta name="msapplication-TileColor" content="#0e1628" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
         {/* Safari pinned tab */}
-        <link rel="mask-icon" href="/icon.svg" color="#D63A2F" />
+        <link rel="mask-icon" href="/icon.svg" color="#0e1628" />
       </head>
       <body>
         {/* Google Analytics Tag Injection */}
