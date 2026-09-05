@@ -3,35 +3,177 @@ import localFont from "next/font/local";
 import { getBaseUrl } from "@/lib/utils";
 import "./globals.css";
 import GlobalGatekeeper from "@/components/ui/GlobalGatekeeper";
-
-const stackSansNotch = localFont({
-  src: [
-    {
-      path: "../../public/fonts/HostGrotesk/HostGrotesk-VariableFont_wght.ttf",
-      style: "normal",
-    },
-  ],
-  variable: "--font-stack-sans-notch",
-  preload: false,
-});
-
+import Script from "next/script";
 
 /* ------------------------------------------------------------
-   Local Variable Fonts (Host Grotesk)
+   Local Fonts:
+   Studio Feixen Sans (Display / Headings)
+   Noi Grotesk (Body / UI)
    ------------------------------------------------------------ */
 
-const hostGrotesk = localFont({
+const studioFeixenSans = localFont({
   src: [
     {
-      path: "../../public/fonts/HostGrotesk/HostGrotesk-VariableFont_wght.ttf",
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Ultralight.ttf",
+      weight: "200",
       style: "normal",
     },
     {
-      path: "../../public/fonts/HostGrotesk/HostGrotesk-Italic-VariableFont_wght.ttf",
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-UltralightItalic.ttf",
+      weight: "200",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-LightItalic.ttf",
+      weight: "300",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Book.ttf",
+      weight: "350",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-BookItalic.ttf",
+      weight: "350",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-RegularItalic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-MediumItalic.ttf",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Semibold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-SemiboldItalic.ttf",
+      weight: "600",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-BoldItalic.ttf",
+      weight: "700",
       style: "italic",
     },
   ],
-  variable: "--font-host-grotesk",
+  variable: "--font-studio-feixen",
+  display: "swap",
+  preload: false,
+});
+
+const noiGrotesk = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Thin.ttf",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-ThinItalic.ttf",
+      weight: "100",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-UltraLight.ttf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-UltraLightItalic.ttf",
+      weight: "200",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-LightItalic.ttf",
+      weight: "300",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-RegularItalic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-MediumItalic.ttf",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Semibold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-SemiboldItalic.ttf",
+      weight: "600",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-BoldItalic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-BlackItalic.ttf",
+      weight: "900",
+      style: "italic",
+    },
+  ],
+  variable: "--font-noi-grotesk",
+  display: "swap",
   preload: false,
 });
 
@@ -152,7 +294,7 @@ export const metadata: Metadata = {
 /* ------------------------------------------------------------
    Root Layout
    Injects font CSS variables into <html> so they are available
-   everywhere via var(--font-host-grotesk)
+   everywhere via var(--font-studio-feixen) and var(--font-noi-grotesk)
    suppressHydrationWarning is required for data-theme dark mode toggle
    ------------------------------------------------------------ */
 
@@ -161,10 +303,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html
       lang="en"
-      className={`${hostGrotesk.variable} ${stackSansNotch.variable} ${ballegaLogo.variable} ${ballegaLogoOutline.variable}`}
+      className={`${studioFeixenSans.variable} ${noiGrotesk.variable} ${ballegaLogo.variable} ${ballegaLogoOutline.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -175,9 +319,27 @@ export default function RootLayout({
         <link rel="mask-icon" href="/icon.svg" color="#D63A2F" />
       </head>
       <body>
-        <GlobalGatekeeper>
-          {children}
-        </GlobalGatekeeper>
+        {/* Google Analytics Tag Injection */}
+        {gaId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
+
+        {children}
       </body>
     </html>
   );

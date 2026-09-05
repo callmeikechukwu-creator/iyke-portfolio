@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const footerLinks = [
@@ -15,10 +15,10 @@ const footerLinks = [
 ];
 
 const socialLinks = [
-  { label: "GitHub",    href: "https://github.com/iykevisuals" },
-  { label: "LinkedIn",  href: "https://linkedin.com/in/iykevisuals" },
-  { label: "Twitter/X", href: "https://x.com/iykevisuals" },
-  { label: "Instagram", href: "https://instagram.com/iykevisuals" },
+  { label: "GitHub",    href: "https://github.com/iykevisuals", Icon: Github, brandColor: "bg-[#24292e]" },
+  { label: "LinkedIn",  href: "https://linkedin.com/in/iykevisuals", Icon: Linkedin, brandColor: "bg-[#0077b5]" },
+  { label: "Twitter/X", href: "https://x.com/iykevisuals", Icon: Twitter, brandColor: "bg-[#14171a]" },
+  { label: "Instagram", href: "https://instagram.com/iykevisuals", Icon: Instagram, brandColor: "bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888]" },
 ];
 
 /**
@@ -108,41 +108,74 @@ export default function Footer() {
               <span className="text-body text-xs font-bold text-[var(--color-base)]/40 uppercase tracking-widest">
                 Social Hub
               </span>
-              <div className="flex items-center gap-3.5 pt-2">
-                {socialLinks.map((s) => {
-                  let IconComponent = Github;
-                  if (s.label.includes("LinkedIn")) IconComponent = Linkedin;
-                  if (s.label.includes("Twitter")) IconComponent = Twitter;
-                  if (s.label.includes("Instagram")) IconComponent = Instagram;
-
-                  return (
-                    <motion.a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative w-12 h-12 flex items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-md text-[var(--color-base)]/80 hover:text-[var(--color-vermillion)] overflow-hidden shadow-lg"
-                      whileHover={{
-                        scale: 1.1,
-                        borderColor: "rgba(214, 58, 47, 0.4)",
-                        boxShadow: "0 0 20px rgba(214, 58, 47, 0.2)",
+              <div className="flex flex-col gap-2.5 pt-2 w-full max-w-[200px]">
+                {socialLinks.map((s) => (
+                  <motion.a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative flex items-center justify-between px-4 py-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] text-[var(--color-base)]/80 overflow-hidden cursor-pointer select-none"
+                    whileHover="hover"
+                    whileTap="tap"
+                    initial="rest"
+                  >
+                    {/* Brand background overlay that springs up and wiggles into place */}
+                    <motion.div
+                      variants={{
+                        rest: { y: 18, scale: 0.85, rotate: -6, opacity: 0 },
+                        hover: { 
+                          y: 0, 
+                          scale: 1, 
+                          rotate: 0, 
+                          opacity: 1,
+                          transition: {
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 20
+                          }
+                        }
                       }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                      title={s.label}
-                    >
-                      {/* Shine sweep overlay */}
-                      <motion.span
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[150%] skew-x-12"
-                        initial={{ x: "-150%" }}
-                        whileHover={{ x: "150%" }}
-                        transition={{ duration: 0.75, ease: "easeInOut" }}
-                      />
+                      className={cn(
+                        "absolute inset-0 z-0 rounded-2xl pointer-events-none",
+                        s.brandColor
+                      )}
+                    />
+
+                    {/* Content */}
+                    <div className="relative z-10 flex items-center justify-between w-full">
+                      <div className="flex items-center gap-3">
+                        <motion.div
+                          variants={{
+                            rest: { scale: 1 },
+                            hover: { 
+                              scale: 1.12,
+                              rotate: -6,
+                              transition: { type: "spring", stiffness: 400, damping: 15 }
+                            }
+                          }}
+                          className="text-[var(--color-base)] shrink-0"
+                        >
+                          <s.Icon size={16} />
+                        </motion.div>
+                        <span className="font-body text-sm font-semibold tracking-wide transition-colors duration-200 group-hover:text-white">
+                          {s.label}
+                        </span>
+                      </div>
                       
-                      <IconComponent size={18} className="relative z-10" />
-                    </motion.a>
-                  );
-                })}
+                      {/* Micro arrow indicator on hover */}
+                      <motion.div
+                        variants={{
+                          rest: { opacity: 0, x: -6 },
+                          hover: { opacity: 0.7, x: 0 }
+                        }}
+                        className="text-white"
+                      >
+                        <ArrowUpRight size={13} strokeWidth={2.5} />
+                      </motion.div>
+                    </div>
+                  </motion.a>
+                ))}
               </div>
             </div>
           </div>

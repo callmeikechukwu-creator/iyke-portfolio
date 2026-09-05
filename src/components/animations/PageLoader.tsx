@@ -241,7 +241,7 @@ export default function PageLoader() {
             ref={line1Ref}
             className="relative z-10 leading-none tracking-[0.06em] text-[var(--color-base)]"
             style={{
-              fontFamily: "var(--font-host-grotesk), sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 900,
               fontSize: "clamp(2.8rem, 9vw, 7.5rem)",
               letterSpacing: "0.06em",
@@ -255,7 +255,7 @@ export default function PageLoader() {
             ref={line2Ref}
             className="relative z-10 leading-none text-[var(--color-base)]"
             style={{
-              fontFamily: "var(--font-host-grotesk), sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 900,
               fontSize: "clamp(2.8rem, 9vw, 7.5rem)",
               letterSpacing: "0.06em",

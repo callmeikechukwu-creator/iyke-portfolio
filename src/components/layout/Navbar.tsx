@@ -223,12 +223,13 @@ export default function Navbar() {
             </Link>
 
             {/* CTA pill (visible on desktop and mobile) */}
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 h-9 lg:h-11 px-3 sm:px-4 lg:px-6 rounded-full bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85 text-xs sm:text-sm font-semibold whitespace-nowrap leading-none transition-all duration-200"
+            <button
+              id="navbar-lets-talk"
+              onClick={() => window.dispatchEvent(new Event("open-contact-bar"))}
+              className="inline-flex items-center justify-center gap-2 h-9 lg:h-11 px-3 sm:px-4 lg:px-6 rounded-full bg-[var(--color-ink)] text-[var(--color-base)] hover:opacity-85 text-xs sm:text-sm font-semibold whitespace-nowrap leading-none transition-all duration-200 cursor-pointer"
             >
               Let&apos;s talk
-            </Link>
+            </button>
 
             {/* Hamburger — Gemini-style: 3 lines in a circular pill */}
             <button
@@ -370,12 +371,15 @@ export default function Navbar() {
                   </div>
 
                   {/* Contact Call-to-action button */}
-                  <Link
-                    href="/contact"
-                    className="flex items-center justify-center w-full py-4 rounded-2xl bg-[var(--color-vermillion)] text-[var(--color-base)] font-bold text-center hover:opacity-90 active:scale-98 transition-all duration-200 shadow-md animate-tap"
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setTimeout(() => window.dispatchEvent(new Event("open-contact-bar")), 200);
+                    }}
+                    className="flex items-center justify-center w-full py-4 rounded-2xl bg-[var(--color-vermillion)] text-[var(--color-base)] font-bold text-center hover:opacity-90 active:scale-98 transition-all duration-200 shadow-md cursor-pointer"
                   >
-                    Let's Talk
-                  </Link>
+                    Let&apos;s Talk
+                  </button>
                 </div>
               </motion.div>
 

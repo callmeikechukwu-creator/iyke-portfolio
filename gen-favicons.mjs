@@ -9,14 +9,14 @@ import fs from 'fs';
 import path from 'path';
 
 const publicDir = path.resolve('./public');
-const svgPath   = path.join(publicDir, 'favicon.svg');
+const imagePath = path.join(publicDir, 'brand', 'IA monogram.png');
 
-console.log('Reading SVG from:', svgPath);
-const svgBuf = fs.readFileSync(svgPath);
+console.log('Reading source image from:', imagePath);
+const imgBuf = fs.readFileSync(imagePath);
 
 async function toPng(size, outName) {
   const outPath = path.join(publicDir, outName);
-  await sharp(svgBuf, { density: 288 })
+  await sharp(imgBuf)
     .resize(size, size, { fit: 'contain', background: { r:0,g:0,b:0,alpha:0 } })
     .png({ compressionLevel: 9, adaptiveFiltering: true })
     .toFile(outPath);
@@ -26,7 +26,7 @@ async function toPng(size, outName) {
 async function buildIco(sizes) {
   const pngBuffers = await Promise.all(
     sizes.map(size =>
-      sharp(svgBuf, { density: 288 })
+      sharp(imgBuf)
         .resize(size, size, { fit: 'contain', background: { r:0,g:0,b:0,alpha:0 } })
         .png({ compressionLevel: 9 })
         .toBuffer()

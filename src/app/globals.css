@@ -9,8 +9,8 @@
 
 /* ------------------------------------------------------------
    1. FONT DECLARATIONS
-   PP Mori — body/UI font (self-hosted, /public/fonts/Mori/)
-   BBH Bogle & Stack Sans Notch loaded via next/font in layout
+   Noi Grotesk — body/UI font (self-hosted, /public/fonts/Noi Grotesk/)
+   Studio Feixen Sans — display font (self-hosted, /public/fonts/Studio Feixen/)
    ------------------------------------------------------------ */
 
 @font-face {
@@ -47,66 +47,250 @@
   font-display: swap;
 }
 
+/* ------------------------------------------------------------
+   Noi Grotesk — Body / UI font (/public/fonts/Noi Grotesk/)
+   ------------------------------------------------------------ */
+
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-Extralight.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-UltraLight.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-ExtralightItalic.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-UltraLightItalic.ttf') format('truetype');
   font-weight: 200;
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-Regular.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-Italic.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-RegularItalic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-Semibold.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-Semibold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-SemiboldItalic.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-SemiboldItalic.ttf') format('truetype');
   font-weight: 600;
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-Black.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-Black.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/Mori/PPMori-BlackItalic.otf') format('opentype');
+  font-family: 'Noi Grotesk';
+  src: url('/fonts/Noi%20Grotesk/2%20Web/NoiGroteskTrial-BlackItalic.ttf') format('truetype');
   font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------
+   Studio Feixen Sans — Display / Headings (/public/fonts/Studio Feixen/)
+   ------------------------------------------------------------ */
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Ultralight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-UltralightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Book.ttf') format('truetype');
+  font-weight: 350;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-BookItalic.ttf') format('truetype');
+  font-weight: 350;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-RegularItalic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-SemiboldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Feixen Sans';
+  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
@@ -132,8 +316,10 @@
   --color-overlay:          rgba(26, 24, 20, 0.06);
 
   /* --- Font Families --- */
-  --font-display: var(--font-host-grotesk), sans-serif;
-  --font-body:    'PP Mori', 'Helvetica Neue', Arial, sans-serif;
+  --font-display:           var(--font-studio-feixen), 'Studio Feixen Sans', sans-serif;
+  --font-body:              var(--font-noi-grotesk), 'Noi Grotesk', sans-serif;
+  --font-host-grotesk:      var(--font-studio-feixen), 'Studio Feixen Sans', sans-serif;
+  --font-stack-sans-notch:  var(--font-studio-feixen), 'Studio Feixen Sans', sans-serif;
 
 
   /* --- Fluid Typography Scale --- */

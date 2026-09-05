@@ -1,5 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ContactBar from "@/components/ui/ContactBar";
 import LenisProvider from "@/components/animations/LenisProvider";
 import PageTransition from "@/components/animations/PageTransition";
 
@@ -20,6 +21,9 @@ export default function PortfolioLayout({
 
       {/* Footer */}
       <Footer />
+
+      {/* Global floating contact bar — floating pill + bottom-reveal bar */}
+      <ContactBar />
     </LenisProvider>
   );
 }

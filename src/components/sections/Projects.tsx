@@ -132,10 +132,55 @@ export default function Projects({ projects }: ProjectsProps) {
                 />
               ))
             ) : (
-              <div className="col-span-2 py-20 text-center">
-                <p className="text-body text-muted text-base">
-                  No projects published yet. Check back soon or view the admin dashboard to add case studies.
-                </p>
+              <div className="col-span-2 flex justify-center py-6">
+                <div className="p-8 md:p-12 rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] text-center max-w-xl w-full flex flex-col items-center gap-4 shadow-[var(--shadow-sm)]">
+                  <svg
+                    viewBox="0 0 160 160"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-28 h-28"
+                    aria-hidden="true"
+                  >
+                    {/* Background stacked shadow */}
+                    <rect x="48" y="36" width="82" height="82" rx="12" fill="rgba(0,0,0,0.03)" />
+                    {/* Middle window layer */}
+                    <rect x="36" y="24" width="82" height="82" rx="12" fill="var(--color-base)" stroke="var(--color-border)" strokeWidth="1.5" />
+                    {/* Top window layer */}
+                    <rect x="24" y="12" width="82" height="82" rx="12" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.5" />
+                    
+                    {/* Decorative browser dots */}
+                    <circle cx="36" cy="22" r="3" fill="var(--color-vermillion)" />
+                    <circle cx="46" cy="22" r="3" fill="var(--color-amber)" />
+                    <circle cx="56" cy="22" r="3" fill="var(--color-border-strong)" />
+
+                    {/* Editor header rule */}
+                    <path d="M24 32H106" stroke="var(--color-border)" strokeWidth="1.5" />
+                    
+                    {/* Blueprint grid dashes */}
+                    <line x1="36" y1="42" x2="36" y2="84" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <line x1="52" y1="42" x2="52" y2="84" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <line x1="68" y1="42" x2="68" y2="84" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <line x1="84" y1="42" x2="84" y2="84" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    
+                    <line x1="30" y1="48" x2="100" y2="48" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <line x1="30" y1="64" x2="100" y2="64" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="3 3" />
+
+                    {/* Compass overlay indicating work-in-progress drafting */}
+                    <g transform="translate(68, 60)">
+                      <circle cx="0" cy="0" r="18" stroke="var(--color-border-strong)" strokeWidth="1.5" strokeDasharray="4 2" />
+                      <line x1="-24" y1="24" x2="0" y2="0" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="round" />
+                      <line x1="24" y1="24" x2="0" y2="0" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="round" />
+                      {/* Brass hinge circle */}
+                      <circle cx="0" cy="0" r="4" fill="var(--color-vermillion)" stroke="var(--color-ink)" strokeWidth="1.5" />
+                    </g>
+                  </svg>
+                  <span className="text-display text-lg font-bold text-[var(--color-ink)] leading-tight font-body">
+                    Crafting Selected Works
+                  </span>
+                  <p className="text-body text-sm text-[var(--color-muted)] leading-relaxed font-body">
+                    Case studies, software architecture drafts, and interactive visual designs are currently being finalized.
+                  </p>
+                </div>
               </div>
             )}
           </div>
