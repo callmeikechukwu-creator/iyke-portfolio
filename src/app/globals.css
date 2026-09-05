@@ -8,70 +8,9 @@
 
 
 /* ------------------------------------------------------------
-   1. FONT DECLARATIONS
-   Studio Feixen Edgy — Display / Headings (/public/fonts/Studio Feixen/)
-   Studio Feixen Sans — Body / UI font (/public/fonts/Studio Feixen/)
+   1. GLOBAL TYPEFACE DECLARATION
+   Studio Feixen Sans — Single Universal System (/public/fonts/Studio Feixen/)
    ------------------------------------------------------------ */
-
-/* ------------------------------------------------------------
-   Studio Feixen Edgy — Display / Headings / Numbers / Monogram
-   ------------------------------------------------------------ */
-
-@font-face {
-  font-family: 'Studio Feixen Edgy';
-  src: url('/fonts/Studio%20Feixen/2%20Studio%20Feixen%20Edgy%20Family%20TRIAL/2%20TTF/StudioFeixenEdgyTRIAL-Ultralight.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Edgy';
-  src: url('/fonts/Studio%20Feixen/2%20Studio%20Feixen%20Edgy%20Family%20TRIAL/2%20TTF/StudioFeixenEdgyTRIAL-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Edgy';
-  src: url('/fonts/Studio%20Feixen/2%20Studio%20Feixen%20Edgy%20Family%20TRIAL/2%20TTF/StudioFeixenEdgyTRIAL-Book.ttf') format('truetype');
-  font-weight: 350;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Edgy';
-  src: url('/fonts/Studio%20Feixen/2%20Studio%20Feixen%20Edgy%20Family%20TRIAL/2%20TTF/StudioFeixenEdgyTRIAL-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Edgy';
-  src: url('/fonts/Studio%20Feixen/2%20Studio%20Feixen%20Edgy%20Family%20TRIAL/2%20TTF/StudioFeixenEdgyTRIAL-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Edgy';
-  src: url('/fonts/Studio%20Feixen/2%20Studio%20Feixen%20Edgy%20Family%20TRIAL/2%20TTF/StudioFeixenEdgyTRIAL-Semibold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Edgy';
-  src: url('/fonts/Studio%20Feixen/2%20Studio%20Feixen%20Edgy%20Family%20TRIAL/2%20TTF/StudioFeixenEdgyTRIAL-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* ------------------------------------------------------------
    Studio Feixen Sans — Display / Headings (/public/fonts/Studio Feixen/)
@@ -209,12 +148,16 @@
   --color-white:            #FFFFFF;
   --color-overlay:          rgba(26, 24, 20, 0.06);
 
-  /* --- Font Families --- */
-  --font-display:           var(--font-studio-feixen-edgy), 'Studio Feixen Edgy', sans-serif;
+  /* --- Universal Font System (Studio Feixen Sans) --- */
+  --font-display:           var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
   --font-body:              var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
-  --font-studio-feixen:     var(--font-studio-feixen-edgy);
-  --font-host-grotesk:      var(--font-studio-feixen-edgy);
-  --font-stack-sans-notch:  var(--font-studio-feixen-edgy);
+  --font-logo:              var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
+  --font-logo-outline:      var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
+  --font-studio-feixen:     var(--font-studio-feixen-sans);
+  --font-studio-feixen-sans: var(--font-studio-feixen-sans);
+  --font-studio-feixen-edgy: var(--font-studio-feixen-sans);
+  --font-host-grotesk:      var(--font-studio-feixen-sans);
+  --font-stack-sans-notch:  var(--font-studio-feixen-sans);
   --font-noi-grotesk:       var(--font-studio-feixen-sans);
 
 

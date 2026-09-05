@@ -6,53 +6,8 @@ import GlobalGatekeeper from "@/components/ui/GlobalGatekeeper";
 import Script from "next/script";
 
 /* ------------------------------------------------------------
-   Local Fonts (Studio Feixen Superfamily):
-   - Studio Feixen Edgy (Display / Headings / Monogram / Numbers)
-   - Studio Feixen Sans (Body / Paragraphs / UI)
+   Global Typeface: Studio Feixen Sans (Single Universal System)
    ------------------------------------------------------------ */
-
-const studioFeixenEdgy = localFont({
-  src: [
-    {
-      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Ultralight.ttf",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Book.ttf",
-      weight: "350",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Semibold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  variable: "--font-studio-feixen-edgy",
-  display: "swap",
-  preload: false,
-});
 
 const studioFeixenSans = localFont({
   src: [
@@ -129,28 +84,6 @@ const studioFeixenSans = localFont({
   ],
   variable: "--font-studio-feixen-sans",
   display: "swap",
-  preload: false,
-});
-
-const ballegaLogo = localFont({
-  src: [
-    {
-      path: "../../public/fonts/Ballega/ballega.otf",
-      style: "normal",
-    },
-  ],
-  variable: "--font-logo",
-  preload: false,
-});
-
-const ballegaLogoOutline = localFont({
-  src: [
-    {
-      path: "../../public/fonts/Ballega/ballega.otf",
-      style: "normal",
-    },
-  ],
-  variable: "--font-logo-outline",
   preload: false,
 });
 
@@ -248,8 +181,8 @@ export const metadata: Metadata = {
 
 /* ------------------------------------------------------------
    Root Layout
-   Injects font CSS variables into <html> so they are available
-   everywhere via var(--font-studio-feixen-edgy) and var(--font-studio-feixen-sans)
+   Injects font CSS variable into <html> so it is available
+   everywhere via var(--font-studio-feixen-sans)
    suppressHydrationWarning is required for data-theme dark mode toggle
    ------------------------------------------------------------ */
 
@@ -263,7 +196,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${studioFeixenEdgy.variable} ${studioFeixenSans.variable} ${ballegaLogo.variable} ${ballegaLogoOutline.variable}`}
+      className={studioFeixenSans.variable}
       suppressHydrationWarning
     >
       <head>
