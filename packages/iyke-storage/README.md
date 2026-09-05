@@ -136,4 +136,4 @@ npx iyke-storage upload ./screenshot.png --folder brand
 
 ## 📄 License
 
-MIT © [Ikechukwu (Iyke Visuals)](https://iykevisuals.com)
+MIT © [Alaeto Ikechukwu (Iyke Visuals)](https://iykevisuals.com)

@@ -6,7 +6,7 @@
  * client-side WebP auto-compression, blurhash generation, and
  * Cloudflare R2 edge gateway support.
  *
- * @author Ikechukwu (https://iykevisuals.com)
+ * @author Alaeto Ikechukwu (https://iykevisuals.com)
  * @license MIT
  * ============================================================
  */

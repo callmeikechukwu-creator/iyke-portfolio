@@ -6,7 +6,7 @@ var U=new Set([".svg",".mp4",".webm",".gif",".pdf",".json",".xml"]);function R(n
  * client-side WebP auto-compression, blurhash generation, and
  * Cloudflare R2 edge gateway support.
  *
- * @author Ikechukwu (https://iykevisuals.com)
+ * @author Alaeto Ikechukwu (https://iykevisuals.com)
  * @license MIT
  * ============================================================
  */
