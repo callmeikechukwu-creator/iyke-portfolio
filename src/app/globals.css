@@ -13,123 +13,6 @@
    ------------------------------------------------------------ */
 
 /* ------------------------------------------------------------
-   Studio Feixen Sans — Display / Headings (/public/fonts/Studio Feixen/)
-   ------------------------------------------------------------ */
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Ultralight.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-UltralightItalic.ttf') format('truetype');
-  font-weight: 200;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-LightItalic.ttf') format('truetype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Book.ttf') format('truetype');
-  font-weight: 350;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-BookItalic.ttf') format('truetype');
-  font-weight: 350;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-RegularItalic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-MediumItalic.ttf') format('truetype');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Semibold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-SemiboldItalic.ttf') format('truetype');
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Studio Feixen Sans';
-  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-
-/* ------------------------------------------------------------
    2. DESIGN TOKENS — LIGHT MODE (default)
    ------------------------------------------------------------ */
 
@@ -148,17 +31,17 @@
   --color-white:            #FFFFFF;
   --color-overlay:          rgba(26, 24, 20, 0.06);
 
-  /* --- Universal Font System (Studio Feixen Sans) --- */
-  --font-display:           var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
-  --font-body:              var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
-  --font-logo:              var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
-  --font-logo-outline:      var(--font-studio-feixen-sans), 'Studio Feixen Sans', sans-serif;
-  --font-studio-feixen:     var(--font-studio-feixen-sans);
-  --font-studio-feixen-sans: var(--font-studio-feixen-sans);
-  --font-studio-feixen-edgy: var(--font-studio-feixen-sans);
-  --font-host-grotesk:      var(--font-studio-feixen-sans);
-  --font-stack-sans-notch:  var(--font-studio-feixen-sans);
-  --font-noi-grotesk:       var(--font-studio-feixen-sans);
+  /* --- Universal Font System (Studio Feixen Sans Base64 Embedded) --- */
+  --font-display:           'Studio Feixen Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:              'Studio Feixen Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-logo:              'Studio Feixen Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-logo-outline:      'Studio Feixen Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-studio-feixen:     'Studio Feixen Sans', sans-serif;
+  --font-studio-feixen-sans: 'Studio Feixen Sans', sans-serif;
+  --font-studio-feixen-edgy: 'Studio Feixen Sans', sans-serif;
+  --font-host-grotesk:      'Studio Feixen Sans', sans-serif;
+  --font-stack-sans-notch:  'Studio Feixen Sans', sans-serif;
+  --font-noi-grotesk:       'Studio Feixen Sans', sans-serif;
 
 
   /* --- Fluid Typography Scale --- */
@@ -295,9 +178,9 @@
   --color-muted:            #8C887F;
   --color-border:           #E0DAD0;
   --color-border-strong:    #C8C0B0;
-  --font-display:           var(--font-display);
-  --font-body:              var(--font-body);
-  --font-logo:              var(--font-logo);
+  --font-display:           'Studio Feixen Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:              'Studio Feixen Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-logo:              'Studio Feixen Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --ease-smooth:            var(--ease-smooth);
   --ease-out-expo:          var(--ease-out-expo);
   --ease-in-out-quad:       var(--ease-in-out-quad);

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { getBaseUrl } from "@/lib/utils";
 import "./globals.css";
+import "./fonts-embedded.css";
 import GlobalGatekeeper from "@/components/ui/GlobalGatekeeper";
 import Script from "next/script";
 
