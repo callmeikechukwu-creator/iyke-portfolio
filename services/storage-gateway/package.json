@@ -1,0 +1,18 @@
+{
+  "name": "iyke-storage-gateway",
+  "version": "1.0.0",
+  "description": "Centralized Cloudflare R2 Media Storage Gateway & Edge CDN",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": ["cloudflare", "worker", "r2", "storage", "cdn"],
+  "author": "Ikechukwu Alaeto",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250224.0",
+    "typescript": "^5.7.3",
+    "wrangler": "^4.129.0"
+  }
+}
