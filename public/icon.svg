@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <radialGradient id="bgGlow" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#1a2d52"/>
-      <stop offset="60%" stop-color="#0e1628"/>
+      <stop offset="0%" stop-color="#1c335e"/>
+      <stop offset="55%" stop-color="#0e1628"/>
       <stop offset="100%" stop-color="#070a11"/>
     </radialGradient>
   </defs>
-  <rect x="4" y="4" width="504" height="504" rx="92.2"
-        fill="url(#bgGlow)" stroke="#2d4a78" stroke-width="2"/>
-  <g id="iyke-visuals-mark">
-    <polygon points="308.22,256.00 405.04,293.16 352.90,369.17 299.96,311.12" fill="#468ce1"/>
-    <polygon points="288.56,296.83 319.87,395.69 227.94,402.33 240.31,324.73" fill="#5797e4"/>
-    <polygon points="244.38,306.91 186.61,393.03 124.10,325.29 192.48,286.59" fill="#68a2e8"/>
-    <polygon points="208.95,278.66 105.60,287.19 119.59,196.08 192.48,225.41" fill="#79aeeb"/>
-    <polygon points="208.95,233.34 137.84,157.86 217.80,111.99 240.31,187.27" fill="#8ab9ef"/>
-    <polygon points="244.38,205.09 259.06,102.43 344.77,136.34 299.96,200.88" fill="#9bc5f2"/>
-    <polygon points="288.56,215.17 377.98,162.65 404.90,250.80 326.50,256.00" fill="#acd0f6"/>
-    <circle cx="256.00" cy="256.00" r="32.38" fill="#e6f0fc"/>
+  <!-- Anthropic-style Squircle with transparent corners -->
+  <rect x="8" y="8" width="496" height="496" rx="136" fill="url(#bgGlow)" stroke="#223b63" stroke-width="4"/>
+  <g id="iyke-mark" transform="scale(0.86) translate(41.6, 41.6)">
+    <polygon points="332.60,256.00 474.59,310.50 398.13,421.99 320.47,336.84" fill="#468ce1"/>
+    <polygon points="303.76,315.88 349.68,460.88 214.84,470.61 232.99,356.81" fill="#5797e4"/>
+    <polygon points="238.96,330.67 154.23,456.98 62.55,357.63 162.84,300.87" fill="#68a2e8"/>
+    <polygon points="186.99,289.23 35.41,301.74 55.93,168.12 162.84,211.13" fill="#79aeeb"/>
+    <polygon points="186.99,222.77 82.71,112.06 199.97,44.78 232.99,155.19" fill="#8ab9ef"/>
+    <polygon points="238.96,181.33 260.49,30.76 386.20,80.50 320.47,175.16" fill="#9bc5f2"/>
+    <polygon points="303.76,196.12 434.90,119.08 474.39,248.37 359.40,256.00" fill="#acd0f6"/>
+    <circle cx="256.00" cy="256.00" r="47.49" fill="#e6f0fc"/>
   </g>
 </svg>

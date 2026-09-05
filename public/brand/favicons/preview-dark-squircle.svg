@@ -1,13 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <radialGradient id="bgGlow" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#1c335e"/>
-      <stop offset="55%" stop-color="#0e1628"/>
+      <stop offset="0%" stop-color="#182a4d"/>
+      <stop offset="60%" stop-color="#0e1628"/>
       <stop offset="100%" stop-color="#070a11"/>
     </radialGradient>
   </defs>
-  <!-- Anthropic-style Squircle with transparent corners -->
-  <rect x="8" y="8" width="496" height="496" rx="136" fill="url(#bgGlow)" stroke="#223b63" stroke-width="4"/>
+  <rect x="12" y="12" width="488" height="488" rx="136" fill="url(#bgGlow)" stroke="#253b61" stroke-width="6"/>
   <g id="iyke-mark" transform="scale(0.86) translate(41.6, 41.6)">
     <polygon points="332.60,256.00 474.59,310.50 398.13,421.99 320.47,336.84" fill="#468ce1"/>
     <polygon points="303.76,315.88 349.68,460.88 214.84,470.61 232.99,356.81" fill="#5797e4"/>
