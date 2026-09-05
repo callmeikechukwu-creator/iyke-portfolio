@@ -17,6 +17,7 @@ interface ProjectScope {
   project: string;
   name: string;
   allowedFolders: string[];
+  cdnHost?: string; // Optional custom CDN domain for this specific project
 }
 
 // Default development key if no environment secret is configured yet
@@ -231,8 +232,10 @@ async function handleUpload(request: Request, env: Env, scope: ProjectScope): Pr
     customMetadata,
   });
 
-  const cdnHost = env.DEFAULT_CDN_HOST?.replace(/\/+$/, "") || "";
-  const directCdnUrl = cdnHost ? `${cdnHost}/${objectKey}` : `/cdn/${objectKey}`;
+  // Dynamically determine CDN host (Project-specific > Env override > Request origin)
+  const requestOrigin = new URL(request.url).origin;
+  const cdnHost = (scope.cdnHost || env.DEFAULT_CDN_HOST || requestOrigin).replace(/\/+$/, "");
+  const directCdnUrl = `${cdnHost}/cdn/${objectKey}`;
 
   return jsonResponse({
     success: true,
@@ -271,11 +274,12 @@ async function handleListFiles(request: Request, env: Env, scope: ProjectScope):
     include: ["customMetadata", "httpMetadata"],
   });
 
-  const cdnHost = env.DEFAULT_CDN_HOST?.replace(/\/+$/, "") || "";
+  const requestOrigin = new URL(request.url).origin;
+  const cdnHost = (scope.cdnHost || env.DEFAULT_CDN_HOST || requestOrigin).replace(/\/+$/, "");
 
   let files = listed.objects.map((obj) => ({
     key: obj.key,
-    cdnUrl: cdnHost ? `${cdnHost}/${obj.key}` : `/cdn/${obj.key}`,
+    cdnUrl: `${cdnHost}/cdn/${obj.key}`,
     gatewayUrl: `/cdn/${obj.key}`,
     size: obj.size,
     etag: obj.etag,

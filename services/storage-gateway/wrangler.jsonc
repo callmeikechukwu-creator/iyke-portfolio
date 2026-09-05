@@ -10,7 +10,9 @@
     }
   ],
   "vars": {
-    "DEFAULT_CDN_HOST": "https://cdn.iykevisuals.com"
+    // Optional: override with your custom CDN domain later if you want.
+    // If left empty or omitted, the gateway dynamically detects the caller's origin!
+    "DEFAULT_CDN_HOST": ""
   },
   "observability": {
     "enabled": true
