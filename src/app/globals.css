@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Ultralight.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Ultralight.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
@@ -26,7 +26,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-UltralightItalic.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-UltralightItalic.ttf') format('truetype');
   font-weight: 200;
   font-style: italic;
   font-display: swap;
@@ -34,7 +34,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Light.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -42,7 +42,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-LightItalic.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-LightItalic.ttf') format('truetype');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
@@ -50,7 +50,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Book.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Book.ttf') format('truetype');
   font-weight: 350;
   font-style: normal;
   font-display: swap;
@@ -58,7 +58,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-BookItalic.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-BookItalic.ttf') format('truetype');
   font-weight: 350;
   font-style: italic;
   font-display: swap;
@@ -66,7 +66,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Regular.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -74,7 +74,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-RegularItalic.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-RegularItalic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -82,7 +82,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Medium.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -90,7 +90,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-MediumItalic.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-MediumItalic.ttf') format('truetype');
   font-weight: 500;
   font-style: italic;
   font-display: swap;
@@ -98,7 +98,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Semibold.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Semibold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -106,7 +106,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-SemiboldItalic.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-SemiboldItalic.ttf') format('truetype');
   font-weight: 600;
   font-style: italic;
   font-display: swap;
@@ -114,7 +114,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-Bold.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -122,7 +122,7 @@
 
 @font-face {
   font-family: 'Studio Feixen Sans';
-  src: url('/fonts/Studio%20Feixen/1%20Studio%20Feixen%20Sans%20Family%20TRIAL/2%20TTF/StudioFeixenSansTRIAL-BoldItalic.ttf') format('truetype');
+  src: url('/fonts/feixen-sans/StudioFeixenSansTRIAL-BoldItalic.ttf') format('truetype');
   font-weight: 700;
   font-style: italic;
   font-display: swap;

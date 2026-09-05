@@ -12,72 +12,72 @@ import Script from "next/script";
 const studioFeixenSans = localFont({
   src: [
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Ultralight.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Ultralight.ttf",
       weight: "200",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-UltralightItalic.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-UltralightItalic.ttf",
       weight: "200",
       style: "italic",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Light.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Light.ttf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-LightItalic.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-LightItalic.ttf",
       weight: "300",
       style: "italic",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Book.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Book.ttf",
       weight: "350",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-BookItalic.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-BookItalic.ttf",
       weight: "350",
       style: "italic",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Regular.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-RegularItalic.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-RegularItalic.ttf",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Medium.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Medium.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-MediumItalic.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-MediumItalic.ttf",
       weight: "500",
       style: "italic",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Semibold.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Semibold.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-SemiboldItalic.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-SemiboldItalic.ttf",
       weight: "600",
       style: "italic",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-Bold.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Bold.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Studio Feixen/1 Studio Feixen Sans Family TRIAL/2 TTF/StudioFeixenSansTRIAL-BoldItalic.ttf",
+      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-BoldItalic.ttf",
       weight: "700",
       style: "italic",
     },
