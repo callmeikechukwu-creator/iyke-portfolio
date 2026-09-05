@@ -26,9 +26,8 @@ export default function AdminLoginPage() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Redirect to admin projects dashboard page
-        router.push("/admin/projects");
-        router.refresh();
+        // Force full page transition so server layout evaluates session cookie immediately
+        window.location.href = "/admin/projects";
       } else {
         setError(data.error || "Invalid credentials");
       }
@@ -75,6 +74,7 @@ export default function AdminLoginPage() {
               <input
                 type="email"
                 required
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@iykevisualsdev.me"
@@ -91,6 +91,7 @@ export default function AdminLoginPage() {
               <input
                 type="password"
                 required
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
