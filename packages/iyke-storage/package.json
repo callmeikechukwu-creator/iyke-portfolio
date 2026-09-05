@@ -2,7 +2,7 @@
   "name": "iyke-storage",
   "version": "1.0.0",
   "description": "Universal zero-egress media storage client with visually-lossless client-side WebP auto-compression, blurhash generation, and Cloudflare R2 edge gateway support.",
-  "author": "Alaeto Ikechukwu <contact@iykevisuals.com> (https://iykevisuals.com)",
+  "author": "Alaeto Ikechukwu",
   "license": "MIT",
   "keywords": [
     "media",
