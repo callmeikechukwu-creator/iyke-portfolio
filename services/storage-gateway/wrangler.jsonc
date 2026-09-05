@@ -9,10 +9,17 @@
       "bucket_name": "iyke-cloud"
     }
   ],
+  "kv_namespaces": [
+    {
+      "binding": "STORAGE_KEYS_KV",
+      "id": "517409a7bc4d4e78a57542bd0f97ec99"
+    }
+  ],
   "vars": {
     // Optional: override with your custom CDN domain later if you want.
     // If left empty or omitted, the gateway dynamically detects the caller's origin!
-    "DEFAULT_CDN_HOST": ""
+    "DEFAULT_CDN_HOST": "",
+    "ROOT_ADMIN_SECRET": "ik_root_master_7f8e9a2b1c4d"
   },
   "observability": {
     "enabled": true
