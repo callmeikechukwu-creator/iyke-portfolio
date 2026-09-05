@@ -6,10 +6,53 @@ import GlobalGatekeeper from "@/components/ui/GlobalGatekeeper";
 import Script from "next/script";
 
 /* ------------------------------------------------------------
-   Local Fonts:
-   Studio Feixen Sans (Display / Headings)
-   Noi Grotesk (Body / UI)
+   Local Fonts (Studio Feixen Superfamily):
+   - Studio Feixen Edgy (Display / Headings / Monogram / Numbers)
+   - Studio Feixen Sans (Body / Paragraphs / UI)
    ------------------------------------------------------------ */
+
+const studioFeixenEdgy = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Ultralight.ttf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Book.ttf",
+      weight: "350",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Semibold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Studio Feixen/2 Studio Feixen Edgy Family TRIAL/2 TTF/StudioFeixenEdgyTRIAL-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-studio-feixen-edgy",
+  display: "swap",
+  preload: false,
+});
 
 const studioFeixenSans = localFont({
   src: [
@@ -84,95 +127,7 @@ const studioFeixenSans = localFont({
       style: "italic",
     },
   ],
-  variable: "--font-studio-feixen",
-  display: "swap",
-  preload: false,
-});
-
-const noiGrotesk = localFont({
-  src: [
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Thin.ttf",
-      weight: "100",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-ThinItalic.ttf",
-      weight: "100",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-UltraLight.ttf",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-UltraLightItalic.ttf",
-      weight: "200",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-LightItalic.ttf",
-      weight: "300",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-RegularItalic.ttf",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-MediumItalic.ttf",
-      weight: "500",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Semibold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-SemiboldItalic.ttf",
-      weight: "600",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-BoldItalic.ttf",
-      weight: "700",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-Black.ttf",
-      weight: "900",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Noi Grotesk/2 Web/NoiGroteskTrial-BlackItalic.ttf",
-      weight: "900",
-      style: "italic",
-    },
-  ],
-  variable: "--font-noi-grotesk",
+  variable: "--font-studio-feixen-sans",
   display: "swap",
   preload: false,
 });
@@ -294,7 +249,7 @@ export const metadata: Metadata = {
 /* ------------------------------------------------------------
    Root Layout
    Injects font CSS variables into <html> so they are available
-   everywhere via var(--font-studio-feixen) and var(--font-noi-grotesk)
+   everywhere via var(--font-studio-feixen-edgy) and var(--font-studio-feixen-sans)
    suppressHydrationWarning is required for data-theme dark mode toggle
    ------------------------------------------------------------ */
 
@@ -308,7 +263,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${studioFeixenSans.variable} ${noiGrotesk.variable} ${ballegaLogo.variable} ${ballegaLogoOutline.variable}`}
+      className={`${studioFeixenEdgy.variable} ${studioFeixenSans.variable} ${ballegaLogo.variable} ${ballegaLogoOutline.variable}`}
       suppressHydrationWarning
     >
       <head>
