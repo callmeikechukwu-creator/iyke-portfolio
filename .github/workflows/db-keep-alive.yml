@@ -1,16 +1,41 @@
-name: Database Keep-Alive
+name: 24/7 Database Keep-Alive
 
 on:
   schedule:
-    # Runs every 3 days at midnight UTC to prevent inactivity suspensions
-    - cron: '0 0 */3 * *'
-  workflow_dispatch: # Enables manual run trigger in the GitHub Actions dashboard
+    # Runs every 2 days at 08:00 UTC to permanently prevent Supabase free-tier inactivity pauses
+    - cron: '0 8 */2 * *'
+  workflow_dispatch: # Allows manual one-click trigger from GitHub Actions dashboard
 
 jobs:
-  ping:
+  keep-alive:
+    name: Supabase Heartbeat
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Keep-Alive API
+      - name: Ping Production Keep-Alive API
         run: |
-          # Note: Replace this URL with your production Vercel deployment URL once live
-          curl -s -o /dev/null -w "%{http_code}" https://iyke-portfolio.vercel.app/api/cron/keep-alive
+          PROD_URL="${{ secrets.PRODUCTION_URL || 'https://iyke-portfolio.vercel.app' }}"
+          echo "Pinging ${PROD_URL}/api/cron/keep-alive ..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${PROD_URL}/api/cron/keep-alive" || echo "000")
+          echo "HTTP Response: $HTTP_STATUS"
+
+      - name: Direct Database Heartbeat (Fallback)
+        if: ${{ secrets.DATABASE_URL != '' }}
+        run: |
+          node -e "
+            const { Client } = require('pg');
+            const client = new Client({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
+            client.connect()
+              .then(() => client.query('SELECT NOW() as now, COUNT(*) as projects FROM \"Project\";'))
+              .then(res => {
+                console.log('✅ Direct Database Heartbeat Succeeded!');
+                console.log('Time:', res.rows[0].now);
+                console.log('Projects:', res.rows[0].projects);
+                return client.end();
+              })
+              .catch(err => {
+                console.error('Direct heartbeat error:', err.message);
+                process.exit(1);
+              });
+          "
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

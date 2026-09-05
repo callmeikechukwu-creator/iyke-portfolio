@@ -1,13 +1,76 @@
 import { db as prisma } from "../src/lib/db";
+import bcrypt from "bcryptjs";
 
 /**
- * Safe idempotent seed — uses upsert on unique slugs/names.
+ * Safe idempotent PostgreSQL seed — uses upsert on unique keys.
  * Running this multiple times will NEVER wipe existing data.
- * Only adds missing records or updates fields on existing ones.
  */
 async function main() {
-  console.log("Seeding testimonials...");
+  console.log("🌱 Starting database seed for Supabase PostgreSQL...");
 
+  // 1. Seed Projects
+  console.log("Seeding Projects...");
+  const projects = [
+    {
+      slug: "naturalist",
+      title: "Naturalist E-commerce Platform",
+      description: "High-performance organic plant e-commerce engine with automated order tracking, dynamic OG share previews, and sub-second checkout speeds.",
+      body: "Naturalist, a premium organic plant retailer, needed a high-performance digital commerce platform matching their high-end aesthetic. Built with Next.js 16, PostgreSQL, and Edge-rendered share graphics, the system reduced transaction latencies to under 1.2 seconds and automated 100% of dispatch fulfillment workflows.",
+      techStack: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma", "Stripe", "Resend"],
+      imageUrl: "/projects/naturalist-mockup.png",
+      liveUrl: "https://naturalist-shop.vercel.app",
+      githubUrl: "https://github.com/callmeikechukwu-creator/naturalist-ecommerce",
+      featured: true,
+      order: 1,
+    },
+    {
+      slug: "samc-2026",
+      title: "SAMC 2026 Registration Portal",
+      description: "Automated conference ticketing engine capable of handling high-concurrency ticket sales and delivering personalized PDF passes instantly.",
+      body: "The annual SAMC conference needed an automated registration platform capable of processing high-volume traffic spikes without duplicate booking collisions. Implemented PostgreSQL row-level locks, asynchronous Redis queuing, and a serverless Puppeteer ticket rendering pipeline that delivers QR check-in badges in under 3 seconds.",
+      techStack: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma", "Redis", "Puppeteer"],
+      imageUrl: "/projects/samc-mockup.png",
+      liveUrl: "https://samc2026.org",
+      githubUrl: "https://github.com/callmeikechukwu-creator/samc-registration-portal",
+      featured: true,
+      order: 2,
+    },
+    {
+      slug: "tsa-youth-week-26",
+      title: "TSA Youth Week 26 Portal",
+      description: "Real-time event analytics platform synchronizing multi-device attendee check-ins with sub-150ms WebSocket latency.",
+      body: "Designed for the annual TSA Youth Week convention, this platform features an atomic WebSocket relay layer that coordinates thousands of attendee credentials across simultaneous venue doors. Features real-time check-in dashboards, rate-limited organizer authentication, and automated PDF data export.",
+      techStack: ["Next.js", "TypeScript", "PostgreSQL", "WebSockets", "Redis", "Tailwind CSS"],
+      imageUrl: "/projects/tsa-mockup.png",
+      liveUrl: "https://tsayouthweek.org",
+      githubUrl: "https://github.com/callmeikechukwu-creator/tsa-youth-week",
+      featured: true,
+      order: 3,
+    },
+    {
+      slug: "goatc-cbt",
+      title: "GOATC CBT Examination System",
+      description: "Cheat-resistant computer-based testing portal with real-time WebSocket proctor telemetry and persistent Redis progression caching.",
+      body: "An institutional examination testing portal designed for academic stability. Features lazy-loaded question pools, client-side disconnect tolerance with periodic Redis state checkpoints, and a live supervisor dashboard streaming candidate timing in sub-seconds.",
+      techStack: ["Next.js", "TypeScript", "PostgreSQL", "Redis", "WebSockets", "Docker"],
+      imageUrl: "/projects/goatc-mockup.png",
+      liveUrl: "https://goatc-cbt.edu.ng",
+      githubUrl: "https://github.com/callmeikechukwu-creator/goatc-cbt",
+      featured: true,
+      order: 4,
+    },
+  ];
+
+  for (const proj of projects) {
+    await prisma.project.upsert({
+      where: { slug: proj.slug },
+      update: proj,
+      create: proj,
+    });
+  }
+
+  // 2. Seed Testimonials
+  console.log("Seeding Testimonials...");
   const testimonials = [
     {
       clientName: "Bright Omoemi",
@@ -36,15 +99,21 @@ async function main() {
   ];
 
   for (const item of testimonials) {
-    await prisma.testimonial.upsert({
-      where: { id: (await prisma.testimonial.findFirst({ where: { clientName: item.clientName } }))?.id ?? "nonexistent" },
-      update: item,
-      create: item,
-    });
+    const existing = await prisma.testimonial.findFirst({ where: { clientName: item.clientName } });
+    if (existing) {
+      await prisma.testimonial.update({
+        where: { id: existing.id },
+        data: item,
+      });
+    } else {
+      await prisma.testimonial.create({
+        data: item,
+      });
+    }
   }
 
-  console.log("Seeding blog posts...");
-
+  // 3. Seed Blog Posts
+  console.log("Seeding Blog Posts...");
   const blogPosts = [
     {
       slug: "welcome-to-my-tech-journal",
@@ -99,7 +168,6 @@ async function main() {
     await prisma.blogPost.upsert({
       where: { slug: post.slug },
       update: {
-        // Only update content/metadata — never overwrite publishedAt if already set
         title: post.title,
         excerpt: post.excerpt,
         category: post.category,
@@ -112,12 +180,27 @@ async function main() {
     });
   }
 
-  console.log("Done — all records seeded safely.");
+  // 4. Seed Default Admin
+  console.log("Seeding Default Admin Account...");
+  const adminEmail = (process.env.ADMIN_INITIAL_EMAIL || "admin@iykevisuals.com").toLowerCase().trim();
+  const rawPassword = process.env.ADMIN_INITIAL_PASSWORD || "AdminPassword2026!";
+  const passwordHash = await bcrypt.hash(rawPassword, 12);
+
+  await prisma.admin.upsert({
+    where: { email: adminEmail },
+    update: { passwordHash },
+    create: {
+      email: adminEmail,
+      passwordHash,
+    },
+  });
+
+  console.log("🎉 SUCCESS! Database fully seeded in Supabase PostgreSQL.");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("❌ Seed failed:", e);
     process.exit(1);
   })
   .finally(async () => {
