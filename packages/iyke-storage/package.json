@@ -1,0 +1,45 @@
+{
+  "name": "iyke-storage",
+  "version": "1.0.0",
+  "description": "Universal zero-egress media storage client with visually-lossless client-side WebP auto-compression, blurhash generation, and Cloudflare R2 edge gateway support.",
+  "author": "Ikechukwu <contact@iykevisuals.com> (https://iykevisuals.com)",
+  "license": "MIT",
+  "keywords": [
+    "media",
+    "storage",
+    "cloudflare-r2",
+    "image-optimization",
+    "webp",
+    "edge-cdn",
+    "blurhash",
+    "compression",
+    "zero-egress"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "iyke-storage": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
+  }
+}

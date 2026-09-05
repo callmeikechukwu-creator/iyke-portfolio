@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+"use strict";var T=Object.create;var u=Object.defineProperty;var v=Object.getOwnPropertyDescriptor;var S=Object.getOwnPropertyNames;var h=Object.getPrototypeOf,b=Object.prototype.hasOwnProperty;var R=(e,o,s,r)=>{if(o&&typeof o=="object"||typeof o=="function")for(let t of S(o))!b.call(e,t)&&t!==s&&u(e,t,{get:()=>o[t],enumerable:!(r=v(o,t))||r.enumerable});return e};var x=(e,o,s)=>(s=e!=null?T(h(e)):{},R(o||!e||!e.__esModule?u(s,"default",{value:e,enumerable:!0}):s,e));var g=x(require("fs")),f=x(require("path")),_="https://iyke-storage-gateway.iyke-storage-gateway.workers.dev",d=process.env.STORAGE_GATEWAY_URL||_,k=process.env.STORAGE_ROOT_SECRET||"ik_root_master_7f8e9a2b1c4d",C=process.env.STORAGE_API_KEY||"ik_live_portfolio_master",p=process.argv.slice(2),w=p[0],m=p[1];function K(e){let o={};for(let s=0;s<e.length;s++){let r=e[s];if(r.startsWith("--")){let t=r.substring(2),i=e[s+1];i&&!i.startsWith("--")?(o[t]=i,s++):o[t]=!0}}return o}function y(){console.log(`
+\u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510
+\u2502  \u26A1 IYKE STORAGE PLATFORM CLI                                \u2502
+\u2502  Gateway: ${d.padEnd(49)}\u2502
+\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518`)}function A(){y(),console.log(`
+Usage:
+  npx iyke-storage <command> [subcommand] [options]
+
+Commands:
+  keys list
+    List all active project API keys in Cloudflare KV
+
+  keys create --project <slug> --name "<label>" [--permissions read,write,delete]
+    Generate a new scoped API key for a project
+
+  keys revoke <keyId>
+    Instantly revoke and invalidate an API key worldwide
+
+  upload <filePath> [--project <slug>] [--folder <name>] [--key <key>]
+    Upload any file directly to Cloudflare R2 via the gateway
+
+Examples:
+  npx iyke-storage keys create --project iyke-saas --name "SaaS Mobile App"
+  npx iyke-storage keys list
+  npx iyke-storage keys revoke key_7a9f1234
+  npx iyke-storage upload ./screenshot.png --folder projects
+`)}async function F(){y(),console.log(`\u{1F50D} Fetching active keys from Cloudflare KV edge...
+`);try{let e=await fetch(`${d}/v1/admin/keys`,{method:"GET",headers:{Authorization:`Bearer ${k}`}}),o=await e.json();(!e.ok||!o.success)&&(console.error("\u274C Failed to list keys:",o.error||e.statusText),process.exit(1)),console.log(`Found ${o.count} active key(s):
+`),console.table(o.keys.map(s=>({ID:s.id,Name:s.name,Project:s.project,Prefix:s.prefix,Permissions:(s.permissions||[]).join(", "),"Last Used":s.lastUsedAt?new Date(s.lastUsedAt).toLocaleString():"Never"})))}catch(e){console.error("\u274C Network error connecting to gateway:",e.message),process.exit(1)}}async function I(e){let o=e.project,s=e.name,r=e.permissions?e.permissions.split(",").map(n=>n.trim()):["read","write","delete"],t=e.folders?e.folders.split(",").map(n=>n.trim()):["*"],i=e.cdn;o||(console.error("\u274C Error: --project <slug> is required (e.g. --project iyke-saas)"),process.exit(1)),s||(console.error('\u274C Error: --name "<description>" is required (e.g. --name "SaaS App Client")'),process.exit(1)),y(),console.log(`\u{1F511} Generating dynamic API key for project '${o}'...
+`);try{let n=await fetch(`${d}/v1/admin/keys`,{method:"POST",headers:{Authorization:`Bearer ${k}`,"Content-Type":"application/json"},body:JSON.stringify({project:o,name:s,permissions:r,allowedFolders:t,cdnHost:i})}),a=await n.json();(!n.ok||!a.success)&&(console.error("\u274C Failed to create key:",a.error||n.statusText),process.exit(1)),console.log(`\u2728 SUCCESS! New API Key generated:
+`),console.log("\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501"),console.log(`\u{1F511} Secret Key : \x1B[32m${a.apiKey}\x1B[0m`),console.log("\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501"),console.log(`\x1B[33m\u26A0\uFE0F  IMPORTANT: Store this key securely now. For security reasons, it will NEVER be displayed again.\x1B[0m
+`),console.log(`\u2022 Key ID         : ${a.key.id}`),console.log(`\u2022 Project Scope  : ${a.key.project}`),console.log(`\u2022 Display Prefix : ${a.key.prefix}`),console.log(`\u2022 Permissions    : ${a.key.permissions.join(", ")}`),console.log(`\u2022 Folders        : ${a.key.allowedFolders.join(", ")}`),console.log(`\u2022 Created At     : ${a.key.createdAt}
+`)}catch(n){console.error("\u274C Network error connecting to gateway:",n.message),process.exit(1)}}async function O(e){e||(console.error("\u274C Error: Key ID is required (e.g. npx iyke-storage keys revoke key_12345)"),process.exit(1)),y(),console.log(`\u{1F5D1}\uFE0F  Revoking key '${e}' from Cloudflare KV...
+`);try{let o=await fetch(`${d}/v1/admin/keys/${encodeURIComponent(e)}`,{method:"DELETE",headers:{Authorization:`Bearer ${k}`}}),s=await o.json();(!o.ok||!s.success)&&(console.error("\u274C Failed to revoke key:",s.error||o.statusText),process.exit(1)),console.log(`\u2705 \x1B[32m${s.message}\x1B[0m
+`)}catch(o){console.error("\u274C Network error connecting to gateway:",o.message),process.exit(1)}}async function U(e,o){(!e||!g.default.existsSync(e))&&(console.error(`\u274C Error: File not found at path '${e}'`),process.exit(1));let s=g.default.statSync(e);s.isDirectory()&&(console.error(`\u274C Error: '${e}' is a directory. Please specify a file path.`),process.exit(1));let r=f.default.basename(e),t=o.folder||"general",i=o.key||C,n=o.tags||"",a=o.alt||`Asset ${r}`;y(),console.log(`\u{1F4E4} Uploading '${r}' (${(s.size/1024).toFixed(1)} KB) to folder '${t}'...
+`);let E=g.default.readFileSync(e),$=f.default.extname(r).toLowerCase(),j={".png":"image/png",".jpg":"image/jpeg",".jpeg":"image/jpeg",".webp":"image/webp",".svg":"image/svg+xml",".gif":"image/gif",".mp4":"video/mp4",".webm":"video/webm",".pdf":"application/pdf",".json":"application/json"}[$]||"application/octet-stream";try{let l=await fetch(`${d}/v1/upload`,{method:"POST",headers:{Authorization:`Bearer ${i}`,"Content-Type":j,"x-filename":r,"x-folder":t,"x-tags":n,"x-alt":a},body:E}),c=await l.json();(!l.ok||!c.success)&&(console.error("\u274C Upload failed:",c.error||l.statusText),process.exit(1)),console.log(`\u2705 \x1B[32mUpload Successful!\x1B[0m
+`),console.log(`\u2022 Object Key : ${c.data.key}`),console.log(`\u2022 CDN URL    : \x1B[36m${c.data.cdnUrl}\x1B[0m`),console.log(`\u2022 Size       : ${(c.data.size/1024).toFixed(1)} KB`),console.log(`\u2022 Mime Type  : ${c.data.contentType}
+`)}catch(l){console.error("\u274C Network error during upload:",l.message),process.exit(1)}}async function M(){let e=K(p);if(w==="keys")if(m==="list")await F();else if(m==="create")await I(e);else if(m==="revoke"){let o=p[2];await O(o)}else A();else if(w==="upload"){let o=p[1];await U(o,e)}else A()}M().catch(console.error);
+//# sourceMappingURL=cli.js.map
