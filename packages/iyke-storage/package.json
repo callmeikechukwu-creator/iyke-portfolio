@@ -25,9 +25,7 @@
       "require": "./dist/index.js"
     }
   },
-  "bin": {
-    "iyke-storage": "./dist/cli.js"
-  },
+  "bin": "./dist/cli.js",
   "files": [
     "dist",
     "README.md",
