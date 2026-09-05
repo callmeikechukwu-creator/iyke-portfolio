@@ -1,92 +1,9 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { getBaseUrl } from "@/lib/utils";
 import "./globals.css";
 import "./fonts-embedded.css";
 import GlobalGatekeeper from "@/components/ui/GlobalGatekeeper";
 import Script from "next/script";
-
-/* ------------------------------------------------------------
-   Global Typeface: Studio Feixen Sans (Single Universal System)
-   ------------------------------------------------------------ */
-
-const studioFeixenSans = localFont({
-  src: [
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Ultralight.ttf",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-UltralightItalic.ttf",
-      weight: "200",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-LightItalic.ttf",
-      weight: "300",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Book.ttf",
-      weight: "350",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-BookItalic.ttf",
-      weight: "350",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-RegularItalic.ttf",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-MediumItalic.ttf",
-      weight: "500",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Semibold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-SemiboldItalic.ttf",
-      weight: "600",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/feixen-sans/StudioFeixenSansTRIAL-BoldItalic.ttf",
-      weight: "700",
-      style: "italic",
-    },
-  ],
-  variable: "--font-studio-feixen-sans",
-  display: "swap",
-  preload: false,
-});
 
 /* ------------------------------------------------------------
    Site Viewport & Metadata
@@ -198,7 +115,6 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={studioFeixenSans.variable}
       suppressHydrationWarning
     >
       <head>
